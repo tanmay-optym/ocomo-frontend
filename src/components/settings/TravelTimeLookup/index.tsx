@@ -2,14 +2,13 @@ import React from 'react';
 import Card from '../Card';
 import CardBody from '../CardBody';
 import CardHeader from '../CardHeader';
-import TableResourcePlan from './TableResourcePlan';
-
+import TableTravelTimeLookup from './TableTravelTimeLookup';
 const ResourcePlan = (): React.FC => {
   return (
     <Card>
-      <CardHeader title={'Resource Plan'} />
+      <CardHeader title={'Standard Work Hours'} />
       <CardBody>
-        <TableResourcePlan />
+        <TableTravelTimeLookup />
       </CardBody>
     </Card>
   );

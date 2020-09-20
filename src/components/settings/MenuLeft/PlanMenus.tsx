@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useRouter } from 'next/router';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
@@ -7,6 +8,11 @@ import MenuGroupTitle from './MenuGroupTitle';
 type PlanMenusProps = { menus: object[] };
 
 const PlanMenus = ({ menus }: PlanMenusProps): React.FC => {
+  const router = useRouter();
+  const handleClickMenu = (menu) => {
+    router.push(menu.url);
+  };
+  console.log(router);
   return (
     <Fragment>
       {menus.map((menuGroup) => {
@@ -17,7 +23,11 @@ const PlanMenus = ({ menus }: PlanMenusProps): React.FC => {
                 <MenuGroupTitle title={menuGroup.title} />
                 <MenuList>
                   {menuGroup.children.map((menu) => {
-                    return <MenuItem key={menu.title}>{menu.title}</MenuItem>;
+                    return (
+                      <MenuItem onClick={() => handleClickMenu(menu)} key={menu.title}>
+                        {menu.title}
+                      </MenuItem>
+                    );
                   })}
                 </MenuList>
               </div>
