@@ -1,8 +1,8 @@
 import PageSettings from '../src/components/settings/PageSettings';
-import ResourcePlan from '../src/components/settings/ResourcePlan';
+import StandardWorkHours from '../src/components/settings/StandardWorkHours';
 
 const PageResourcePlan = (): React.FC => {
-  return <PageSettings component={<ResourcePlan />} />;
+  return <PageSettings component={<StandardWorkHours />} />;
 };
 
 export default PageResourcePlan;

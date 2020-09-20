@@ -1,5 +1,8 @@
+import { Typography } from '@material-ui/core';
 import React from 'react';
 
-export default ({ title }) => {
-    return <span style={{ color: '#0095DA', fontSize: 14,fontWeight: 'bold' }}>{title}</span>;
-};
+type CardTitleProps = { title: string };
+
+export default function CardTitle({ title }: CardTitleProps): React.FC {
+  return <Typography color="primary">{title}</Typography>;
+}

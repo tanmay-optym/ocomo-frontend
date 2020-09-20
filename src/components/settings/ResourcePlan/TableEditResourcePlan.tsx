@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import MaterialTable, { Column } from 'material-table';
+import MaterialTable, { Column, MTableBodyRow } from 'material-table';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -144,21 +144,22 @@ const TableEditResourcePlan = (): React.FC => {
           return { border: 0 };
         }
       }}
+      components={{
+        Row: (props) => (
+          <MTableBodyRow
+            {...props}
+            onDoubleClick={(e) => {
+              console.log(props.actions);
+              props.actions[0]().onClick(e, props.data);
+            }}
+          />
+        )
+      }}
       title=""
       columns={state.columns}
       data={state.data}
+      actions={[]}
       editable={{
-        // onRowAdd: (newData) =>
-        //   new Promise((resolve) => {
-        //     setTimeout(() => {
-        //       resolve();
-        //       setState((prevState) => {
-        //         const data = [...prevState.data];
-        //         data.push(newData);
-        //         return { ...prevState, data };
-        //       });
-        //     }, 600);
-        //   }),
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve) => {
             setTimeout(() => {
@@ -172,17 +173,6 @@ const TableEditResourcePlan = (): React.FC => {
               }
             }, 600);
           })
-        // onRowDelete: (oldData) =>
-        //   new Promise((resolve) => {
-        //     setTimeout(() => {
-        //       resolve();
-        //       setState((prevState) => {
-        //         const data = [...prevState.data];
-        //         data.splice(data.indexOf(oldData), 1);
-        //         return { ...prevState, data };
-        //       });
-        //     }, 600);
-        //   })
       }}
     />
   );
