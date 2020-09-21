@@ -1,0 +1,12 @@
+.comp-card-header {
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #d8d8d8;
+  padding: 0 15px;
+  align-items: center;
+  display: flex;
+  .action-right {
+    display: flex;
+    margin-left: auto;
+  }
+}
