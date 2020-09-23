@@ -4,16 +4,15 @@ import chroma from 'chroma-js';
 // import { colourOptions } from '../data';
 import Select from 'react-select';
 
-const colourOptions = [
-  { value: 'SYM', label: 'SYM', color: '#FF8B00' },
-  { value: 'MAC', label: 'MAC', color: '#36B37E' },
-  { value: 'TAS', label: 'TAS', color: '#253858' },
-  { value: 'KIR', label: 'KIR', color: '#0052CC' },
-  { value: 'PRG', label: 'PRG', color: '#FFC400' },
-  { value: 'THO', label: 'THO', color: '#0052CC' },
-  { value: 'KIR', label: 'KIR', color: '#FF5630' },
-  { value: 'MEM', label: 'MEM', color: '#ED5CB3' }
-];
+const colourOptions = {
+  SYM: { value: 'SYM', label: 'SYM', color: '#FF8B00' },
+  MAC: { value: 'MAC', label: 'MAC', color: '#36B37E' },
+  TAS: { value: 'TAS', label: 'TAS', color: '#253858' },
+  KIR: { value: 'KIR', label: 'KIR', color: '#0052CC' },
+  PRG: { value: 'PRG', label: 'PRG', color: '#FFC400' },
+  THO: { value: 'THO', label: 'THO', color: '#FA8F8F' },
+  MEM:{ value: 'MEM', label: 'MEM', color: '#ED5CB3' }
+};
 
 const dot = (color = '#ccc') => ({
   alignItems: 'center',
@@ -80,12 +79,12 @@ const colourStyles = {
   indicatorSeparator: () => ({ display: 'none' })
 };
 
-export default function SelectShop(): React.FC {
+export default function SelectShop(props): React.FC {
   return (
     <Select
-      // defaultValue={colourOptions[2]}
+      defaultValue={colourOptions[props.initialValue]}
       label="Single select"
-      options={colourOptions}
+      options={Object.values(colourOptions)}
       styles={colourStyles}
     />
   );

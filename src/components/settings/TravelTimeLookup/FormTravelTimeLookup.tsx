@@ -17,12 +17,12 @@ export default function FormTravelTimeLookup(): React.FC {
   useEffect(() => {
     const fakeData: IStandardWorkHours[] = [
       {
-        shop1Name: 'Sym',
+        shop1Name: 'SYM',
         shop2Name: 'MAC',
         estimatedTravelTime: 45
       },
       {
-        shop1Name: 'Sym',
+        shop1Name: 'SYM',
         shop2Name: 'TAS',
         estimatedTravelTime: 48
       },
@@ -50,17 +50,17 @@ export default function FormTravelTimeLookup(): React.FC {
       {dataSource.map((data) => {
         return (
           <FormRowContainer key={data.title}>
-            <FormItem label={''}>
-              <InputSelectShop />
+            <FormItem margin={0}>
+              <InputSelectShop  initialValue={data.shop1Name}/>
             </FormItem>
             <div style={{ marginTop: 15, marginLeft: 30 }} label={''}>
               <TrendingFlatIcon />
             </div>
 
             <FormItem label={''}>
-              <InputSelectShop />
+              <InputSelectShop initialValue={data.shop2Name}/>
             </FormItem>
-            <FormItem label={''}>
+            <FormItem margin={120} label={''}>
               <InputHours />
             </FormItem>
           </FormRowContainer>

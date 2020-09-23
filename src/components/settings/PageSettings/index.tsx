@@ -4,13 +4,14 @@ import MenuLeft from '../MenuLeft';
 import ResourcePlan from '../ResourcePlan';
 import StandardWorkHours from '../StandardWorkHours';
 import TravelTimeLookup from '../TravelTimeLookup';
-
+import AdditionalParameters from '../AdditionalParameters';
 // type PageSettingsProps = {};
 
 const CONFIG_MENU = {
   '/resource-plan': <ResourcePlan />,
   '/standard-work-hours': <StandardWorkHours />,
-  '/travel-time-lookup': <TravelTimeLookup />
+  '/travel-time-lookup': <TravelTimeLookup />,
+  '/additional-parameters': <AdditionalParameters/>
 };
 
 const PageSettings = (): React.FC => {

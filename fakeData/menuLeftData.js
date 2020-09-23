@@ -20,7 +20,7 @@ export default {
           },
           {
             title: 'Additional Parameters',
-            url: ''
+            url: '/additional-parameters'
           }
         ]
       },
