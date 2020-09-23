@@ -149,7 +149,6 @@ const TableEditResourcePlan = (): React.FC => {
           <MTableBodyRow
             {...props}
             onDoubleClick={(e) => {
-              console.log(props.actions);
               props.actions[0]().onClick(e, props.data);
             }}
           />

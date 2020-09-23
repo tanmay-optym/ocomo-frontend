@@ -4,7 +4,6 @@ import styles from './CardHeader.module.scss';
 
 type CardHeaderProps = { title: string; leftAction: JSX.Element; rightAction: JSX.Element };
 
-console.log(styles);
 export default function CardHeader({ title, leftAction, rightAction }: CardHeaderProps): React.FC {
   return (
     <div className={styles['comp-card-header']}>

@@ -7,11 +7,15 @@ import CardBody from '../CardBody';
 import styles from './Collapse.module.scss';
 
 type CollapseProps = {
-  titlt: string;
+  title: string;
   content: JSX.Element;
-  Collapse: boolean;
+  defaultCollapse: boolean;
 };
-export default function Collapse({ title, content, defaultCollapse = false }): React.FC {
+export default function Collapse({
+  title,
+  content,
+  defaultCollapse = false
+}: CollapseProps): React.FC {
   const [isCollapse, setIsCollapse] = useState(defaultCollapse);
 
   const toggleCollapse = () => {
@@ -23,7 +27,6 @@ export default function Collapse({ title, content, defaultCollapse = false }): R
     <ExpandMoreIcon color={'primary'} />
   );
 
-  console.log(styles);
   return (
     <div className={styles['collapse']}>
       <Card>

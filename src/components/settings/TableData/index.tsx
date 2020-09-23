@@ -5,6 +5,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import InputTableEdit from '../ResourcePlan/InputTableEdit';
 
 type ColumnsType = {
   key: string;
@@ -13,6 +15,26 @@ type ColumnsType = {
 };
 
 type TableDataProps = { dataSource: object[]; columns: ColumnsType[]; rowKey: string };
+
+const StyledTableRow = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      height: 46,
+      border: 0,
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover
+      }
+    }
+  })
+)(TableRow);
+
+const StyledTableCell = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      border: 0
+    }
+  })
+)(TableCell);
 
 export default function TableData({
   dataSource = [],
@@ -25,19 +47,21 @@ export default function TableData({
         <TableHead>
           <TableRow>
             {columns.map((colConfig, index) => {
-              return <TableCell key={index}>{colConfig.title}</TableCell>;
+              return <StyledTableCell key={index}>{colConfig.title}</StyledTableCell>;
             })}
           </TableRow>
         </TableHead>
         <TableBody>
           {dataSource.map((rowData) => (
-            <TableRow key={rowData[rowKey]}>
+            <StyledTableRow key={rowData[rowKey]}>
               {columns.map((colConfig) => {
                 return (
-                  <TableCell key={rowData[colConfig.key]}>{rowData[colConfig.dataIndex]}</TableCell>
+                  <StyledTableCell key={rowData[colConfig.key]}>
+                    {rowData[colConfig.dataIndex]}
+                  </StyledTableCell>
                 );
               })}
-            </TableRow>
+            </StyledTableRow>
           ))}
         </TableBody>
       </Table>

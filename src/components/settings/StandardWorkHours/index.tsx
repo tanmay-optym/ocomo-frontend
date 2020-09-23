@@ -4,13 +4,14 @@ import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../Card';
 import CardBody from '../CardBody';
 import CardHeader from '../CardHeader';
-import TableStandardWorkHours from './TableStandardWorkHours';
+// import TableStandardWorkHours from './TableStandardWorkHours';
+import FormStandardWorkHours from './FormStandardWorkHours';
 
 const StandardWorkHours = (): React.FC => {
   return (
     <Card>
       <CardHeader
-        title={'Travel Time Lookup'}
+        title={'Standard Work Hours'}
         rightAction={
           <Button>
             <GetAppOutlinedIcon />
@@ -18,7 +19,8 @@ const StandardWorkHours = (): React.FC => {
         }
       />
       <CardBody>
-        <TableStandardWorkHours />
+        <FormStandardWorkHours />
+        {/* <TableStandardWorkHours /> */}
       </CardBody>
     </Card>
   );

@@ -5,6 +5,7 @@ import Card from '../Card';
 import CardBody from '../CardBody';
 import CardHeader from '../CardHeader';
 import TableResourcePlan from './TableResourcePlan';
+import InputSetting from '../InputSetting';
 
 const ResourcePlan = (): React.FC => {
   return (
