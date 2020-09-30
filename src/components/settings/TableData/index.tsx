@@ -6,7 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
-import InputTableEdit from '../ResourcePlan/InputTableEdit';
+import InputTableEdit from './InputTableEdit';
 
 type ColumnsType = {
   key: string;
@@ -55,11 +55,19 @@ export default function TableData({
           {dataSource.map((rowData) => (
             <StyledTableRow key={rowData[rowKey]}>
               {columns.map((colConfig) => {
-                return (
-                  <StyledTableCell key={rowData[colConfig.key]}>
-                    {rowData[colConfig.dataIndex]}
-                  </StyledTableCell>
-                );
+                if (!rowData.editable || !colConfig.editable) {
+                  return (
+                    <StyledTableCell key={rowData[colConfig.key]}>
+                      {rowData[colConfig.dataIndex]}
+                    </StyledTableCell>
+                  );
+                } else {
+                  return (
+                    <StyledTableCell key={rowData[colConfig.key]}>
+                      <InputTableEdit />
+                    </StyledTableCell>
+                  );
+                }
               })}
             </StyledTableRow>
           ))}

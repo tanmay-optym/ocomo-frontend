@@ -11,7 +11,7 @@ const CONFIG_MENU = {
   '/resource-plan': <ResourcePlan />,
   '/standard-work-hours': <StandardWorkHours />,
   '/travel-time-lookup': <TravelTimeLookup />,
-  '/additional-parameters': <AdditionalParameters/>
+  '/additional-parameters': <AdditionalParameters />
 };
 
 const PageSettings = (): React.FC => {
@@ -21,10 +21,10 @@ const PageSettings = (): React.FC => {
   };
   return (
     <Grid container spacing={2}>
-      <Grid item xs={6} sm={3}>
+      <Grid item xs={6} sm={2}>
         <MenuLeft activeMenu={activeMenu} onClickMenu={handleClickMenu} />
       </Grid>
-      <Grid item xs={6} sm={9}>
+      <Grid item xs={6} sm={10}>
         {CONFIG_MENU[activeMenu]}
       </Grid>
     </Grid>

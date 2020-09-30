@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import FormRowContainer from '../FormRowContainer';
-import FormItem from '../FormItem';
-import InputHours from '../InputHours';
-import InputSelectShop from '../InputSelectShop';
-import TrendingFlatIcon from '../SvgIcon/TrendingFlatIcon';
-import InputSetting from '../InputSetting';
-import FormLabel from '../FormLabel';
+import FormRowItem from './FormRowItem';
 
 type IAdditionalParameters = {
   shop1Name: string;
@@ -17,14 +11,14 @@ export default function FormAdditionalParameters(): React.FC {
   const [dataSource, setDataSource] = useState<IAdditionalParameters[] | null>([]);
 
   useEffect(() => {
-    const fakeData : IAdditionalParameters[]= [
+    const fakeData: IAdditionalParameters[] = [
       {
         name: 'Apprentice Adjustment Percentage',
-        value: '40',
+        value: '40'
       },
       {
-        name   :'Temporary Productivity Adjustment Percentage',
-        value: '30',
+        name: 'Temporary Productivity Adjustment Percentage',
+        value: '30'
       },
       {
         name: 'Maximum Overtime Percentage',
@@ -32,23 +26,27 @@ export default function FormAdditionalParameters(): React.FC {
       },
       {
         name: 'Overtime Utilization Threshold',
-        shop2Name: '58',
-      },
+        shop2Name: '58'
+      }
     ];
     setDataSource(fakeData);
   }, []);
 
+  const handleSaveData = (data) => {
+    const newDataSource = [...dataSource];
+    newDataSource[data.dataIndex] = data;
+    setDataSource(newDataSource);
+  };
+
   return (
     <div>
-      {dataSource.map((data) => {
+      {dataSource.map((data, index) => {
         return (
-          <FormRowContainer key={data.name}>
-            <FormLabel style={{minWidth: 350}}>{data.name}</FormLabel>
-          
-            <FormItem margin={120} label={''}>
-              <InputSetting value={data.value}/>
-            </FormItem>
-          </FormRowContainer>
+          <FormRowItem
+            onFinish={handleSaveData}
+            initialValues={{ ...data, dataIndex: index }}
+            key={data.title}
+          />
         );
       })}
     </div>

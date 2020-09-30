@@ -1,0 +1,22 @@
+.comp-btn-action {
+  height: 40px;
+  border-radius: 2px;
+  border: 1px solid #d8d8d8;
+  background: #ffffff;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #5d6e7f;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+    border-color: #3495da;
+  }
+}

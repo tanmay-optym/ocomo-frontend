@@ -1,14 +1,5 @@
 import React from 'react';
-
+import styles from './InputTableEdit.module.scss';
 export default function InputTableEdit(props): React.FC {
-  return (
-    <input
-      style={{
-        border: '1px solid #D8D8D8',
-        borderRadius: '2px',
-        height: '25px',
-        padding: '2px 10px'
-      }}
-      {...props}></input>
-  );
+  return <input className={styles['comp-input-table-edit']} {...props}></input>;
 }

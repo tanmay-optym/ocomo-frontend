@@ -25,27 +25,33 @@ export default function TableResourcePlan(): React.FC {
     { title: 'Region', dataIndex: 'regionName' },
     {
       title: 'Desired Unplanned',
-      dataIndex: 'desiredUnplanned'
+      dataIndex: 'desiredUnplanned',
+      editable: true
     },
     {
       title: 'Special Capability',
-      dataIndex: 'specialCapability'
+      dataIndex: 'specialCapability',
+      editable: true
     },
     {
       title: 'Prohibited Maint. Type',
-      dataIndex: 'prohibitedMaintType'
+      dataIndex: 'prohibitedMaintType',
+      editable: true
     },
     {
       title: 'M-F Work Hours',
-      dataIndex: 'mfWorkHours'
+      dataIndex: 'mfWorkHours',
+      editable: true
     },
     {
       title: 'Sat Work Hours',
-      dataIndex: 'satWorkHours'
+      dataIndex: 'satWorkHours',
+      editable: true
     },
     {
       title: 'Sun Work Hours',
-      dataIndex: 'sunWorkHours'
+      dataIndex: 'sunWorkHours',
+      editable: true
     }
   ];
 
