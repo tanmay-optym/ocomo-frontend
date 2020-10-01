@@ -1,14 +1,15 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import FormRowContainer from '../FormRowContainer';
-import FormItem from '../FormItem';
-import InputHours from '../InputHours';
-import InputSelectShop, { shopOptions } from '../InputSelectShop';
-import TrendingFlatIcon from '../SvgIcon/TrendingFlatIcon';
-import BtnAction from '../BtnAction';
+import FormRowContainer from '../../FormRowContainer';
+import FormItem from '../../FormItem';
+import InputHours from '../../InputHours';
+import InputSelectShop, { shopOptions } from '../../InputSelectShop';
+import TrendingFlatIcon from '../../SvgIcon/TrendingFlatIcon';
+import BtnAction from '../../BtnAction';
+import FormItemExplainError from '../../FormItemExplainError';
 
 export default function FormRowItem({ initialValues = {}, onFinish }): React.FC {
-  const { register, handleSubmit, control } = useForm({
+  const { register, handleSubmit, control, errors } = useForm({
     defaultValues: {
       ...initialValues,
       shop1: shopOptions[initialValues.shop1],
@@ -31,12 +32,12 @@ export default function FormRowItem({ initialValues = {}, onFinish }): React.FC 
         <div style={{ marginTop: 15, marginLeft: 30 }} label={''}>
           <TrendingFlatIcon />
         </div>
-
         <FormItem label={''}>
           <Controller name="shop2" as={InputSelectShop} control={control} />
         </FormItem>
         <FormItem margin={120} label={''}>
-          <InputHours name="estimatedTravelTime" refInput={register()} />
+          <InputHours name="estimatedTravelTime" refInput={register({ required: 'Required' })} />
+          <FormItemExplainError errors={errors} fieldName={'estimatedTravelTime'} />
         </FormItem>
         <FormItem>
           <BtnAction type="submit">Save</BtnAction>

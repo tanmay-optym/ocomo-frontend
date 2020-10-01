@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,6 +7,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import InputTableEdit from './InputTableEdit';
+import styles from './TableData.module.scss';
+import { useForm } from 'react-hook-form';
 
 type ColumnsType = {
   key: string;
@@ -31,7 +33,21 @@ const StyledTableRow = withStyles((theme: Theme) =>
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     root: {
-      border: 0
+      border: 0,
+      fontSize: 12,
+      fontWeight: 400,
+      color: '#5D6E7F'
+    }
+  })
+)(TableCell);
+
+const StyledTableHeaderCell = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      border: 0,
+      fontSize: 12,
+      fontWeight: 600,
+      color: '#5D6E7F'
     }
   })
 )(TableCell);
@@ -39,7 +55,9 @@ const StyledTableCell = withStyles((theme: Theme) =>
 export default function TableData({
   dataSource = [],
   columns = [],
-  rowKey = 'key'
+  rowKey = 'key',
+  onRowClick,
+  onBlurInput
 }: TableDataProps): React.FC {
   return (
     <TableContainer>
@@ -47,13 +65,23 @@ export default function TableData({
         <TableHead>
           <TableRow>
             {columns.map((colConfig, index) => {
-              return <StyledTableCell key={index}>{colConfig.title}</StyledTableCell>;
+              return (
+                <StyledTableHeaderCell className={styles['header-cell']} key={index}>
+                  {colConfig.title}
+                </StyledTableHeaderCell>
+              );
             })}
           </TableRow>
         </TableHead>
         <TableBody>
           {dataSource.map((rowData) => (
-            <StyledTableRow key={rowData[rowKey]}>
+            <StyledTableRow
+              key={rowData[rowKey]}
+              onClick={() => {
+                if (onRowClick) {
+                  onRowClick(rowData);
+                }
+              }}>
               {columns.map((colConfig) => {
                 if (!rowData.editable || !colConfig.editable) {
                   return (
@@ -64,7 +92,17 @@ export default function TableData({
                 } else {
                   return (
                     <StyledTableCell key={rowData[colConfig.key]}>
-                      <InputTableEdit />
+                      <InputTableEdit
+                        onBlur={(e) => {
+                          if (onBlurInput) {
+                            onBlurInput(rowData, { [colConfig.dataIndex]: e.target.value });
+                          }
+                        }}
+                        defaultValue={rowData[colConfig.dataIndex]}
+                      />
+                      <div style={{ color: '#fa5c64', position: 'absolute', fontSize: '11px' }}>
+                        {rowData[colConfig.dataIndex] === '' && 'Required'}
+                      </div>
                     </StyledTableCell>
                   );
                 }

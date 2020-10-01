@@ -28,9 +28,9 @@ export default {
         title: 'UI Settings',
         url: '',
         children: [
-          { title: 'Alert Thresholds', url: '' },
-          { title: 'Filter Configuration', url: '' },
-          { title: 'KPI Color Threshold', url: '' }
+          { title: 'Alert Thresholds', url: '/alert-thresholds' },
+          { title: 'Filter Configuration', url: '/filter-configuration' },
+          { title: 'KPI Color Threshold', url: '/kpi-color-threshold' }
         ]
       }
     ]

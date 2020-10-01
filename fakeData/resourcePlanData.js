@@ -1,5 +1,6 @@
 export default [
   {
+    id: 1,
     shopName: 'EDM/WALKER',
     regionName: 'West',
     desiredUnplanned: 50,
@@ -10,6 +11,7 @@ export default [
     sunWorkHours: 366
   },
   {
+    id: 2,
     shopName: 'SYM',
     regionName: 'West',
     desiredUnplanned: 50,
@@ -20,6 +22,7 @@ export default [
     sunWorkHours: 423
   },
   {
+    id: 3,
     shopName: 'MAC',
     regionName: 'East',
     desiredUnplanned: 20,
@@ -31,6 +34,7 @@ export default [
     editable: true
   },
   {
+    id: 4,
     shopName: 'TAS',
     regionName: 'East',
     desiredUnplanned: 50,
@@ -41,6 +45,7 @@ export default [
     sunWorkHours: 142
   },
   {
+    id: 5,
     shopName: 'KIR',
     regionName: 'South',
     desiredUnplanned: 20,
