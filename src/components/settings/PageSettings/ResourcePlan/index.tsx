@@ -26,10 +26,21 @@ export default function TableResourcePlan(): React.FC {
     setDataSource(resourcePlanData);
   }, []);
 
-  const handleRowclick = () => {
-    if (!dataSource.every((data) => data.editable)) {
-      setDataSource(dataSource.map((data) => ({ ...data, editable: true })));
+  const handleRowclick = (rowData) => {
+    const rowIndex = dataSource?.findIndex((data) => data.id === rowData.id);
+    const currentRowEditIndex = dataSource?.findIndex((data) => data.editable);
+    const data = dataSource[rowIndex];
+    const newDataSource = [...dataSource];
+    if (!data.editable) {
+      newDataSource[rowIndex] = { ...data, editable: true };
     }
+    if (currentRowEditIndex >= 0 && currentRowEditIndex !== rowIndex) {
+      newDataSource[currentRowEditIndex] = {
+        ...newDataSource[currentRowEditIndex],
+        editable: false
+      };
+    }
+    setDataSource(newDataSource);
   };
   const headersCSV = [
     {
@@ -81,8 +92,8 @@ export default function TableResourcePlan(): React.FC {
 
   const handleSaveInputCell = (rowData, values) => {
     const newDataSource = [...dataSource];
-    const cellIndex = dataSource?.findIndex((data) => data.id === rowData.id);
-    newDataSource[cellIndex] = { ...newDataSource[cellIndex], ...values };
+    const rowIndex = dataSource?.findIndex((data) => data.id === rowData.id);
+    newDataSource[rowIndex] = { ...newDataSource[rowIndex], ...values };
     setDataSource(newDataSource);
   };
 

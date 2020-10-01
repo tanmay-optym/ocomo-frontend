@@ -87,7 +87,13 @@ export default function FormAdditionalParameters(): React.FC {
       <CardHeader
         title={'Filter Configuration'}
         rightAction={
-          <CSVLink filename={'filter-configuration.csv'} data={dataSource} headers={headersCSV}>
+          <CSVLink
+            filename={'filter-configuration.csv'}
+            data={dataSource?.map((data) => ({
+              ...data,
+              value: data.value ? 'Enabled' : 'Disbaled'
+            }))}
+            headers={headersCSV}>
             <Button>
               <GetAppOutlinedIcon />
             </Button>

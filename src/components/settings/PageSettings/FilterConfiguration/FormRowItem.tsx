@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import FormRowContainer from '../../FormRowContainer';
 import FormItem from '../../FormItem';
@@ -48,17 +48,20 @@ const AntSwitch = withStyles((theme: Theme) =>
 )(Switch);
 
 export default function FormRowItem({ initialValues, onFinish, onRemove }): React.FC {
-  const { register, handleSubmit, errors, control } = useForm({
+  const { register, handleSubmit, errors, control, watch, formState } = useForm({
     defaultValues: { ...initialValues }
   });
+  const { isValid, dirtyFields, touched } = formState;
+  const values = watch();
 
   const onSubmit = (values) => {
-    console.log(values);
+    console.log('values', values);
     if (onFinish) {
       onFinish({ ...values, dataIndex: initialValues.dataIndex });
     }
   };
 
+  console.log('values', values, initialValues);
   const handleRemove = () => {
     if (onRemove) {
       onRemove(initialValues);
@@ -82,8 +85,16 @@ export default function FormRowItem({ initialValues, onFinish, onRemove }): Reac
             <InputSetting
               style={{ width: 150, marginRight: 10 }}
               name="name"
+              onBlur={() => {
+                // if (errors && errors.name) {
+                //   return;
+                // }
+                // onSubmit(values);
+                // return true;
+              }}
               refInput={register({ required: 'Required' })}
             />
+
             <FormItemExplainError errors={errors} fieldName={'name'} />
           </FormItem>
         )}
@@ -91,8 +102,14 @@ export default function FormRowItem({ initialValues, onFinish, onRemove }): Reac
           <Controller
             render={(props) => (
               <AntSwitch
-                value="test"
-                onChange={(e) => props.onChange(e.target.checked)}
+                value="value"
+                onChange={(e) => {
+                  props.onChange(e.target.checked);
+                  onSubmit({
+                    ...values,
+                    value: e.target.checked
+                  });
+                }}
                 checked={props.value}
               />
             )}
@@ -102,9 +119,9 @@ export default function FormRowItem({ initialValues, onFinish, onRemove }): Reac
           />
           {/* <InputSetting name="value" refInput={register({ required: 'Required' })} /> */}
         </FormItem>
-        <FormItem>
+        {/* <FormItem>
           <BtnAction type="submit">Save</BtnAction>
-        </FormItem>
+        </FormItem> */}
       </FormRowContainer>
       <div
         style={{

@@ -30,8 +30,7 @@ export default [
     prohibitedMaintType: '-',
     mfWorkHours: 517,
     satWorkHours: 146,
-    sunWorkHours: 321,
-    editable: true
+    sunWorkHours: 321
   },
   {
     id: 4,

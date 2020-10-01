@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -59,6 +59,11 @@ export default function TableData({
   onRowClick,
   onBlurInput
 }: TableDataProps): React.FC {
+  const [valueChange, setValueChange] = useState({});
+
+  const hasError = Object.values(valueChange).some((rowData) => {
+    return Object.values(rowData).some((data) => data === '');
+  });
   return (
     <TableContainer>
       <Table aria-label="simple table">
@@ -78,6 +83,9 @@ export default function TableData({
             <StyledTableRow
               key={rowData[rowKey]}
               onClick={() => {
+                if (hasError) {
+                  return;
+                }
                 if (onRowClick) {
                   onRowClick(rowData);
                 }
@@ -95,13 +103,19 @@ export default function TableData({
                       <InputTableEdit
                         onBlur={(e) => {
                           if (onBlurInput) {
+                            setValueChange({
+                              ...valueChange,
+                              [rowData.id]: { [colConfig.dataIndex]: e.target.value }
+                            });
                             onBlurInput(rowData, { [colConfig.dataIndex]: e.target.value });
                           }
                         }}
                         defaultValue={rowData[colConfig.dataIndex]}
                       />
                       <div style={{ color: '#fa5c64', position: 'absolute', fontSize: '11px' }}>
-                        {rowData[colConfig.dataIndex] === '' && 'Required'}
+                        {valueChange[rowData.id] &&
+                          valueChange[rowData.id][colConfig.dataIndex] === '' &&
+                          'Required'}
                       </div>
                     </StyledTableCell>
                   );
