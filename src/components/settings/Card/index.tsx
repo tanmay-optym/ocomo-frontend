@@ -1,8 +1,8 @@
 import React from 'react';
 
-type CardProps = { children: JSX.Element[] | JSX.Element };
+type CardProps = { children: React.ReactNode };
 
-export default function Card(props: CardProps): React.FC {
+export default function Card(props: CardProps): JSX.Element {
   return (
     <div
       style={{

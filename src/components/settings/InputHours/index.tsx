@@ -2,7 +2,19 @@ import React from 'react';
 import ScheduleIcon from '../SvgIcon/ScheduleIcon';
 import styles from './InputHours.module.scss';
 
-export default function InputHours(props): React.FC {
+type InputHoursProps = {
+  refInput:
+    | string
+    | ((instance: HTMLInputElement | null) => void)
+    | React.RefObject<HTMLInputElement>
+    | null
+    | undefined;
+  type?: string;
+  name: string;
+  style?: React.CSSProperties;
+};
+
+export default function InputHours(props: InputHoursProps): JSX.Element {
   return (
     <div className={styles['comp-input-hours']}>
       <input type="number" {...props} ref={props.refInput}></input>

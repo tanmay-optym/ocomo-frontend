@@ -2,7 +2,7 @@ import React from 'react';
 
 type MenuGroupTitleProps = { title: string };
 
-export default function MenuGroupTitle({ title }: MenuGroupTitleProps): React.FC {
+export default function MenuGroupTitle({ title }: MenuGroupTitleProps): JSX.Element {
   return (
     <span
       style={{

@@ -9,14 +9,15 @@ import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
 
-type IAlertThresholds = {
+export type IAlertThresholds = {
+  id: number;
   name: string;
   orangeAlert: string;
   redAlert: string;
 };
 
-export default function FormAlertThresholds(): React.FC {
-  const [dataSource, setDataSource] = useState<IAlertThresholds[] | null>([]);
+export default function FormAlertThresholds(): JSX.Element {
+  const [dataSource, setDataSource] = useState<IAlertThresholds[]>([]);
   const headersCSV = [
     { label: 'Name', key: 'name' },
     { label: 'Orange Alert', key: 'orangeAlert' },
@@ -25,21 +26,25 @@ export default function FormAlertThresholds(): React.FC {
   useEffect(() => {
     const fakeData: IAlertThresholds[] = [
       {
+        id: 1,
         name: 'Total working hours in a shop in a day',
         orangeAlert: '400',
         redAlert: '600'
       },
       {
+        id: 2,
         name: 'Total out-of-service hours of locomotives in a shop',
         orangeAlert: '400',
         redAlert: '600'
       },
       {
+        id: 3,
         name: 'Unplanned work percentage of a shop',
         orangeAlert: '60%',
         redAlert: '80%'
       },
       {
+        id: 4,
         name: 'Deviation from the planned release in a day',
         orangeAlert: '-3',
         redAlert: '-5'
@@ -49,18 +54,19 @@ export default function FormAlertThresholds(): React.FC {
   }, []);
 
   const handleAddNewRow = () => {
-    setDataSource([
-      ...dataSource,
-      {
-        name: '',
-        value: ''
-      }
-    ]);
+    const newData: IAlertThresholds = {
+      id: new Date().getTime(),
+      name: '',
+      orangeAlert: '',
+      redAlert: ''
+    };
+    setDataSource([...dataSource, newData]);
   };
 
   const handleSaveData = (data) => {
+    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
     const newDataSource = [...dataSource];
-    newDataSource[data.dataIndex] = data;
+    newDataSource[rowDataIndex] = data;
     setDataSource(newDataSource);
   };
 
@@ -78,14 +84,8 @@ export default function FormAlertThresholds(): React.FC {
       />
       <CardBody>
         <div>
-          {dataSource.map((data, index) => {
-            return (
-              <FormRowItem
-                onFinish={handleSaveData}
-                initialValues={{ ...data, dataIndex: index }}
-                key={data.title}
-              />
-            );
+          {dataSource.map((data) => {
+            return <FormRowItem onFinish={handleSaveData} initialValues={data} key={data.id} />;
           })}
           <FormRowContainer>
             <BtnAddNewRow onClick={handleAddNewRow} />

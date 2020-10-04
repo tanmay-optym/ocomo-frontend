@@ -9,20 +9,20 @@ import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
 
-type IAdditionalParameters = {
-  shop1Name: string;
-  shop2Name: string;
-  estimatedTravelTime: number;
+export type IFilterConfiguration = {
+  id: number;
+  name: string;
+  value: boolean;
 };
 
-export default function FormAdditionalParameters(): React.FC {
-  const [dataSource, setDataSource] = useState<IAdditionalParameters[] | null>([]);
+export default function FormFilterConfiguration(): JSX.Element {
+  const [dataSource, setDataSource] = useState<IFilterConfiguration[]>([]);
   const headersCSV = [
     { label: 'Name', key: 'name' },
     { label: 'Value', key: 'value' }
   ];
   useEffect(() => {
-    const fakeData: IAdditionalParameters[] = [
+    const fakeData: IFilterConfiguration[] = [
       {
         id: 1,
         name: 'Loco Type',
@@ -63,22 +63,22 @@ export default function FormAdditionalParameters(): React.FC {
   }, []);
 
   const handleAddNewRow = () => {
-    setDataSource([
-      ...dataSource,
-      {
-        name: '',
-        value: ''
-      }
-    ]);
+    const newData: IFilterConfiguration = {
+      id: new Date().getTime(),
+      name: '',
+      value: false
+    };
+    setDataSource([...dataSource, newData]);
   };
 
   const handleSaveData = (data) => {
+    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
     const newDataSource = [...dataSource];
-    newDataSource[data.dataIndex] = { ...data, id: new Date().getTime() };
+    newDataSource[rowDataIndex] = data;
     setDataSource(newDataSource);
   };
 
-  const handleRemoveData = ({ id }) => {
+  const handleRemoveData = (id: number): void => {
     const newDataSource = dataSource.filter((data) => data.id !== id);
     setDataSource(newDataSource);
   };
@@ -102,12 +102,12 @@ export default function FormAdditionalParameters(): React.FC {
       />
       <CardBody>
         <div>
-          {dataSource.map((data, index) => {
+          {dataSource.map((data) => {
             return (
               <FormRowItem
                 onFinish={handleSaveData}
-                initialValues={{ ...data, dataIndex: index }}
-                key={data.title}
+                initialValues={data}
+                key={data.id}
                 onRemove={handleRemoveData}
               />
             );

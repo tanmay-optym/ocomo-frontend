@@ -7,30 +7,34 @@ import FormLabel from '../../FormLabel';
 import BtnAction from '../../BtnAction';
 import FormItemExplainError from '../../FormItemExplainError';
 
-export default function FormRowItem({ initialValues, onFinish }): React.FC {
+import { IAdditionalParameters } from './index';
+
+type FormRowItemProps = {
+  initialValues: IAdditionalParameters;
+  onFinish: (values: object) => void;
+};
+
+export default function FormRowItem({ initialValues, onFinish }: FormRowItemProps): JSX.Element {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: { ...initialValues }
   });
 
   const onSubmit = (values) => {
     if (onFinish) {
-      onFinish({ ...values, dataIndex: initialValues.dataIndex });
+      onFinish({ ...initialValues, ...values });
     }
   };
   return (
-    <form key={initialValues.dataIndex} onSubmit={handleSubmit(onSubmit)}>
+    <form key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
         {initialValues.name !== '' ? (
           <Fragment>
             <FormLabel style={{ width: 350 }}>{initialValues.name}</FormLabel>
-            <FormItem label={''}>
-              <InputSetting type="hidden" name="name" refInput={register()} />
-            </FormItem>
           </Fragment>
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
-              style={{ width: 350, marginRight: 10 }}
+              style={{ width: 350 }}
               name="name"
               refInput={register({ required: 'Required' })}
             />

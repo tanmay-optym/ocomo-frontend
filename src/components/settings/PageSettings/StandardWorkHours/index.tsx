@@ -9,15 +9,16 @@ import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
 
-type IStandardWorkHours = {
-  type: string;
+export type IStandardWorkHours = {
+  id: number;
+  name: string;
   severityLevel: string;
-  maxHour: number;
-  minHour: number;
+  maxHour: number | undefined;
+  minHour: number | undefined;
 };
 
-export default function FormStandardWorkHours(): React.FC {
-  const [dataSource, setDataSource] = useState<IStandardWorkHours[] | null>([]);
+export default function FormStandardWorkHours(): JSX.Element {
+  const [dataSource, setDataSource] = useState<IStandardWorkHours[]>([]);
   const headersCSV = [
     { label: 'Name', key: 'name' },
     { label: 'Severity Level', key: 'severityLevel' },
@@ -27,6 +28,7 @@ export default function FormStandardWorkHours(): React.FC {
   useEffect(() => {
     const fakeData: IStandardWorkHours[] = [
       {
+        id: 1,
         name: 'Engine Replacement',
         severityLevel: 'High',
         maxHour: 12,
@@ -37,20 +39,20 @@ export default function FormStandardWorkHours(): React.FC {
   }, []);
 
   const handleAddNewRow = () => {
-    setDataSource([
-      ...dataSource,
-      {
-        name: '',
-        severityLevel: '',
-        maxHour: '',
-        minHour: ''
-      }
-    ]);
+    const newData: IStandardWorkHours = {
+      id: new Date().getTime(),
+      name: '',
+      severityLevel: '',
+      maxHour: undefined,
+      minHour: undefined
+    };
+    setDataSource([...dataSource, newData]);
   };
 
   const handleSaveData = (data) => {
+    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
     const newDataSource = [...dataSource];
-    newDataSource[data.dataIndex] = data;
+    newDataSource[rowDataIndex] = data;
     setDataSource(newDataSource);
   };
   return (
@@ -67,13 +69,9 @@ export default function FormStandardWorkHours(): React.FC {
       />
       <CardBody>
         <div>
-          {dataSource.map((data, index) => {
+          {dataSource.map((data) => {
             return (
-              <FormRowItem
-                onFinish={handleSaveData}
-                initialValues={{ ...data, dataIndex: index }}
-                key={data.title}
-              />
+              <FormRowItem onFinish={handleSaveData} initialValues={{ ...data }} key={data.id} />
             );
           })}
           <FormRowContainer>

@@ -1,9 +1,14 @@
 import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import styles from './BtnAddNewRow.module.scss';
-export default function BtnAddNewRow(props): React.FC {
+
+type BtnAddNewRowProps = {
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+};
+
+export default function BtnAddNewRow({ onClick }: BtnAddNewRowProps): JSX.Element {
   return (
-    <button {...props} className={styles['comp-btn-add-new-row']}>
+    <button onClick={onClick} className={styles['comp-btn-add-new-row']}>
       <AddIcon />
       <span>Add New Row</span>
     </button>

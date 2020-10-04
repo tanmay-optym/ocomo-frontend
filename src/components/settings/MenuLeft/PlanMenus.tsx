@@ -5,9 +5,19 @@ import MenuList from '@material-ui/core/MenuList';
 import MenuGroupTitle from './MenuGroupTitle';
 import styles from './PlanMenus.module.scss';
 
-type PlanMenusProps = { menus: object[] };
+type IMenuItem = { title: string; url?: string; children?: IMenuItem[] };
 
-const PlanMenus = ({ menus, onClickMenu, activeMenu }: PlanMenusProps): React.FC => {
+type IMenu = {
+  [key: string]: { title: string; menus: IMenuItem[] };
+};
+
+type PlanMenusProps = {
+  menus: IMenuItem[];
+  onClickMenu: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  activeMenu: string;
+};
+
+const PlanMenus = ({ menus, onClickMenu, activeMenu }: PlanMenusProps): JSX.Element => {
   const router = useRouter();
   const handleClickMenu = (menu) => {
     if (onClickMenu) {
@@ -26,7 +36,7 @@ const PlanMenus = ({ menus, onClickMenu, activeMenu }: PlanMenusProps): React.FC
             <div className={styles['comp-plan-menu']}>
               <MenuGroupTitle title={menuGroup.title} />
               <MenuList className={styles['comp-plan-menu-list']}>
-                {menuGroup.children.map((menu) => {
+                {(menuGroup.children || []).map((menu) => {
                   return (
                     <MenuItem
                       className={`${styles['comp-plan-menu-item']} ${

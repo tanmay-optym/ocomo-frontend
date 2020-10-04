@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TableData from '../../TableData';
+import TableData from './TableData';
 import resourcePlanData from '../../../../../fakeData/resourcePlanData';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
@@ -8,7 +8,8 @@ import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
 
-type IResourcePlan = {
+export type IResourcePlan = {
+  id: number;
   shopName: string;
   regionName: string;
   desiredUnplanned: number;
@@ -17,31 +18,36 @@ type IResourcePlan = {
   mfWorkHours: number;
   satWorkHours: number;
   sunWorkHours: number;
+  editable?: boolean;
 };
 
-export default function TableResourcePlan(): React.FC {
-  const [dataSource, setDataSource] = useState<IResourcePlan[] | null>([]);
-
+export default function TableResourcePlan(): JSX.Element {
+  const [dataSource, setDataSource] = useState<IResourcePlan[]>([]);
+  const [dataErrors, setDataErrors] = useState({});
   useEffect(() => {
     setDataSource(resourcePlanData);
   }, []);
 
   const handleRowclick = (rowData) => {
-    const rowIndex = dataSource?.findIndex((data) => data.id === rowData.id);
-    const currentRowEditIndex = dataSource?.findIndex((data) => data.editable);
+    const hasRowError = Object.values(dataErrors).some((hasError) => hasError);
+    if (hasRowError) {
+      return;
+    }
+    const hasEditting = Object.values(dataSource).some((data) => data.editable);
+    if (hasEditting) {
+      return;
+    }
+    const rowIndex = dataSource.findIndex((data) => data.id === rowData.id);
     const data = dataSource[rowIndex];
     const newDataSource = [...dataSource];
-    if (!data.editable) {
-      newDataSource[rowIndex] = { ...data, editable: true };
-    }
-    if (currentRowEditIndex >= 0 && currentRowEditIndex !== rowIndex) {
-      newDataSource[currentRowEditIndex] = {
-        ...newDataSource[currentRowEditIndex],
-        editable: false
-      };
-    }
+    newDataSource[rowIndex] = { ...data, editable: true };
     setDataSource(newDataSource);
   };
+
+  const handleHasErrors = (id, hasError) => {
+    setDataErrors({ ...dataErrors, [id]: hasError });
+  };
+
   const headersCSV = [
     {
       key: 'shopName',
@@ -90,13 +96,12 @@ export default function TableResourcePlan(): React.FC {
     }
   ];
 
-  const handleSaveInputCell = (rowData, values) => {
+  const handleSaveData = (data) => {
+    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
     const newDataSource = [...dataSource];
-    const rowIndex = dataSource?.findIndex((data) => data.id === rowData.id);
-    newDataSource[rowIndex] = { ...newDataSource[rowIndex], ...values };
+    newDataSource[rowDataIndex] = { ...data, editable: false };
     setDataSource(newDataSource);
   };
-
   return (
     <Card>
       <CardHeader
@@ -111,13 +116,11 @@ export default function TableResourcePlan(): React.FC {
       />
       <CardBody>
         <TableData
-          onBlurInput={(rowData, values) => {
-            console.log(rowData, values);
-            handleSaveInputCell(rowData, values);
-          }}
           onRowClick={handleRowclick}
           dataSource={dataSource}
           columns={columns}
+          onFinish={handleSaveData}
+          onHasErrors={handleHasErrors}
         />
       </CardBody>
     </Card>

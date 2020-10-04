@@ -1,6 +1,6 @@
 import PageSettings from '../src/components/settings/PageSettings';
 
-const PageResourcePlan = (): React.FC => {
+const PageResourcePlan = (): JSX.Element => {
   return <PageSettings />;
 };
 

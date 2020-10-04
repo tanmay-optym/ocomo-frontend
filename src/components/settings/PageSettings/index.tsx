@@ -19,7 +19,7 @@ const CONFIG_MENU = {
   '/kpi-color-threshold': <KPIColorThreshold />
 };
 
-const PageSettings = (): React.FC => {
+const PageSettings = (): JSX.Element => {
   const [activeMenu, setActiveMenu] = useState('/resource-plan');
   const handleClickMenu = (url) => {
     setActiveMenu(url);

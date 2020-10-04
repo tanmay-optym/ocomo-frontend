@@ -7,42 +7,48 @@ import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
 
-type ITravelTimeLookup = {
+export type ITravelTimeLookup = {
+  id: number;
   shop1: string;
   shop2: string;
   estimatedTravelTime: number;
 };
 
-export default function FormTravelTimeLookup(): React.FC {
-  const [dataSource, setDataSource] = useState<ITravelTimeLookup[] | null>([]);
+export default function FormTravelTimeLookup(): JSX.Element {
+  const [dataSource, setDataSource] = useState<ITravelTimeLookup[]>([]);
   const headersCSV = [
     { label: 'Shop 1', key: 'shop1' },
     { label: 'Shop 2', key: 'shop2' },
     { label: 'Estimated Travel Time', key: 'estimatedTravelTime' }
   ];
   useEffect(() => {
-    const fakeData: IStandardWorkHours[] = [
+    const fakeData: ITravelTimeLookup[] = [
       {
+        id: 1,
         shop1: 'SYM',
         shop2: 'MAC',
         estimatedTravelTime: 45
       },
       {
+        id: 2,
         shop1: 'SYM',
         shop2: 'TAS',
         estimatedTravelTime: 48
       },
       {
+        id: 3,
         shop1: 'KIR',
         shop2: 'PRG',
         estimatedTravelTime: 24
       },
       {
+        id: 4,
         shop1: 'KIR',
         shop2: 'THO',
         estimatedTravelTime: 36
       },
       {
+        id: 5,
         shop1: 'MEM',
         shop2: 'KIR',
         estimatedTravelTime: 42
@@ -50,12 +56,14 @@ export default function FormTravelTimeLookup(): React.FC {
     ];
     setDataSource(fakeData);
   }, []);
+
   const handleSaveData = (data) => {
-    console.log(data);
+    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
     const newDataSource = [...dataSource];
-    newDataSource[data.dataIndex] = { ...data, shop1: data.shop1.value, shop2: data.shop2.value };
+    newDataSource[rowDataIndex] = { ...data, shop1: data.shop1.value, shop2: data.shop2.value };
     setDataSource(newDataSource);
   };
+
   return (
     <Card>
       <CardHeader
@@ -70,14 +78,8 @@ export default function FormTravelTimeLookup(): React.FC {
       />
       <CardBody>
         <div>
-          {dataSource.map((data, index) => {
-            return (
-              <FormRowItem
-                key={data.key}
-                initialValues={{ ...data, dataIndex: index }}
-                onFinish={handleSaveData}
-              />
-            );
+          {dataSource.map((data) => {
+            return <FormRowItem key={data.id} initialValues={data} onFinish={handleSaveData} />;
           })}
         </div>
       </CardBody>

@@ -4,7 +4,12 @@ import PlanMenus from './PlanMenus';
 import menuLeftData from '../../../../fakeData/menuLeftData';
 import Collapse from '../Collapse';
 
-const MenuLeft = ({ onClickMenu, activeMenu }): React.FC => {
+type MenuLeftProps = {
+  onClickMenu: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  activeMenu: string;
+};
+
+const MenuLeft = ({ onClickMenu, activeMenu }: MenuLeftProps): JSX.Element => {
   return (
     <Card>
       {Object.values(menuLeftData).map((plan) => {

@@ -1,7 +1,5 @@
 import React from 'react';
 import chroma from 'chroma-js';
-
-// import { colourOptions } from '../data';
 import Select from 'react-select';
 
 export const shopOptions = {
@@ -79,11 +77,14 @@ const colourStyles = {
   indicatorSeparator: () => ({ display: 'none' })
 };
 
-export default function SelectShop(props): React.FC {
+type SelectShopProps = {
+  initialValue?: string;
+};
+
+export default function SelectShop({ initialValue, ...props }: SelectShopProps): JSX.Element {
   return (
     <Select
-      defaultValue={shopOptions[props.initialValue]}
-      label="Single select"
+      defaultValue={initialValue ? shopOptions[initialValue] : undefined}
       options={Object.values(shopOptions)}
       styles={colourStyles}
       {...props}

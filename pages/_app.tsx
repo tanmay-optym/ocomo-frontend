@@ -2,9 +2,9 @@ import { ThemeProvider } from '@material-ui/core';
 import theme from '../theme/themeContext';
 import '../styles/globals.css';
 
-type AppProps = { Component: React.FC; pageProps: object }; /* could also use interface */
+type AppProps = { Component: React.ElementType; pageProps: object }; /* could also use interface */
 
-function MyApp({ Component, pageProps }: AppProps): React.FC {
+function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <ThemeProvider theme={theme}>
       <Component {...pageProps} />

@@ -7,8 +7,14 @@ import InputSelectShop, { shopOptions } from '../../InputSelectShop';
 import TrendingFlatIcon from '../../SvgIcon/TrendingFlatIcon';
 import BtnAction from '../../BtnAction';
 import FormItemExplainError from '../../FormItemExplainError';
+import { ITravelTimeLookup } from './index';
 
-export default function FormRowItem({ initialValues = {}, onFinish }): React.FC {
+type FormRowItemProps = {
+  initialValues: ITravelTimeLookup;
+  onFinish: (values: object) => void;
+};
+
+export default function FormRowItem({ initialValues, onFinish }: FormRowItemProps): JSX.Element {
   const { register, handleSubmit, control, errors } = useForm({
     defaultValues: {
       ...initialValues,
@@ -18,18 +24,16 @@ export default function FormRowItem({ initialValues = {}, onFinish }): React.FC 
   });
   const onSubmit = (values) => {
     if (onFinish) {
-      onFinish({ ...values, dataIndex: initialValues.dataIndex });
-    } else {
-      console.log(values);
+      onFinish({ ...initialValues, ...values });
     }
   };
   return (
-    <form key={initialValues.title} onSubmit={handleSubmit(onSubmit)}>
+    <form key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
         <FormItem margin={0}>
           <Controller name="shop1" as={InputSelectShop} control={control} />
         </FormItem>
-        <div style={{ marginTop: 15, marginLeft: 30 }} label={''}>
+        <div style={{ marginTop: 15, marginLeft: 30 }}>
           <TrendingFlatIcon />
         </div>
         <FormItem label={''}>

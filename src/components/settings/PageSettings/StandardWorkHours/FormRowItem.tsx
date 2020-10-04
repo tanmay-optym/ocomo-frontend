@@ -7,30 +7,34 @@ import InputHours from '../../InputHours';
 import { useForm } from 'react-hook-form';
 import BtnAction from '../../BtnAction';
 import FormItemExplainError from '../../FormItemExplainError';
+import { IStandardWorkHours } from './index';
 
-export default function FormRowItem({ initialValues = {}, onFinish }): React.FC {
+type FormRowItemProps = {
+  initialValues: IStandardWorkHours;
+  onFinish: (values: object) => void;
+};
+
+export default function FormRowItem({ initialValues, onFinish }: FormRowItemProps): JSX.Element {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: { ...initialValues }
   });
   const onSubmit = (values) => {
     if (onFinish) {
-      onFinish({ ...values, dataIndex: initialValues.dataIndex });
+      onFinish({ ...initialValues, ...values });
     }
   };
+
   return (
-    <form key={initialValues.title} onSubmit={handleSubmit(onSubmit)}>
+    <form key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
         {initialValues.name !== '' ? (
           <Fragment>
             <FormLabel style={{ width: 194 }}>{initialValues.name}</FormLabel>
-            <FormItem label={''}>
-              <InputSetting type="hidden" name="name" refInput={register()} />
-            </FormItem>
           </Fragment>
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
-              style={{ width: 194, marginRight: 10 }}
+              style={{ width: 194, marginRight: 0 }}
               name="name"
               refInput={register({ required: 'Required' })}
             />

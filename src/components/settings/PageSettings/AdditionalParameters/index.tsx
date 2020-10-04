@@ -9,14 +9,14 @@ import FormRowItem from './FormRowItem';
 import FormRowContainer from '../../FormRowContainer';
 import { CSVLink } from 'react-csv';
 
-type IAdditionalParameters = {
-  shop1Name: string;
-  shop2Name: string;
-  estimatedTravelTime: number;
+export type IAdditionalParameters = {
+  id: number;
+  name: string;
+  value: string;
 };
 
-const AdditionalParameters = (): React.FC => {
-  const [dataSource, setDataSource] = useState<IAdditionalParameters[] | null>([]);
+const AdditionalParameters = (): JSX.Element => {
+  const [dataSource, setDataSource] = useState<IAdditionalParameters[]>([]);
   const headersCSV = [
     { label: 'Name', key: 'name' },
     { label: 'Value', key: 'value' }
@@ -24,18 +24,22 @@ const AdditionalParameters = (): React.FC => {
   useEffect(() => {
     const fakeData: IAdditionalParameters[] = [
       {
+        id: 1,
         name: 'Apprentice Adjustment Percentage',
         value: '40'
       },
       {
+        id: 2,
         name: 'Temporary Productivity Adjustment Percentage',
         value: '30'
       },
       {
+        id: 3,
         name: 'Maximum Overtime Percentage',
         value: '25'
       },
       {
+        id: 4,
         name: 'Overtime Utilization Threshold',
         value: '58'
       }
@@ -44,20 +48,21 @@ const AdditionalParameters = (): React.FC => {
   }, []);
 
   const handleAddNewRow = () => {
-    setDataSource([
-      ...dataSource,
-      {
-        name: '',
-        value: ''
-      }
-    ]);
+    const newData: IAdditionalParameters = {
+      id: new Date().getTime(),
+      name: '',
+      value: ''
+    };
+    setDataSource([...dataSource, newData]);
   };
 
   const handleSaveData = (data) => {
+    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
     const newDataSource = [...dataSource];
-    newDataSource[data.dataIndex] = data;
+    newDataSource[rowDataIndex] = data;
     setDataSource(newDataSource);
   };
+
   return (
     <Card>
       <CardHeader
@@ -72,13 +77,9 @@ const AdditionalParameters = (): React.FC => {
       />
       <CardBody>
         <div>
-          {dataSource.map((data, index) => {
+          {dataSource.map((data) => {
             return (
-              <FormRowItem
-                onFinish={handleSaveData}
-                initialValues={{ ...data, dataIndex: index }}
-                key={data.title}
-              />
+              <FormRowItem onFinish={handleSaveData} initialValues={{ ...data }} key={data.name} />
             );
           })}
           <FormRowContainer>

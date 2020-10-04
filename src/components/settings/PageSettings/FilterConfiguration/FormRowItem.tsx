@@ -1,13 +1,13 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import FormRowContainer from '../../FormRowContainer';
 import FormItem from '../../FormItem';
 import InputSetting from '../../InputSetting';
 import FormLabel from '../../FormLabel';
-import BtnAction from '../../BtnAction';
 import FormItemExplainError from '../../FormItemExplainError';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
+import { IFilterConfiguration } from './index';
 
 const switch_height = 20;
 const switch_width = 40;
@@ -47,54 +47,47 @@ const AntSwitch = withStyles((theme: Theme) =>
   })
 )(Switch);
 
-export default function FormRowItem({ initialValues, onFinish, onRemove }): React.FC {
-  const { register, handleSubmit, errors, control, watch, formState } = useForm({
+type FormRowItemProps = {
+  initialValues: IFilterConfiguration;
+  onFinish: (values: object) => void;
+  onRemove: (id: number) => void;
+};
+
+export default function FormRowItem({
+  initialValues,
+  onFinish,
+  onRemove
+}: FormRowItemProps): JSX.Element {
+  const { register, handleSubmit, errors, control, watch } = useForm({
     defaultValues: { ...initialValues }
   });
-  const { isValid, dirtyFields, touched } = formState;
   const values = watch();
-
   const onSubmit = (values) => {
-    console.log('values', values);
     if (onFinish) {
-      onFinish({ ...values, dataIndex: initialValues.dataIndex });
+      onFinish({ ...initialValues, ...values });
     }
   };
 
-  console.log('values', values, initialValues);
   const handleRemove = () => {
     if (onRemove) {
-      onRemove(initialValues);
+      onRemove(initialValues.id);
     }
   };
+
   return (
-    <form
-      style={{ display: 'flex' }}
-      key={initialValues.dataIndex}
-      onSubmit={handleSubmit(onSubmit)}>
+    <form style={{ display: 'flex' }} key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
         {initialValues.name !== '' ? (
           <Fragment>
             <FormLabel style={{ width: 150 }}>{initialValues.name}</FormLabel>
-            <FormItem label={''}>
-              <InputSetting type="hidden" name="name" refInput={register()} />
-            </FormItem>
           </Fragment>
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
               style={{ width: 150, marginRight: 10 }}
               name="name"
-              onBlur={() => {
-                // if (errors && errors.name) {
-                //   return;
-                // }
-                // onSubmit(values);
-                // return true;
-              }}
               refInput={register({ required: 'Required' })}
             />
-
             <FormItemExplainError errors={errors} fieldName={'name'} />
           </FormItem>
         )}
@@ -117,11 +110,7 @@ export default function FormRowItem({ initialValues, onFinish, onRemove }): Reac
             name="value"
             control={control}
           />
-          {/* <InputSetting name="value" refInput={register({ required: 'Required' })} /> */}
         </FormItem>
-        {/* <FormItem>
-          <BtnAction type="submit">Save</BtnAction>
-        </FormItem> */}
       </FormRowContainer>
       <div
         style={{
@@ -140,13 +129,10 @@ export default function FormRowItem({ initialValues, onFinish, onRemove }): Reac
             border: 'none',
             height: '36px',
             width: '90px',
-            left: '900px',
-            top: '179px',
-            borderRadius: '4px',
             color: '#5D6E7F',
-            fontWeight: '500',
-            top: '0',
-            marginTop: '-10px',
+            fontWeight: 500,
+            top: 0,
+            marginTop: -10,
             cursor: 'pointer'
           }}>
           Remove

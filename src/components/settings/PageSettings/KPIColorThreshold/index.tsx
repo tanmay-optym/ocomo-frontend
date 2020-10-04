@@ -9,14 +9,15 @@ import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
 
-type IAlertThresholds = {
+export type IKPIColorThreshold = {
+  id: number;
   name: string;
   orangeAlert: string;
   redAlert: string;
 };
 
-export default function FormKPIColorThreshold(): React.FC {
-  const [dataSource, setDataSource] = useState<IAlertThresholds[] | null>([]);
+export default function FormKPIColorThreshold(): JSX.Element {
+  const [dataSource, setDataSource] = useState<IKPIColorThreshold[]>([]);
 
   const headersCSV = [
     { label: 'Name', key: 'name' },
@@ -25,23 +26,27 @@ export default function FormKPIColorThreshold(): React.FC {
   ];
 
   useEffect(() => {
-    const fakeData: IAlertThresholds[] = [
+    const fakeData: IKPIColorThreshold[] = [
       {
+        id: 1,
         name: 'Bad Order %',
         orangeAlert: '14%',
         redAlert: '15%'
       },
       {
+        id: 2,
         name: 'Overtime Hours',
         orangeAlert: '400',
         redAlert: '600'
       },
       {
+        id: 3,
         name: 'Unplanned %',
         orangeAlert: '50%',
         redAlert: '80%'
       },
       {
+        id: 4,
         name: 'Loco Release per Day',
         orangeAlert: '-20',
         redAlert: '10'
@@ -51,18 +56,19 @@ export default function FormKPIColorThreshold(): React.FC {
   }, []);
 
   const handleAddNewRow = () => {
-    setDataSource([
-      ...dataSource,
-      {
-        name: '',
-        value: ''
-      }
-    ]);
+    const newData = {
+      id: new Date().getTime(),
+      name: '',
+      orangeAlert: '',
+      redAlert: ''
+    };
+    setDataSource([...dataSource, newData]);
   };
 
   const handleSaveData = (data) => {
+    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
     const newDataSource = [...dataSource];
-    newDataSource[data.dataIndex] = data;
+    newDataSource[rowDataIndex] = data;
     setDataSource(newDataSource);
   };
 
@@ -80,14 +86,8 @@ export default function FormKPIColorThreshold(): React.FC {
       />
       <CardBody>
         <div>
-          {dataSource.map((data, index) => {
-            return (
-              <FormRowItem
-                onFinish={handleSaveData}
-                initialValues={{ ...data, dataIndex: index }}
-                key={data.title}
-              />
-            );
+          {dataSource.map((data) => {
+            return <FormRowItem onFinish={handleSaveData} initialValues={data} key={data.id} />;
           })}
           <FormRowContainer>
             <BtnAddNewRow onClick={handleAddNewRow} />

@@ -1,7 +1,7 @@
 import SvgIcon, { SvgIconProps } from '@material-ui/core/SvgIcon';
 import React from 'react';
 
-function AlertErrorIcon(props: SvgIconProps): React.FC {
+function AlertErrorIcon(props: SvgIconProps): JSX.Element {
   return (
     <SvgIcon {...props}>
       <path

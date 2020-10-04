@@ -9,19 +9,19 @@ import styles from './Collapse.module.scss';
 type CollapseProps = {
   title: string;
   content: JSX.Element;
-  defaultCollapse: boolean;
+  defaultCollapse?: boolean;
 };
 export default function Collapse({
   title,
   content,
   defaultCollapse = false
-}: CollapseProps): React.FC {
+}: CollapseProps): JSX.Element {
   const [isCollapse, setIsCollapse] = useState(defaultCollapse);
 
   const toggleCollapse = () => {
     setIsCollapse(!isCollapse);
   };
-  const iconAction = isCollapse ? (
+  const iconAction: React.ReactNode = isCollapse ? (
     <ExpandLessIcon color={'primary'} />
   ) : (
     <ExpandMoreIcon color={'primary'} />

@@ -40,6 +40,8 @@ module.exports = {
         specialLink: ['hrefLeft', 'hrefRight'],
         aspects: ['invalidHref', 'preferButton']
       }
-    ]
+    ],
+    // custom
+    '@typescript-eslint/ban-types': 'off'
   }
 };

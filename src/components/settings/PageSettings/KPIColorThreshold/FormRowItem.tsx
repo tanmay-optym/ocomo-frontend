@@ -9,25 +9,29 @@ import FormItemExplainError from '../../FormItemExplainError';
 import AlertWarningIcon from '../../SvgIcon/AlertWarningIcon';
 import AlertErrorIcon from '../../SvgIcon/AlertErrorIcon';
 
-export default function FormRowItem({ initialValues, onFinish }): React.FC {
+import { IKPIColorThreshold } from './index';
+
+type FormRowItemProps = {
+  initialValues: IKPIColorThreshold;
+  onFinish: (values: object) => void;
+};
+
+export default function FormRowItem({ initialValues, onFinish }: FormRowItemProps): JSX.Element {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: { ...initialValues }
   });
 
   const onSubmit = (values) => {
     if (onFinish) {
-      onFinish({ ...values, dataIndex: initialValues.dataIndex });
+      onFinish({ ...initialValues, ...values });
     }
   };
   return (
-    <form key={initialValues.dataIndex} onSubmit={handleSubmit(onSubmit)}>
+    <form key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
         {initialValues.name !== '' ? (
           <Fragment>
             <FormLabel style={{ width: 300 }}>{initialValues.name}</FormLabel>
-            <FormItem label={''}>
-              <InputSetting type="hidden" name="name" refInput={register()} />
-            </FormItem>
           </Fragment>
         ) : (
           <FormItem margin={0} label={''}>
