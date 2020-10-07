@@ -27,12 +27,7 @@ type TableDataProps = {
 
 const StyledTableHeaderCell = withStyles(() =>
   createStyles({
-    root: {
-      border: 0,
-      fontSize: 12,
-      fontWeight: 600,
-      color: '#5D6E7F'
-    }
+    root: {}
   })
 )(TableCell);
 

@@ -7,10 +7,6 @@ import styles from './PlanMenus.module.scss';
 
 type IMenuItem = { title: string; url?: string; children?: IMenuItem[] };
 
-type IMenu = {
-  [key: string]: { title: string; menus: IMenuItem[] };
-};
-
 type PlanMenusProps = {
   menus: IMenuItem[];
   onClickMenu: (e: React.MouseEvent<HTMLButtonElement>) => void;

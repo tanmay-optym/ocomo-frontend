@@ -34,10 +34,16 @@ const StyledTableCell = withStyles(() =>
       border: 0,
       fontSize: 12,
       fontWeight: 400,
-      color: '#5D6E7F'
+      color: '#5D6E7F',
+      padding: '14px 8px'
     }
   })
 )(TableCell);
+
+const styledCellEdit = {
+  padding: '6px 8px',
+  background: '#EAF1FF'
+};
 
 export default function FormRowItem({
   initialValues,
@@ -75,13 +81,17 @@ export default function FormRowItem({
       {columns.map((colConfig: ColumnsType) => {
         if (!initialValues.editable || !colConfig.editable) {
           return (
-            <StyledTableCell key={colConfig.dataIndex}>
+            <StyledTableCell
+              style={initialValues.editable ? styledCellEdit : {}}
+              key={colConfig.dataIndex}>
               {initialValues[colConfig.dataIndex]}
             </StyledTableCell>
           );
         } else {
           return (
-            <StyledTableCell key={colConfig.dataIndex}>
+            <StyledTableCell
+              style={initialValues.editable ? styledCellEdit : {}}
+              key={colConfig.dataIndex}>
               <InputTableEdit
                 name={colConfig.dataIndex}
                 refInput={register({ required: 'Required' })}
@@ -93,7 +103,7 @@ export default function FormRowItem({
           );
         }
       })}
-      <StyledTableCell key="actionSave">
+      <StyledTableCell style={initialValues.editable ? styledCellEdit : {}} key="actionSave">
         {initialValues.editable && (
           <BtnAction onClick={handleSubmit(onSubmit)} style={{ height: 32 }}>
             Save
