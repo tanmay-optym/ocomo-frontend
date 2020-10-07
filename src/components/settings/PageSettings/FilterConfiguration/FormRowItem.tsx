@@ -50,7 +50,7 @@ const AntSwitch = withStyles((theme: Theme) =>
 type FormRowItemProps = {
   initialValues: IFilterConfiguration;
   onFinish: (values: object) => void;
-  onRemove: (id: number) => void;
+  onRemove: (id: string) => void;
 };
 
 export default function FormRowItem({

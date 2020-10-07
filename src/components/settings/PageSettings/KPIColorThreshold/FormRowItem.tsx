@@ -27,7 +27,7 @@ export default function FormRowItem({ initialValues, onFinish }: FormRowItemProp
     }
   };
   return (
-    <form key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
+    <form key={initialValues.code} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
         {initialValues.description !== '' ? (
           <Fragment>

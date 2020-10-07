@@ -1,6 +1,6 @@
 import React from 'react';
 
-type CardProps = { children: React.ReactNode; borderRadius: string };
+type CardProps = { children: React.ReactNode; borderRadius?: string };
 
 export default function Card({ children, borderRadius = '4px' }: CardProps): JSX.Element {
   return (

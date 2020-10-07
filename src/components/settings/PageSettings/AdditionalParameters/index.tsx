@@ -20,14 +20,14 @@ export type IAdditionalParameters = {
 
 const AdditionalParameters = (): JSX.Element => {
   const [dataSource, setDataSource] = useState<IAdditionalParameters[]>([]);
-  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+  const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: []
   });
   console.log(data);
   useEffect(() => {
-    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_ADP', ''));
+    dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_ADP', ''));
   }, []);
 
   const headersCSV = [
@@ -75,7 +75,7 @@ const AdditionalParameters = (): JSX.Element => {
                 <FormRowItem
                   onFinish={handleSaveData}
                   initialValues={{ ...data }}
-                  key={data.name}
+                  key={data.code}
                 />
               );
             })}

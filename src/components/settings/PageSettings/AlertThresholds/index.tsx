@@ -21,14 +21,14 @@ export type IAlertThresholds = {
 
 export default function FormAlertThresholds(): JSX.Element {
   const [dataSource, setDataSource] = useState<IAlertThresholds[]>([]);
-  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+  const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: []
   });
   console.log(data);
   useEffect(() => {
-    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'UI_SETTINGS_ADP', ''));
+    dispatchRequest((e) => fetchData(e, 'UI_SETTINGS_ADP', ''));
   }, []);
   const headersCSV = [
     { label: 'Name', key: 'description' },

@@ -21,14 +21,14 @@ export type IKPIColorThreshold = {
 
 export default function FormKPIColorThreshold(): JSX.Element {
   const [dataSource, setDataSource] = useState<IKPIColorThreshold[]>([]);
-  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+  const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: []
   });
   console.log(data);
   useEffect(() => {
-    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'UI_SETTINGS_KPI', ''));
+    dispatchRequest((e) => fetchData(e, 'UI_SETTINGS_KPI', ''));
   }, []);
   const headersCSV = [
     { label: 'Name', key: 'description' },
@@ -45,7 +45,7 @@ export default function FormKPIColorThreshold(): JSX.Element {
       code: new Date().getTime().toString(),
       description: '',
       orangeKpi: '',
-      redAlertKpi: ''
+      redKpi: ''
     };
     setDataSource([...dataSource, newData]);
   };

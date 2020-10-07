@@ -77,11 +77,11 @@ const [shopSaveState, dispatchShopState] = useThunkReducer(reducer, {
     data: null
   });
 
-   dispatchShopState((e: Dispatch<SetPayloadActionType>) => postData(e, "SAVE_SHOP_DETAILS", putBody));
+   dispatchShopState((e) => postData(e, "SAVE_SHOP_DETAILS", putBody));
 */
 
 /*
-  const [shopsState, dispatchShopRequest] = useThunkReducer(reducer, initialState);
-    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) =>
+  const [shopsState, dispatchRequest] = useThunkReducer(reducer, initialState);
+    dispatchRequest((e) =>
       fetchData(e, "ShopsGrid", `startDate=${formatStartDate}&endDate=${formatEndDate}`)
 */

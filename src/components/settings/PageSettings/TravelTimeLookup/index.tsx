@@ -24,14 +24,14 @@ export default function FormTravelTimeLookup(): JSX.Element {
     { label: 'Shop 2', key: 'shop2' },
     { label: 'Estimated Travel Time', key: 'estimatedTravelTime' }
   ];
-  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+  const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: []
   });
   console.log(data);
   useEffect(() => {
-    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_TTL', ''));
+    dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_TTL', ''));
   }, []);
   useEffect(() => {
     const fakeData: ITravelTimeLookup[] = [

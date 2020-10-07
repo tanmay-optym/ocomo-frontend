@@ -25,16 +25,14 @@ export type IResourcePlan = {
 
 export default function TableResourcePlan(): JSX.Element {
   const [dataSource, setDataSource] = useState<IResourcePlan[]>([]);
-  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+  const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: []
   });
 
   useEffect(() => {
-    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) =>
-      fetchData(e, 'CONSTRAINTS_RESOURCE_PLAN', '')
-    );
+    dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_RESOURCE_PLAN', ''));
   }, []);
 
   const [dataErrors, setDataErrors] = useState({});

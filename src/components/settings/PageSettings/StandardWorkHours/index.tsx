@@ -28,14 +28,14 @@ export default function FormStandardWorkHours(): JSX.Element {
     { label: 'Max Hour', key: 'majorStopStdHrs' },
     { label: 'Min Hour', key: 'minorStopStdHrs' }
   ];
-  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+  const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: []
   });
   console.log(data);
   useEffect(() => {
-    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_SWH', ''));
+    dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_SWH', ''));
   }, []);
 
   useEffect(() => {

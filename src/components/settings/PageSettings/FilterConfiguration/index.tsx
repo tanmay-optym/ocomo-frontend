@@ -20,16 +20,14 @@ export type IFilterConfiguration = {
 
 export default function FormFilterConfiguration(): JSX.Element {
   const [dataSource, setDataSource] = useState<IFilterConfiguration[]>([]);
-  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+  const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: []
   });
   console.log(data);
   useEffect(() => {
-    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) =>
-      fetchData(e, 'UI_SETTINGS_FILTER', '')
-    );
+    dispatchRequest((e) => fetchData(e, 'UI_SETTINGS_FILTER', ''));
   }, []);
   const headersCSV = [
     { label: 'Name', key: 'description' },
@@ -78,7 +76,7 @@ export default function FormFilterConfiguration(): JSX.Element {
 
   const handleAddNewRow = () => {
     const newData: IFilterConfiguration = {
-      id: new Date().getTime().toString(),
+      code: new Date().getTime().toString(),
       description: '',
       value: false
     };
