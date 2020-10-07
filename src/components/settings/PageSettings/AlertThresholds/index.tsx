@@ -8,55 +8,41 @@ import Card from '../../Card';
 import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
+import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import { fetchData } from '../../../../../pages/api/apiConstants';
+import Spin from '../../Spin';
 
 export type IAlertThresholds = {
-  id: number;
-  name: string;
+  code: string;
+  description: string;
   orangeAlert: string;
   redAlert: string;
 };
 
 export default function FormAlertThresholds(): JSX.Element {
   const [dataSource, setDataSource] = useState<IAlertThresholds[]>([]);
+  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+    error: null,
+    loading: false,
+    data: []
+  });
+  console.log(data);
+  useEffect(() => {
+    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'UI_SETTINGS_ADP', ''));
+  }, []);
   const headersCSV = [
-    { label: 'Name', key: 'name' },
+    { label: 'Name', key: 'description' },
     { label: 'Orange Alert', key: 'orangeAlert' },
     { label: 'Red Alert', key: 'redAlert' }
   ];
   useEffect(() => {
-    const fakeData: IAlertThresholds[] = [
-      {
-        id: 1,
-        name: 'Total working hours in a shop in a day',
-        orangeAlert: '400',
-        redAlert: '600'
-      },
-      {
-        id: 2,
-        name: 'Total out-of-service hours of locomotives in a shop',
-        orangeAlert: '400',
-        redAlert: '600'
-      },
-      {
-        id: 3,
-        name: 'Unplanned work percentage of a shop',
-        orangeAlert: '60%',
-        redAlert: '80%'
-      },
-      {
-        id: 4,
-        name: 'Deviation from the planned release in a day',
-        orangeAlert: '-3',
-        redAlert: '-5'
-      }
-    ];
-    setDataSource(fakeData);
-  }, []);
+    setDataSource(data.data || []);
+  }, [data]);
 
   const handleAddNewRow = () => {
     const newData: IAlertThresholds = {
-      id: new Date().getTime(),
-      name: '',
+      code: new Date().getTime().toString(),
+      description: '',
       orangeAlert: '',
       redAlert: ''
     };
@@ -64,7 +50,7 @@ export default function FormAlertThresholds(): JSX.Element {
   };
 
   const handleSaveData = (data) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
+    const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[rowDataIndex] = data;
     setDataSource(newDataSource);
@@ -83,14 +69,16 @@ export default function FormAlertThresholds(): JSX.Element {
         }
       />
       <CardBody>
-        <div>
-          {dataSource.map((data) => {
-            return <FormRowItem onFinish={handleSaveData} initialValues={data} key={data.id} />;
-          })}
-          <FormRowContainer>
-            <BtnAddNewRow onClick={handleAddNewRow} />
-          </FormRowContainer>
-        </div>
+        <Spin spinning={data.loading}>
+          <div>
+            {dataSource.map((data) => {
+              return <FormRowItem onFinish={handleSaveData} initialValues={data} key={data.code} />;
+            })}
+            <FormRowContainer>
+              <BtnAddNewRow onClick={handleAddNewRow} />
+            </FormRowContainer>
+          </div>
+        </Spin>
       </CardBody>
     </Card>
   );

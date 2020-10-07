@@ -25,20 +25,20 @@ export default function FormRowItem({ initialValues, onFinish }: FormRowItemProp
   };
 
   return (
-    <form key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
+    <form key={initialValues.code} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
-        {initialValues.name !== '' ? (
+        {initialValues.description !== '' ? (
           <Fragment>
-            <FormLabel style={{ width: 194 }}>{initialValues.name}</FormLabel>
+            <FormLabel style={{ width: 194 }}>{initialValues.description}</FormLabel>
           </Fragment>
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
               style={{ width: 194, marginRight: 0 }}
-              name="name"
+              name="description"
               refInput={register({ required: 'Required' })}
             />
-            <FormItemExplainError errors={errors} fieldName={'name'} />
+            <FormItemExplainError errors={errors} fieldName={'description'} />
           </FormItem>
         )}
         <FormItem label={'Severity'}>
@@ -46,12 +46,12 @@ export default function FormRowItem({ initialValues, onFinish }: FormRowItemProp
           <FormItemExplainError errors={errors} fieldName={'severityLevel'} />
         </FormItem>
         <FormItem label={'Max'}>
-          <InputHours name="maxHour" refInput={register({ required: 'Required' })} />
-          <FormItemExplainError errors={errors} fieldName={'maxHour'} />
+          <InputHours name="majorStopStdHrs" refInput={register({ required: 'Required' })} />
+          <FormItemExplainError errors={errors} fieldName={'majorStopStdHrs'} />
         </FormItem>
         <FormItem label={'Min'}>
-          <InputHours name="minHour" refInput={register({ required: 'Required' })} />
-          <FormItemExplainError errors={errors} fieldName={'minHour'} />
+          <InputHours name="minorStopStdHrs" refInput={register({ required: 'Required' })} />
+          <FormItemExplainError errors={errors} fieldName={'minorStopStdHrs'} />
         </FormItem>
         <FormItem>
           <BtnAction type="submit">Save</BtnAction>

@@ -29,27 +29,27 @@ export default function FormRowItem({ initialValues, onFinish }: FormRowItemProp
   return (
     <form key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
-        {initialValues.name !== '' ? (
+        {initialValues.description !== '' ? (
           <Fragment>
-            <FormLabel style={{ width: 300 }}>{initialValues.name}</FormLabel>
+            <FormLabel style={{ width: 300 }}>{initialValues.description}</FormLabel>
           </Fragment>
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
               style={{ width: 300, marginRight: 10 }}
-              name="name"
+              name="description"
               refInput={register({ required: 'Required' })}
             />
-            <FormItemExplainError errors={errors} fieldName={'name'} />
+            <FormItemExplainError errors={errors} fieldName={'description'} />
           </FormItem>
         )}
         <FormItem margin={60} label={<AlertWarningIcon style={{ marginTop: 8 }} />}>
-          <InputSetting name="orangeAlert" refInput={register({ required: 'Required' })} />
-          <FormItemExplainError errors={errors} fieldName={'orangeAlert'} />
+          <InputSetting name="orangeKpi" refInput={register({ required: 'Required' })} />
+          <FormItemExplainError errors={errors} fieldName={'orangeKpi'} />
         </FormItem>
         <FormItem margin={60} label={<AlertErrorIcon style={{ marginTop: 8 }} />}>
-          <InputSetting name="redAlert" refInput={register({ required: 'Required' })} />
-          <FormItemExplainError errors={errors} fieldName={'redAlert'} />
+          <InputSetting name="redKpi" refInput={register({ required: 'Required' })} />
+          <FormItemExplainError errors={errors} fieldName={'redKpi'} />
         </FormItem>
         <FormItem>
           <BtnAction type="submit">Save</BtnAction>

@@ -42,6 +42,7 @@ module.exports = {
       }
     ],
     // custom
-    '@typescript-eslint/ban-types': 'off'
+    '@typescript-eslint/ban-types': 'off',
+    'react/display-name': 'off'
   }
 };

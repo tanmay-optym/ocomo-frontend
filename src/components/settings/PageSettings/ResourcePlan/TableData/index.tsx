@@ -51,6 +51,7 @@ export default function TableData({
               );
             })}
             <StyledTableHeaderCell
+              className={styles['header-cell']}
               style={{ width: 80 }}
               key={'header-cell-action'}></StyledTableHeaderCell>
           </TableRow>

@@ -8,65 +8,50 @@ import Card from '../../Card';
 import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
+import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import { fetchData } from '../../../../../pages/api/apiConstants';
+import Spin from '../../Spin';
 
 export type IKPIColorThreshold = {
-  id: number;
-  name: string;
-  orangeAlert: string;
-  redAlert: string;
+  code: string;
+  description: string;
+  orangeKpi: string;
+  redKpi: string;
 };
 
 export default function FormKPIColorThreshold(): JSX.Element {
   const [dataSource, setDataSource] = useState<IKPIColorThreshold[]>([]);
-
+  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+    error: null,
+    loading: false,
+    data: []
+  });
+  console.log(data);
+  useEffect(() => {
+    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'UI_SETTINGS_KPI', ''));
+  }, []);
   const headersCSV = [
-    { label: 'Name', key: 'name' },
-    { label: 'Orange Alert', key: 'orangeAlert' },
-    { label: 'Red Alert', key: 'redAlert' }
+    { label: 'Name', key: 'description' },
+    { label: 'Orange Alert', key: 'orangeKpi' },
+    { label: 'Red Alert', key: 'redKpi' }
   ];
 
   useEffect(() => {
-    const fakeData: IKPIColorThreshold[] = [
-      {
-        id: 1,
-        name: 'Bad Order %',
-        orangeAlert: '14%',
-        redAlert: '15%'
-      },
-      {
-        id: 2,
-        name: 'Overtime Hours',
-        orangeAlert: '400',
-        redAlert: '600'
-      },
-      {
-        id: 3,
-        name: 'Unplanned %',
-        orangeAlert: '50%',
-        redAlert: '80%'
-      },
-      {
-        id: 4,
-        name: 'Loco Release per Day',
-        orangeAlert: '-20',
-        redAlert: '10'
-      }
-    ];
-    setDataSource(fakeData);
-  }, []);
+    setDataSource(data.data || []);
+  }, [data]);
 
   const handleAddNewRow = () => {
     const newData = {
-      id: new Date().getTime(),
-      name: '',
-      orangeAlert: '',
-      redAlert: ''
+      code: new Date().getTime().toString(),
+      description: '',
+      orangeKpi: '',
+      redAlertKpi: ''
     };
     setDataSource([...dataSource, newData]);
   };
 
   const handleSaveData = (data) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
+    const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[rowDataIndex] = data;
     setDataSource(newDataSource);
@@ -85,14 +70,16 @@ export default function FormKPIColorThreshold(): JSX.Element {
         }
       />
       <CardBody>
-        <div>
-          {dataSource.map((data) => {
-            return <FormRowItem onFinish={handleSaveData} initialValues={data} key={data.id} />;
-          })}
-          <FormRowContainer>
-            <BtnAddNewRow onClick={handleAddNewRow} />
-          </FormRowContainer>
-        </div>
+        <Spin spinning={data.loading}>
+          <div>
+            {dataSource.map((data) => {
+              return <FormRowItem onFinish={handleSaveData} initialValues={data} key={data.code} />;
+            })}
+            <FormRowContainer>
+              <BtnAddNewRow onClick={handleAddNewRow} />
+            </FormRowContainer>
+          </div>
+        </Spin>
       </CardBody>
     </Card>
   );

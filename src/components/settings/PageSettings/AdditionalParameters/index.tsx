@@ -8,56 +8,48 @@ import BtnAddNewRow from '../../BtnAddNewRow';
 import FormRowItem from './FormRowItem';
 import FormRowContainer from '../../FormRowContainer';
 import { CSVLink } from 'react-csv';
+import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import { fetchData } from '../../../../../pages/api/apiConstants';
+import Spin from '../../Spin';
 
 export type IAdditionalParameters = {
-  id: number;
-  name: string;
+  code: string;
+  description: string;
   value: string;
 };
 
 const AdditionalParameters = (): JSX.Element => {
   const [dataSource, setDataSource] = useState<IAdditionalParameters[]>([]);
+  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+    error: null,
+    loading: false,
+    data: []
+  });
+  console.log(data);
+  useEffect(() => {
+    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_ADP', ''));
+  }, []);
+
   const headersCSV = [
-    { label: 'Name', key: 'name' },
+    { label: 'Name', key: 'description' },
     { label: 'Value', key: 'value' }
   ];
+
   useEffect(() => {
-    const fakeData: IAdditionalParameters[] = [
-      {
-        id: 1,
-        name: 'Apprentice Adjustment Percentage',
-        value: '40'
-      },
-      {
-        id: 2,
-        name: 'Temporary Productivity Adjustment Percentage',
-        value: '30'
-      },
-      {
-        id: 3,
-        name: 'Maximum Overtime Percentage',
-        value: '25'
-      },
-      {
-        id: 4,
-        name: 'Overtime Utilization Threshold',
-        value: '58'
-      }
-    ];
-    setDataSource(fakeData);
-  }, []);
+    setDataSource(data.data || []);
+  }, [data]);
 
   const handleAddNewRow = () => {
     const newData: IAdditionalParameters = {
-      id: new Date().getTime(),
-      name: '',
+      code: new Date().getTime().toString(),
+      description: '',
       value: ''
     };
     setDataSource([...dataSource, newData]);
   };
 
   const handleSaveData = (data) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
+    const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[rowDataIndex] = data;
     setDataSource(newDataSource);
@@ -76,16 +68,22 @@ const AdditionalParameters = (): JSX.Element => {
         }
       />
       <CardBody>
-        <div>
-          {dataSource.map((data) => {
-            return (
-              <FormRowItem onFinish={handleSaveData} initialValues={{ ...data }} key={data.name} />
-            );
-          })}
-          <FormRowContainer>
-            <BtnAddNewRow onClick={handleAddNewRow} />
-          </FormRowContainer>
-        </div>
+        <Spin spinning={data.loading}>
+          <div>
+            {dataSource.map((data) => {
+              return (
+                <FormRowItem
+                  onFinish={handleSaveData}
+                  initialValues={{ ...data }}
+                  key={data.name}
+                />
+              );
+            })}
+            <FormRowContainer>
+              <BtnAddNewRow onClick={handleAddNewRow} />
+            </FormRowContainer>
+          </div>
+        </Spin>
       </CardBody>
     </Card>
   );

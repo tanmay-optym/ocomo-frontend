@@ -8,49 +8,53 @@ import Card from '../../Card';
 import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
+import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import { fetchData } from '../../../../../pages/api/apiConstants';
+import Spin from '../../Spin';
 
 export type IStandardWorkHours = {
-  id: number;
-  name: string;
+  code: string;
+  description: string;
   severityLevel: string;
-  maxHour: number | undefined;
-  minHour: number | undefined;
+  majorStopStdHrs: number | undefined;
+  minorStopStdHrs: number | undefined;
 };
 
 export default function FormStandardWorkHours(): JSX.Element {
   const [dataSource, setDataSource] = useState<IStandardWorkHours[]>([]);
   const headersCSV = [
-    { label: 'Name', key: 'name' },
+    { label: 'Name', key: 'description' },
     { label: 'Severity Level', key: 'severityLevel' },
-    { label: 'Max Hour', key: 'maxHour' },
-    { label: 'Min Hour', key: 'minHour' }
+    { label: 'Max Hour', key: 'majorStopStdHrs' },
+    { label: 'Min Hour', key: 'minorStopStdHrs' }
   ];
+  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+    error: null,
+    loading: false,
+    data: []
+  });
+  console.log(data);
   useEffect(() => {
-    const fakeData: IStandardWorkHours[] = [
-      {
-        id: 1,
-        name: 'Engine Replacement',
-        severityLevel: 'High',
-        maxHour: 12,
-        minHour: 30
-      }
-    ];
-    setDataSource(fakeData);
+    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_SWH', ''));
   }, []);
+
+  useEffect(() => {
+    setDataSource(data.data || []);
+  }, [data]);
 
   const handleAddNewRow = () => {
     const newData: IStandardWorkHours = {
-      id: new Date().getTime(),
-      name: '',
+      code: new Date().getTime() + '',
+      description: '',
       severityLevel: '',
-      maxHour: undefined,
-      minHour: undefined
+      majorStopStdHrs: undefined,
+      minorStopStdHrs: undefined
     };
     setDataSource([...dataSource, newData]);
   };
 
   const handleSaveData = (data) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
+    const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[rowDataIndex] = data;
     setDataSource(newDataSource);
@@ -68,16 +72,22 @@ export default function FormStandardWorkHours(): JSX.Element {
         }
       />
       <CardBody>
-        <div>
-          {dataSource.map((data) => {
-            return (
-              <FormRowItem onFinish={handleSaveData} initialValues={{ ...data }} key={data.id} />
-            );
-          })}
-          <FormRowContainer>
-            <BtnAddNewRow onClick={handleAddNewRow} />
-          </FormRowContainer>
-        </div>
+        <Spin spinning={data.loading}>
+          <div>
+            {dataSource.map((data) => {
+              return (
+                <FormRowItem
+                  onFinish={handleSaveData}
+                  initialValues={{ ...data }}
+                  key={data.code}
+                />
+              );
+            })}
+            <FormRowContainer>
+              <BtnAddNewRow onClick={handleAddNewRow} />
+            </FormRowContainer>
+          </div>
+        </Spin>
       </CardBody>
     </Card>
   );

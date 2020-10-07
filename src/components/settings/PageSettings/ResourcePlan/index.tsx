@@ -1,32 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import TableData from './TableData';
-import resourcePlanData from '../../../../../fakeData/resourcePlanData';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
 import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
+import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import { fetchData } from '../../../../../pages/api/apiConstants';
+import Spin from '../../Spin';
 
 export type IResourcePlan = {
   id: number;
-  shopName: string;
-  regionName: string;
+  shopCode: string;
+  region: string;
   desiredUnplanned: number;
   specialCapability: string;
   prohibitedMaintType: string;
-  mfWorkHours: number;
-  satWorkHours: number;
-  sunWorkHours: number;
+  weekDaysWorkHrs: number;
+  satWorkHrs: number;
+  sunWorkHrs: number;
   editable?: boolean;
 };
 
 export default function TableResourcePlan(): JSX.Element {
   const [dataSource, setDataSource] = useState<IResourcePlan[]>([]);
-  const [dataErrors, setDataErrors] = useState({});
+  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+    error: null,
+    loading: false,
+    data: []
+  });
+
   useEffect(() => {
-    setDataSource(resourcePlanData);
+    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) =>
+      fetchData(e, 'CONSTRAINTS_RESOURCE_PLAN', '')
+    );
   }, []);
+
+  const [dataErrors, setDataErrors] = useState({});
+
+  useEffect(() => {
+    setDataSource(data.data || []);
+  }, [data]);
 
   const handleRowclick = (rowData) => {
     const hasRowError = Object.values(dataErrors).some((hasError) => hasError);
@@ -50,20 +65,20 @@ export default function TableResourcePlan(): JSX.Element {
 
   const headersCSV = [
     {
-      key: 'shopName',
+      key: 'shopCode',
       label: 'Shop'
     },
-    { key: 'regionName', label: 'Region' },
+    { key: 'region', label: 'Region' },
     { key: 'desiredUnplanned', label: 'Desired Unplanned' },
     { key: 'specialCapability', label: 'Special Capability' },
     { key: 'prohibitedMaintType', label: 'Prohibited Maint. Type' },
-    { key: 'mfWorkHours', label: 'M-F Work Hours' },
-    { key: 'satWorkHours', label: 'Sat Work Hours' },
-    { key: 'sunWorkHours', label: 'Sun Work Hours' }
+    { key: 'weekDaysWorkHrs', label: 'M-F Work Hours' },
+    { key: 'satWorkHrs', label: 'Sat Work Hours' },
+    { key: 'sunWorkHrs', label: 'Sun Work Hours' }
   ];
   const columns = [
-    { title: 'Shop', dataIndex: 'shopName' },
-    { title: 'Region', dataIndex: 'regionName', editable: true },
+    { title: 'Shop', dataIndex: 'shopCode' },
+    { title: 'Region', dataIndex: 'region', editable: true },
     {
       title: 'Desired Unplanned',
       dataIndex: 'desiredUnplanned',
@@ -81,17 +96,17 @@ export default function TableResourcePlan(): JSX.Element {
     },
     {
       title: 'M-F Work Hours',
-      dataIndex: 'mfWorkHours',
+      dataIndex: 'weekDaysWorkHrs',
       editable: true
     },
     {
       title: 'Sat Work Hours',
-      dataIndex: 'satWorkHours',
+      dataIndex: 'satWorkHrs',
       editable: true
     },
     {
       title: 'Sun Work Hours',
-      dataIndex: 'sunWorkHours',
+      dataIndex: 'sunWorkHrs',
       editable: true
     }
   ];
@@ -115,13 +130,15 @@ export default function TableResourcePlan(): JSX.Element {
         }
       />
       <CardBody>
-        <TableData
-          onRowClick={handleRowclick}
-          dataSource={dataSource}
-          columns={columns}
-          onFinish={handleSaveData}
-          onHasErrors={handleHasErrors}
-        />
+        <Spin spinning={data.loading}>
+          <TableData
+            onRowClick={handleRowclick}
+            dataSource={dataSource}
+            columns={columns}
+            onFinish={handleSaveData}
+            onHasErrors={handleHasErrors}
+          />
+        </Spin>
       </CardBody>
     </Card>
   );

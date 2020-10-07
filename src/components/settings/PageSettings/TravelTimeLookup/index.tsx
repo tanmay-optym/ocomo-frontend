@@ -6,6 +6,9 @@ import Card from '../../Card';
 import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
+import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import { fetchData } from '../../../../../pages/api/apiConstants';
+import Spin from '../../Spin';
 
 export type ITravelTimeLookup = {
   id: number;
@@ -21,6 +24,15 @@ export default function FormTravelTimeLookup(): JSX.Element {
     { label: 'Shop 2', key: 'shop2' },
     { label: 'Estimated Travel Time', key: 'estimatedTravelTime' }
   ];
+  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+    error: null,
+    loading: false,
+    data: []
+  });
+  console.log(data);
+  useEffect(() => {
+    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_TTL', ''));
+  }, []);
   useEffect(() => {
     const fakeData: ITravelTimeLookup[] = [
       {
@@ -77,11 +89,13 @@ export default function FormTravelTimeLookup(): JSX.Element {
         }
       />
       <CardBody>
-        <div>
-          {dataSource.map((data) => {
-            return <FormRowItem key={data.id} initialValues={data} onFinish={handleSaveData} />;
-          })}
-        </div>
+        <Spin spinning={data.loading}>
+          <div>
+            {dataSource.map((data) => {
+              return <FormRowItem key={data.id} initialValues={data} onFinish={handleSaveData} />;
+            })}
+          </div>
+        </Spin>
       </CardBody>
     </Card>
   );

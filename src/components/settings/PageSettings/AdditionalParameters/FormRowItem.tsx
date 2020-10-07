@@ -25,20 +25,20 @@ export default function FormRowItem({ initialValues, onFinish }: FormRowItemProp
     }
   };
   return (
-    <form key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
+    <form key={initialValues.code} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
-        {initialValues.name !== '' ? (
+        {initialValues.description !== '' ? (
           <Fragment>
-            <FormLabel style={{ width: 350 }}>{initialValues.name}</FormLabel>
+            <FormLabel style={{ width: 350 }}>{initialValues.description}</FormLabel>
           </Fragment>
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
               style={{ width: 350 }}
-              name="name"
+              name="description"
               refInput={register({ required: 'Required' })}
             />
-            <FormItemExplainError errors={errors} fieldName={'name'} />
+            <FormItemExplainError errors={errors} fieldName={'description'} />
           </FormItem>
         )}
         <FormItem margin={120} label={''}>

@@ -8,78 +8,92 @@ import Card from '../../Card';
 import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
+import { fetchData } from '../../../../../pages/api/apiConstants';
+import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import Spin from '../../Spin';
 
 export type IFilterConfiguration = {
-  id: number;
-  name: string;
+  code: string;
+  description: string;
   value: boolean;
 };
 
 export default function FormFilterConfiguration(): JSX.Element {
   const [dataSource, setDataSource] = useState<IFilterConfiguration[]>([]);
+  const [data, dispatchShopRequest] = useThunkReducer(reducer, {
+    error: null,
+    loading: false,
+    data: []
+  });
+  console.log(data);
+  useEffect(() => {
+    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) =>
+      fetchData(e, 'UI_SETTINGS_FILTER', '')
+    );
+  }, []);
   const headersCSV = [
-    { label: 'Name', key: 'name' },
+    { label: 'Name', key: 'description' },
     { label: 'Value', key: 'value' }
   ];
   useEffect(() => {
-    const fakeData: IFilterConfiguration[] = [
-      {
-        id: 1,
-        name: 'Loco Type',
-        value: true
-      },
-      {
-        id: 2,
-        name: 'Maintenance',
-        value: true
-      },
-      {
-        id: 3,
-        name: 'Due Date',
-        value: false
-      },
-      {
-        id: 4,
-        name: 'Maint Type',
-        value: true
-      },
-      {
-        id: 5,
-        name: 'Shop',
-        value: false
-      },
-      {
-        id: 6,
-        name: 'Priority',
-        value: false
-      },
-      {
-        id: 7,
-        name: 'Loco Status',
-        value: true
-      }
-    ];
-    setDataSource(fakeData);
-  }, []);
+    // const fakeData: IFilterConfiguration[] = [
+    //   {
+    //     id: 1,
+    //     name: 'Loco Type',
+    //     value: true
+    //   },
+    //   {
+    //     id: 2,
+    //     name: 'Maintenance',
+    //     value: true
+    //   },
+    //   {
+    //     id: 3,
+    //     name: 'Due Date',
+    //     value: false
+    //   },
+    //   {
+    //     id: 4,
+    //     name: 'Maint Type',
+    //     value: true
+    //   },
+    //   {
+    //     id: 5,
+    //     name: 'Shop',
+    //     value: false
+    //   },
+    //   {
+    //     id: 6,
+    //     name: 'Priority',
+    //     value: false
+    //   },
+    //   {
+    //     id: 7,
+    //     name: 'Loco Status',
+    //     value: true
+    //   }
+    // ];
+    setDataSource(data.data || []);
+  }, [data]);
 
   const handleAddNewRow = () => {
     const newData: IFilterConfiguration = {
-      id: new Date().getTime(),
-      name: '',
+      id: new Date().getTime().toString(),
+      description: '',
       value: false
     };
     setDataSource([...dataSource, newData]);
   };
 
   const handleSaveData = (data) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
+    const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[rowDataIndex] = data;
     setDataSource(newDataSource);
   };
 
-  const handleRemoveData = (id: number): void => {
-    const newDataSource = dataSource.filter((data) => data.id !== id);
+  const handleRemoveData = (code: string): void => {
+    const newDataSource = dataSource.filter((data) => data.code !== code);
     setDataSource(newDataSource);
   };
   return (
@@ -91,7 +105,7 @@ export default function FormFilterConfiguration(): JSX.Element {
             filename={'filter-configuration.csv'}
             data={dataSource?.map((data) => ({
               ...data,
-              value: data.value ? 'Enabled' : 'Disbaled'
+              value: data.value ? 'Enabled' : 'Disable'
             }))}
             headers={headersCSV}>
             <Button>
@@ -101,21 +115,23 @@ export default function FormFilterConfiguration(): JSX.Element {
         }
       />
       <CardBody>
-        <div>
-          {dataSource.map((data) => {
-            return (
-              <FormRowItem
-                onFinish={handleSaveData}
-                initialValues={data}
-                key={data.id}
-                onRemove={handleRemoveData}
-              />
-            );
-          })}
-          <FormRowContainer>
-            <BtnAddNewRow onClick={handleAddNewRow} />
-          </FormRowContainer>
-        </div>
+        <Spin spinning={data.loading}>
+          <div>
+            {dataSource.map((data) => {
+              return (
+                <FormRowItem
+                  onFinish={handleSaveData}
+                  initialValues={data}
+                  key={data.code}
+                  onRemove={handleRemoveData}
+                />
+              );
+            })}
+            <FormRowContainer>
+              <BtnAddNewRow onClick={handleAddNewRow} />
+            </FormRowContainer>
+          </div>
+        </Spin>
       </CardBody>
     </Card>
   );

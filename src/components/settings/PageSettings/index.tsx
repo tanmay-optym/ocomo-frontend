@@ -1,5 +1,5 @@
-import Grid from '@material-ui/core/Grid';
 import { useState } from 'react';
+import Grid from '@material-ui/core/Grid';
 import MenuLeft from '../MenuLeft';
 import ResourcePlan from './ResourcePlan';
 import StandardWorkHours from './StandardWorkHours';
@@ -24,6 +24,7 @@ const PageSettings = (): JSX.Element => {
   const handleClickMenu = (url) => {
     setActiveMenu(url);
   };
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={6} sm={2}>

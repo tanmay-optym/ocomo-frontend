@@ -70,25 +70,25 @@ export default function FormRowItem({
 
   const handleRemove = () => {
     if (onRemove) {
-      onRemove(initialValues.id);
+      onRemove(initialValues.code);
     }
   };
 
   return (
-    <form style={{ display: 'flex' }} key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
+    <form style={{ display: 'flex' }} key={initialValues.code} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
-        {initialValues.name !== '' ? (
+        {initialValues.description !== '' ? (
           <Fragment>
-            <FormLabel style={{ width: 150 }}>{initialValues.name}</FormLabel>
+            <FormLabel style={{ width: 150 }}>{initialValues.description}</FormLabel>
           </Fragment>
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
               style={{ width: 150, marginRight: 10 }}
-              name="name"
+              name="description"
               refInput={register({ required: 'Required' })}
             />
-            <FormItemExplainError errors={errors} fieldName={'name'} />
+            <FormItemExplainError errors={errors} fieldName={'description'} />
           </FormItem>
         )}
         <FormItem margin={120} label={''}>
