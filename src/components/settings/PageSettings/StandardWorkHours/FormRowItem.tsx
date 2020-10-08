@@ -50,7 +50,6 @@ function FormRowItem({ initialValues, onFinish, enqueueSnackbar }: FormRowItemPr
       dispatchRequest((e) =>
         updateData(e, 'CONSTRAINTS_SWH', dataUpdate, `/${initialValues.code}`)
       );
-      onFinish({ ...initialValues, ...values });
     }
   };
 
