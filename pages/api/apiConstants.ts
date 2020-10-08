@@ -35,7 +35,7 @@ const getAPIPath = (endpoint: string) => {
     case 'CONSTRAINTS_SWH':
       return '/stp/constraints/swh';
     case 'CONSTRAINTS_TTL':
-      return '/stp/constraints/ttl';
+      return '/stp/constraints/ttl/';
     case 'CONSTRAINTS_ADP':
       return '/stp/constraints/adp';
     case 'UI_SETTINGS_ADP':
@@ -87,6 +87,32 @@ export const postData = (
 
   axios
     .put(`${process.env.NEXT_PUBLIC_APP_URL}${getAPIPath(endpoint)}`, requestBody, axiosConfig)
+    .then((response) => response)
+    .then((response) =>
+      dispatch({
+        type: 'RESPONSE_COMPLETE',
+        payload: { data: response.data }
+      })
+    )
+    .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));
+};
+
+// Put data axios
+export const updateData = (
+  dispatch: Dispatch<SetPayloadActionType>,
+  endpoint: string,
+  requestBody: any,
+  queryString: string
+) => {
+  dispatch({ type: 'LOADING', payload: {} });
+  const API_HOST =
+    process.env &&
+    process.env.NEXT_PUBLIC_APP_URL &&
+    !process.env.NEXT_PUBLIC_APP_URL.includes('localhost')
+      ? process.env.NEXT_PUBLIC_APP_URL
+      : API_URL;
+  axios
+    .put(`${API_HOST}${getAPIPath(endpoint)}${queryString}`, requestBody, axiosConfig)
     .then((response) => response)
     .then((response) =>
       dispatch({

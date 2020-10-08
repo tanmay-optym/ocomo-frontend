@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { withSnackbar, SnackbarMessage, SnackbarKey, OptionsObject } from 'notistack';
 import FormRowContainer from '../../FormRowContainer';
 import FormItem from '../../FormItem';
 import InputSetting from '../../InputSetting';
@@ -8,6 +9,8 @@ import FormItemExplainError from '../../FormItemExplainError';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import { IFilterConfiguration } from './index';
+import { updateData } from '../../../../../pages/api/apiConstants';
+import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
 
 const switch_height = 20;
 const switch_width = 40;
@@ -51,21 +54,49 @@ type FormRowItemProps = {
   initialValues: IFilterConfiguration;
   onFinish: (values: object) => void;
   onRemove: (id: string) => void;
+  enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject) => SnackbarKey;
 };
 
-export default function FormRowItem({
+function FormRowItem({
   initialValues,
   onFinish,
-  onRemove
+  onRemove,
+  enqueueSnackbar
 }: FormRowItemProps): JSX.Element {
-  const { register, handleSubmit, errors, control, watch } = useForm({
+  const { register, errors, control, watch } = useForm({
     defaultValues: { ...initialValues }
   });
+  const [checked, setChecked] = useState(false);
+  useEffect(() => {
+    setChecked(initialValues.value);
+  }, [initialValues]);
   const values = watch();
-  const onSubmit = (values) => {
-    if (onFinish) {
-      onFinish({ ...initialValues, ...values });
+  const [data, dispatchRequest] = useThunkReducer(reducer, {
+    error: null,
+    loading: false,
+    data: null
+  });
+
+  useEffect(() => {
+    if (data.data || data.error) {
+      window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+      let message = 'Saved';
+      let variant = 'success';
+      if (data.error !== null) {
+        message = 'Failed';
+        variant = 'error';
+      } else if (onFinish) {
+        onFinish(data.data);
+      }
+      enqueueSnackbar(message, { variant });
     }
+  }, [data]);
+
+  const onSubmit = (values) => {
+    const dataUpdate = { ...initialValues, ...values };
+    dispatchRequest((e) =>
+      updateData(e, 'UI_SETTINGS_FILTER', dataUpdate, `/${initialValues.code}`)
+    );
   };
 
   const handleRemove = () => {
@@ -75,7 +106,7 @@ export default function FormRowItem({
   };
 
   return (
-    <form style={{ display: 'flex' }} key={initialValues.code} onSubmit={handleSubmit(onSubmit)}>
+    <form style={{ display: 'flex' }} key={initialValues.code}>
       <FormRowContainer>
         {initialValues.description !== '' ? (
           <Fragment>
@@ -92,7 +123,7 @@ export default function FormRowItem({
           </FormItem>
         )}
         <FormItem margin={120} label={''}>
-          <Controller
+          {/* <Controller
             render={(props) => (
               <AntSwitch
                 value="value"
@@ -109,6 +140,17 @@ export default function FormRowItem({
             type="checkbox"
             name="value"
             control={control}
+          /> */}
+          <AntSwitch
+            value="value"
+            onChange={(e) => {
+              // props.onChange(e.target.checked);
+              onSubmit({
+                ...values,
+                value: e.target.checked
+              });
+            }}
+            checked={checked}
           />
         </FormItem>
       </FormRowContainer>
@@ -141,3 +183,5 @@ export default function FormRowItem({
     </form>
   );
 }
+
+export default withSnackbar(FormRowItem);

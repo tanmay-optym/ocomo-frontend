@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { withSnackbar, SnackbarMessage, SnackbarKey, OptionsObject } from 'notistack';
 import BtnAction from '../../../BtnAction';
 import { IResourcePlan } from '../index';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -7,6 +8,9 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import InputTableEdit from './InputTableEdit';
 import { ColumnsType } from './index';
+import Spin from '../../../Spin/Circular';
+import { updateData } from '../../../../../../pages/api/apiConstants';
+import { reducer, useThunkReducer } from '../../../../../../pages/api/useThunkReducer';
 
 type FormRowItemProps = {
   initialValues: IResourcePlan;
@@ -14,6 +18,7 @@ type FormRowItemProps = {
   onHasErrors: (id: number, hasError: boolean) => void;
   columns: ColumnsType[];
   onRowClick?: (rowData: IResourcePlan) => void;
+  enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject) => SnackbarKey;
 };
 
 const StyledTableRow = withStyles((theme: Theme) =>
@@ -45,16 +50,23 @@ const styledCellEdit = {
   background: '#EAF1FF'
 };
 
-export default function FormRowItem({
+function FormRowItem({
   initialValues,
   onFinish,
   onHasErrors,
   columns,
-  onRowClick
+  onRowClick,
+  enqueueSnackbar
 }: FormRowItemProps): JSX.Element {
   const { register, handleSubmit, errors } = useForm({
     mode: 'all',
     defaultValues: { ...initialValues }
+  });
+
+  const [data, dispatchRequest] = useThunkReducer(reducer, {
+    error: null,
+    loading: false,
+    data: null
   });
 
   const handleOnRowClick = () => {
@@ -65,10 +77,28 @@ export default function FormRowItem({
 
   const onSubmit = (values) => {
     if (onFinish) {
-      onFinish({ ...initialValues, ...values });
+      const dataUpdate = { ...initialValues, ...values };
+      dispatchRequest((e) =>
+        updateData(e, 'CONSTRAINTS_RESOURCE_PLAN', dataUpdate, `/${initialValues.shopCode}`)
+      );
     }
   };
   const hasError: boolean = Object.values(errors).length > 0;
+
+  useEffect(() => {
+    if (data.data || data.error) {
+      window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+      let message = 'Saved';
+      let variant = 'success';
+      if (data.error !== null) {
+        message = 'Failed';
+        variant = 'error';
+      } else if (onFinish) {
+        onFinish(data.data);
+      }
+      enqueueSnackbar(message, { variant });
+    }
+  }, [data]);
 
   useEffect(() => {
     if (onHasErrors) {
@@ -106,10 +136,14 @@ export default function FormRowItem({
       <StyledTableCell style={initialValues.editable ? styledCellEdit : {}} key="actionSave">
         {initialValues.editable && (
           <BtnAction onClick={handleSubmit(onSubmit)} style={{ height: 32 }}>
-            Save
+            <Spin spinning={data.loading} style={{ width: '26px', height: '26px' }}>
+              Save
+            </Spin>
           </BtnAction>
         )}
       </StyledTableCell>
     </StyledTableRow>
   );
 }
+
+export default withSnackbar(FormRowItem);

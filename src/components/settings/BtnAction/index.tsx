@@ -15,20 +15,20 @@ export default function BtnAction({
   style,
   ...props
 }: BtnActionProps): JSX.Element {
-  const [loadding, setLoadding] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!onClick) {
       return;
     }
-    setLoadding(true);
+    setLoading(true);
     await onClick(e);
-    setLoadding(false);
+    setLoading(false);
   };
   return (
     <button
       {...props}
       type={type}
-      disabled={loadding}
+      disabled={loading}
       onClick={handleClick}
       style={style}
       className={styles['comp-btn-action']}>
