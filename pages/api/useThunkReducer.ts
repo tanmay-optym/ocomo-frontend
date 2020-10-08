@@ -6,7 +6,7 @@ export type Action = {
   type: 'LOADING' | 'RESPONSE_COMPLETE' | 'ERROR';
 };
 
-interface ApiState {
+export interface ApiState {
   error?: Object | string | null;
   loading?: boolean;
   data?: Array<Object> | Object | null;

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styles from './BtnAction.module.scss';
+import Spin from '../Spin/Circular';
 
 type BtnActionProps = {
   children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: 'button' | 'submit' | 'reset' | undefined;
   style?: React.CSSProperties;
+  loading?: boolean;
 };
 
 export default function BtnAction({
@@ -13,16 +15,13 @@ export default function BtnAction({
   children,
   type,
   style,
+  loading,
   ...props
 }: BtnActionProps): JSX.Element {
-  const [loading, setLoading] = useState(false);
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!onClick) {
       return;
     }
-    setLoading(true);
-    await onClick(e);
-    setLoading(false);
   };
   return (
     <button
@@ -32,7 +31,9 @@ export default function BtnAction({
       onClick={handleClick}
       style={style}
       className={styles['comp-btn-action']}>
-      {children}
+      <Spin spinning={loading} style={{ width: '26px', height: '26px' }}>
+        {children}
+      </Spin>
     </button>
   );
 }

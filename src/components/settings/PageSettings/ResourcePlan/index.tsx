@@ -85,12 +85,14 @@ export default function TableResourcePlan(): JSX.Element {
     {
       title: 'Special Capability',
       dataIndex: 'specialCapability',
-      editable: true
+      editable: true,
+      require: false
     },
     {
       title: 'Prohibited Maint. Type',
       dataIndex: 'prohibitedMaintType',
-      editable: true
+      editable: true,
+      require: false
     },
     {
       title: 'M-F Work Hours',

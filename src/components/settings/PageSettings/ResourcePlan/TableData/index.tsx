@@ -15,6 +15,7 @@ export type ColumnsType = {
   title: string;
   dataIndex: string;
   editable?: boolean;
+  require?: boolean;
 };
 
 type TableDataProps = {

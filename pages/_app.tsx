@@ -8,7 +8,12 @@ type AppProps = { Component: React.ElementType; pageProps: object }; /* could al
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <ThemeProvider theme={theme}>
-      <SnackbarProvider maxSnack={4}>
+      <SnackbarProvider
+        maxSnack={4}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}>
         <Component {...pageProps} />
       </SnackbarProvider>
     </ThemeProvider>
