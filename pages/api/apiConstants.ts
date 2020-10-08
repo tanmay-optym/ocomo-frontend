@@ -35,7 +35,7 @@ const getAPIPath = (endpoint: string) => {
     case 'CONSTRAINTS_SWH':
       return '/stp/constraints/swh';
     case 'CONSTRAINTS_TTL':
-      return '/stp/constraints/ttl/';
+      return '/stp/constraints/ttl/list';
     case 'CONSTRAINTS_ADP':
       return '/stp/constraints/adp';
     case 'UI_SETTINGS_ADP':

@@ -3,12 +3,12 @@ import TableData from './TableData';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
-import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
 import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
+import PageBody from '../../PageBody';
 
 export type IResourcePlan = {
   id: number;
@@ -127,7 +127,7 @@ export default function TableResourcePlan(): JSX.Element {
           </CSVLink>
         }
       />
-      <CardBody>
+      <PageBody>
         <Spin spinning={data.loading}>
           <TableData
             onRowClick={handleRowclick}
@@ -137,7 +137,7 @@ export default function TableResourcePlan(): JSX.Element {
             onHasErrors={handleHasErrors}
           />
         </Spin>
-      </CardBody>
+      </PageBody>
     </Card>
   );
 }

@@ -5,12 +5,12 @@ import FormRowContainer from '../../FormRowContainer';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
-import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
 import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
+import PageBody from '../../PageBody';
 
 export type IKPIColorThreshold = {
   code: string;
@@ -26,7 +26,6 @@ export default function FormKPIColorThreshold(): JSX.Element {
     loading: false,
     data: []
   });
-  console.log(data);
   useEffect(() => {
     dispatchRequest((e) => fetchData(e, 'UI_SETTINGS_KPI', ''));
   }, []);
@@ -69,7 +68,7 @@ export default function FormKPIColorThreshold(): JSX.Element {
           </CSVLink>
         }
       />
-      <CardBody>
+      <PageBody>
         <Spin spinning={data.loading}>
           <div>
             {dataSource.map((data) => {
@@ -80,7 +79,7 @@ export default function FormKPIColorThreshold(): JSX.Element {
             </FormRowContainer>
           </div>
         </Spin>
-      </CardBody>
+      </PageBody>
     </Card>
   );
 }

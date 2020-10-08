@@ -3,13 +3,13 @@ import chroma from 'chroma-js';
 import Select from 'react-select';
 
 export const shopOptions = {
-  SYM: { value: 'SYM', label: 'SYM', color: '#FF8B00' },
-  MAC: { value: 'MAC', label: 'MAC', color: '#36B37E' },
-  TAS: { value: 'TAS', label: 'TAS', color: '#253858' },
-  KIR: { value: 'KIR', label: 'KIR', color: '#0052CC' },
-  PRG: { value: 'PRG', label: 'PRG', color: '#FFC400' },
-  THO: { value: 'THO', label: 'THO', color: '#FA8F8F' },
-  MEM: { value: 'MEM', label: 'MEM', color: '#ED5CB3' }
+  SYM: { value: 'SYM', label: 'SYM', color: '#FF8B00' }, // y
+  BTR: { value: 'BTR', label: 'BTR', color: '#36B37E' }, // n: MAC => BTR
+  FDL: { value: 'FDL', label: 'FDL', color: '#253858' }, // n TAS => FDL
+  KIR: { value: 'KIR', label: 'KIR', color: '#0052CC' }, // y
+  STP: { value: 'STP', label: 'STP', color: '#FFC400' } // n PRG => STP
+  // THO: { value: 'THO', label: 'THO', color: '#FA8F8F' }, // n
+  // MEM: { value: 'MEM', label: 'MEM', color: '#ED5CB3' } // n
 };
 
 const dot = (color = '#ccc') => ({

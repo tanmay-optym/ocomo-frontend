@@ -18,8 +18,8 @@ export default function FormRowItem({ initialValues, onFinish }: FormRowItemProp
   const { register, handleSubmit, control, errors } = useForm({
     defaultValues: {
       ...initialValues,
-      shop1: shopOptions[initialValues.shop1],
-      shop2: shopOptions[initialValues.shop2]
+      shopCode1: shopOptions[initialValues.shopCode1],
+      shopCode2: shopOptions[initialValues.shopCode2]
     }
   });
   const onSubmit = (values) => {
@@ -31,13 +31,13 @@ export default function FormRowItem({ initialValues, onFinish }: FormRowItemProp
     <form key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
         <FormItem margin={0}>
-          <Controller name="shop1" as={InputSelectShop} control={control} />
+          <Controller name="shopCode1" as={InputSelectShop} control={control} />
         </FormItem>
         <div style={{ marginTop: 15, marginLeft: 30 }}>
           <TrendingFlatIcon />
         </div>
         <FormItem label={''}>
-          <Controller name="shop2" as={InputSelectShop} control={control} />
+          <Controller name="shopCode2" as={InputSelectShop} control={control} />
         </FormItem>
         <FormItem margin={120} label={''}>
           <InputHours name="estimatedTravelTime" refInput={register({ required: 'Required' })} />

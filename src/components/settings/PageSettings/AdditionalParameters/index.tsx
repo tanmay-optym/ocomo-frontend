@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
-import CardBody from '../../CardBody';
 import CardHeader from '../../CardHeader';
 import BtnAddNewRow from '../../BtnAddNewRow';
 import FormRowItem from './FormRowItem';
@@ -11,6 +10,7 @@ import { CSVLink } from 'react-csv';
 import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
+import PageBody from '../../PageBody';
 
 export type IAdditionalParameters = {
   code: string;
@@ -25,7 +25,6 @@ const AdditionalParameters = (): JSX.Element => {
     loading: false,
     data: []
   });
-  console.log(data);
   useEffect(() => {
     dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_ADP', ''));
   }, []);
@@ -67,7 +66,7 @@ const AdditionalParameters = (): JSX.Element => {
           </CSVLink>
         }
       />
-      <CardBody>
+      <PageBody>
         <Spin spinning={data.loading}>
           <div>
             {dataSource.map((data) => {
@@ -84,7 +83,7 @@ const AdditionalParameters = (): JSX.Element => {
             </FormRowContainer>
           </div>
         </Spin>
-      </CardBody>
+      </PageBody>
     </Card>
   );
 };
