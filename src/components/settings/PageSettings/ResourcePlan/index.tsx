@@ -50,7 +50,7 @@ export default function TableResourcePlan(): JSX.Element {
     if (hasEditting) {
       return;
     }
-    const rowIndex = dataSource.findIndex((data) => data.id === rowData.id);
+    const rowIndex = dataSource.findIndex((data) => data.shopCode === rowData.shopCode);
     const data = dataSource[rowIndex];
     const newDataSource = [...dataSource];
     newDataSource[rowIndex] = { ...data, editable: true };
@@ -110,7 +110,7 @@ export default function TableResourcePlan(): JSX.Element {
   ];
 
   const handleSaveData = (data) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
+    const rowDataIndex = dataSource.findIndex((item) => item.shopCode === data.shopCode);
     const newDataSource = [...dataSource];
     newDataSource[rowDataIndex] = { ...data, editable: false };
     setDataSource(newDataSource);

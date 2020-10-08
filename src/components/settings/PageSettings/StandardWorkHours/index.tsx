@@ -33,7 +33,7 @@ export default function FormStandardWorkHours(): JSX.Element {
     loading: false,
     data: []
   });
-  console.log(data);
+
   useEffect(() => {
     dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_SWH', ''));
   }, []);
