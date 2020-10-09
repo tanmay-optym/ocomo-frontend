@@ -1,19 +1,28 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
-import { updateData } from '../../pages/api/apiConstants';
+import { updateData, postData } from '../../pages/api/apiConstants';
 import { reducer, useThunkReducer, ApiState } from '../../pages/api/useThunkReducer';
 
 const useUpdate = (
-  onFinish: (values: object) => void,
+  onFinish: (values: object, index: number) => void,
   initialValues: object,
   queryString: string,
-  key: string
+  key: string,
+  index: number,
+  setValue?: (name: string, index: any) => void
 ): [ApiState, (values: Object) => void] => {
   const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: null
   });
+
+  useEffect(() => {
+    if (setValue)
+      Object.keys(initialValues).map((item) => {
+        setValue(item, initialValues[item]);
+      });
+  }, [initialValues]);
 
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
@@ -25,7 +34,7 @@ const useUpdate = (
         message = 'Failed';
         variant = 'error';
       } else if (onFinish) {
-        onFinish(data.data);
+        onFinish(data.data, index);
       }
       enqueueSnackbar(message, {
         variant
@@ -36,7 +45,10 @@ const useUpdate = (
   const onSubmit = (values: Object) => {
     if (onFinish) {
       const dataUpdate = { ...initialValues, ...values };
-      dispatchRequest((e) => updateData(e, queryString, dataUpdate, `/${initialValues[key]}`));
+      console.log(dataUpdate);
+      delete dataUpdate['isNew'];
+      if (initialValues['isNew']) dispatchRequest((e) => postData(e, queryString, dataUpdate));
+      else dispatchRequest((e) => updateData(e, queryString, dataUpdate, `/${initialValues[key]}`));
     }
   };
 

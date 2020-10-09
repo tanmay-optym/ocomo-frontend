@@ -18,6 +18,7 @@ export type IStandardWorkHours = {
   severityLevel: string;
   majorStopStdHrs: number | undefined;
   minorStopStdHrs: number | undefined;
+  isNew?: boolean;
 };
 
 export default function FormStandardWorkHours(): JSX.Element {
@@ -48,15 +49,16 @@ export default function FormStandardWorkHours(): JSX.Element {
       description: '',
       severityLevel: '',
       majorStopStdHrs: undefined,
-      minorStopStdHrs: undefined
+      minorStopStdHrs: undefined,
+      isNew: true
     };
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
+  const handleSaveData = (data, index) => {
+    // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
-    newDataSource[rowDataIndex] = data;
+    newDataSource[index] = data;
     setDataSource(newDataSource);
   };
   return (
@@ -74,12 +76,13 @@ export default function FormStandardWorkHours(): JSX.Element {
       <PageBody>
         <Spin spinning={data.loading}>
           <div>
-            {dataSource.map((data) => {
+            {dataSource.map((data, index) => {
               return (
                 <FormRowItem
                   onFinish={handleSaveData}
                   initialValues={{ ...data }}
-                  key={data.code}
+                  key={index.toString()}
+                  index={index}
                 />
               );
             })}

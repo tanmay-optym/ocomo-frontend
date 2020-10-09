@@ -7,6 +7,7 @@ import FormLabel from '../../FormLabel';
 import FormItemExplainError from '../../FormItemExplainError';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
+import BtnAction from '../../BtnAction';
 import { IFilterConfiguration } from './index';
 import useUpdate from '../../../../hooks/useUpdate';
 
@@ -52,22 +53,31 @@ type FormRowItemProps = {
   initialValues: IFilterConfiguration;
   onFinish: (values: object) => void;
   onRemove: (id: string) => void;
+  index: number;
 };
 
 export default function FormRowItem({
   initialValues,
   onFinish,
-  onRemove
+  onRemove,
+  index
 }: FormRowItemProps): JSX.Element {
-  const { register, errors, watch } = useForm({
+  const { register, handleSubmit, errors, setValue } = useForm({
     defaultValues: { ...initialValues }
   });
   const [checked, setChecked] = useState(false);
   useEffect(() => {
     setChecked(initialValues.value);
   }, [initialValues]);
-  const values = watch();
-  const [data, onSubmit] = useUpdate(onFinish, initialValues, 'UI_SETTINGS_FILTER', 'code');
+  // const values = watch();
+  const [data, onSubmit] = useUpdate(
+    onFinish,
+    initialValues,
+    'UI_SETTINGS_FILTER',
+    'code',
+    index,
+    setValue
+  );
 
   const handleRemove = () => {
     if (onRemove) {
@@ -87,7 +97,7 @@ export default function FormRowItem({
             <InputSetting
               style={{ width: 150, marginRight: 10 }}
               name="description"
-              refInput={register({ required: 'Required' })}
+              refInput={register({ required: true })}
             />
             <FormItemExplainError errors={errors} fieldName={'description'} />
           </FormItem>
@@ -97,7 +107,7 @@ export default function FormRowItem({
             value="value"
             onChange={(e) => {
               onSubmit({
-                ...values,
+                ...initialValues,
                 value: e.target.checked
               });
             }}
@@ -111,8 +121,17 @@ export default function FormRowItem({
           alignItems: 'center',
           alignSelf: 'center',
           marginBottom: '20px',
-          padding: '20px'
+          padding: '20px',
+          display: 'flex'
         }}>
+        {initialValues.isNew ? (
+          <BtnAction
+            onClick={handleSubmit(onSubmit)}
+            loading={data.loading}
+            style={{ height: '34px', marginTop: -10, marginRight: '10px' }}>
+            Save
+          </BtnAction>
+        ) : null}
         <button
           type="button"
           onClick={handleRemove}

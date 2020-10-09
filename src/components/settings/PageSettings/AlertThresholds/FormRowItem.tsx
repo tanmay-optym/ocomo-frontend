@@ -13,14 +13,19 @@ import { IAlertThresholds } from './index';
 
 type FormRowItemProps = {
   initialValues: IAlertThresholds;
-  onFinish: (values: object) => void;
+  onFinish: (values: object, index: number) => void;
+  index: number;
 };
 
-export default function FormRowItem({ initialValues, onFinish }: FormRowItemProps): JSX.Element {
+export default function FormRowItem({
+  initialValues,
+  onFinish,
+  index
+}: FormRowItemProps): JSX.Element {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: { ...initialValues }
   });
-  const [data, onSubmit] = useUpdate(onFinish, initialValues, 'UI_SETTINGS_ADP', 'code');
+  const [data, onSubmit] = useUpdate(onFinish, initialValues, 'UI_SETTINGS_ADP', 'code', index);
   return (
     <form key={initialValues.code} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>

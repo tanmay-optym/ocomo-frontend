@@ -12,15 +12,20 @@ import useUpdate from '../../../../hooks/useUpdate';
 
 type FormRowItemProps = {
   initialValues: IStandardWorkHours;
-  onFinish: (values: object) => void;
+  onFinish: (values: object, index: number) => void;
+  index: number;
 };
 
-export default function FormRowItem({ initialValues, onFinish }: FormRowItemProps): JSX.Element {
+export default function FormRowItem({
+  initialValues,
+  onFinish,
+  index
+}: FormRowItemProps): JSX.Element {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: { ...initialValues }
   });
 
-  const [data, onSubmit] = useUpdate(onFinish, initialValues, 'CONSTRAINTS_SWH', 'code');
+  const [data, onSubmit] = useUpdate(onFinish, initialValues, 'CONSTRAINTS_SWH', 'code', index);
   return (
     <form key={initialValues.code} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>

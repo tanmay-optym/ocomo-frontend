@@ -17,6 +17,7 @@ export type IKPIColorThreshold = {
   description: string;
   orangeKpi: string;
   redKpi: string;
+  isNew?: boolean;
 };
 
 export default function FormKPIColorThreshold(): JSX.Element {
@@ -44,15 +45,16 @@ export default function FormKPIColorThreshold(): JSX.Element {
       code: new Date().getTime().toString(),
       description: '',
       orangeKpi: '',
-      redKpi: ''
+      redKpi: '',
+      isNew: true
     };
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
+  const handleSaveData = (data, index) => {
+    // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
-    newDataSource[rowDataIndex] = data;
+    newDataSource[index] = data;
     setDataSource(newDataSource);
   };
 
@@ -71,8 +73,15 @@ export default function FormKPIColorThreshold(): JSX.Element {
       <PageBody>
         <Spin spinning={data.loading}>
           <div>
-            {dataSource.map((data) => {
-              return <FormRowItem onFinish={handleSaveData} initialValues={data} key={data.code} />;
+            {dataSource.map((data, index) => {
+              return (
+                <FormRowItem
+                  onFinish={handleSaveData}
+                  initialValues={data}
+                  key={index.toString()}
+                  index={index}
+                />
+              );
             })}
             <FormRowContainer>
               <BtnAddNewRow onClick={handleAddNewRow} />

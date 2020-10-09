@@ -16,6 +16,7 @@ export type IAdditionalParameters = {
   code: string;
   description: string;
   value: string;
+  isNew?: boolean;
 };
 
 const AdditionalParameters = (): JSX.Element => {
@@ -40,17 +41,20 @@ const AdditionalParameters = (): JSX.Element => {
 
   const handleAddNewRow = () => {
     const newData: IAdditionalParameters = {
-      code: new Date().getTime().toString(),
+      code: '',
       description: '',
-      value: ''
+      value: '',
+      isNew: true
     };
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
+  const handleSaveData = (data, index) => {
+    // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
-    newDataSource[rowDataIndex] = data;
+    console.log(data);
+    newDataSource[index] = data;
+    console.log(newDataSource);
     setDataSource(newDataSource);
   };
 
@@ -69,12 +73,13 @@ const AdditionalParameters = (): JSX.Element => {
       <PageBody>
         <Spin spinning={data.loading}>
           <div>
-            {dataSource.map((data) => {
+            {dataSource.map((data, index) => {
               return (
                 <FormRowItem
                   onFinish={handleSaveData}
                   initialValues={{ ...data }}
-                  key={data.code}
+                  key={index.toString()}
+                  index={index}
                 />
               );
             })}

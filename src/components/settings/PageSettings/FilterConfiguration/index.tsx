@@ -16,6 +16,7 @@ export type IFilterConfiguration = {
   code: string;
   description: string;
   value: boolean;
+  isNew?: boolean;
 };
 
 export default function FormFilterConfiguration(): JSX.Element {
@@ -77,7 +78,8 @@ export default function FormFilterConfiguration(): JSX.Element {
     const newData: IFilterConfiguration = {
       code: new Date().getTime().toString(),
       description: '',
-      value: false
+      value: false,
+      isNew: true
     };
     setDataSource([...dataSource, newData]);
   };
