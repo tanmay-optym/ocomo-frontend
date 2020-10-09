@@ -22,6 +22,7 @@ export default function BtnAction({
     if (!onClick) {
       return;
     }
+    onClick(e);
   };
   return (
     <button

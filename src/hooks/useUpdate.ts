@@ -34,7 +34,7 @@ const useUpdate = (
   }, [data]);
 
   const onSubmit = (values: Object) => {
-    if (onFinish && !data.loading) {
+    if (onFinish) {
       const dataUpdate = { ...initialValues, ...values };
       dispatchRequest((e) => updateData(e, queryString, dataUpdate, `/${initialValues[key]}`));
     }

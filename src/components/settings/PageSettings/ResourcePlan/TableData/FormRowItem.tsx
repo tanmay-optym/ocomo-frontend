@@ -91,7 +91,7 @@ export default function FormRowItem({
             </StyledTableCell>
           );
         } else {
-          const required = colConfig.require === false ? null : 'Required';
+          const required = colConfig.require === false ? false : 'Required';
           return (
             <StyledTableCell
               style={initialValues.editable ? styledCellEdit : {}}
