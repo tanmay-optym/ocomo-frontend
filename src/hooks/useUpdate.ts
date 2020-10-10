@@ -32,7 +32,7 @@ const useUpdate = (
       if (data.error !== null) {
         message = 'Failed';
         variant = 'error';
-      } else if (onFinish && index) {
+      } else if (onFinish && index != undefined) {
         onFinish(data.data, index);
       }
       enqueueSnackbar(message, {
