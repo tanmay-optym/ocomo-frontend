@@ -7,7 +7,7 @@ import FormLabel from '../../FormLabel';
 import FormItemExplainError from '../../FormItemExplainError';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
-import { useSnackbar } from 'notistack';
+import { useSnackbar, VariantType } from 'notistack';
 import { deleteData } from '../../../../../pages/api/apiConstants';
 import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
 import { IFilterConfiguration } from './index';
@@ -86,7 +86,7 @@ export default function FormRowItem({
     if (dataDelete.data || dataDelete.error) {
       // window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
       let message = 'Saved';
-      let variant = 'success';
+      let variant: VariantType = 'success';
       if (data.error !== null) {
         message = 'Failed';
         variant = 'error';
@@ -122,7 +122,7 @@ export default function FormRowItem({
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
-              style={{ width: 150, marginRight: 10 }}
+              style={{ width: 150, marginRight: 0 }}
               name="description"
               refInput={register({ required: 'Reguire' })}
             />
@@ -170,23 +170,6 @@ export default function FormRowItem({
           }}>
           Remove
         </BtnAction>
-        {/* <button
-          type="button"
-          onClick={handleRemove}
-          style={{
-            background: '#EEEEEE',
-            borderRadius: '4px',
-            border: 'none',
-            height: '36px',
-            width: '90px',
-            color: '#5D6E7F',
-            fontWeight: 500,
-            top: 0,
-            marginTop: -10,
-            cursor: 'pointer'
-          }}>
-          Remove
-        </button> */}
       </div>
     </form>
   );

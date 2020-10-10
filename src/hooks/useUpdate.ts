@@ -19,7 +19,7 @@ const useUpdate = (
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
     if (data.data || data.error) {
-      let message = 'Saved';
+      let message = 'Success';
       let variant: VariantType = 'success';
       if (data.error !== null) {
         message = 'Failed';
