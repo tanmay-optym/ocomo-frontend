@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import FormRowContainer from '../../FormRowContainer';
 import FormItem from '../../FormItem';
 import InputHours from '../../InputHours';
-import InputSelectShop, { shopOptions } from '../../InputSelectShop';
+import InputSelectShop from '../../InputSelectShop';
 import TrendingFlatIcon from '../../SvgIcon/TrendingFlatIcon';
 import BtnAction from '../../BtnAction';
 import FormItemExplainError from '../../FormItemExplainError';
@@ -14,7 +14,11 @@ type FormRowItemProps = {
   onFinish: (values: object) => void;
 };
 
-export default function FormRowItem({ initialValues, onFinish }: FormRowItemProps): JSX.Element {
+export default function FormRowItem({
+  initialValues,
+  onFinish,
+  shopOptions
+}: FormRowItemProps): JSX.Element {
   const { register, handleSubmit, control, errors } = useForm({
     defaultValues: {
       ...initialValues,
@@ -31,13 +35,21 @@ export default function FormRowItem({ initialValues, onFinish }: FormRowItemProp
     <form key={initialValues.id} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
         <FormItem margin={0}>
-          <Controller name="shopCode1" as={InputSelectShop} control={control} />
+          <Controller
+            name="shopCode1"
+            as={<InputSelectShop shopOptions={shopOptions} />}
+            control={control}
+          />
         </FormItem>
         <div style={{ marginTop: 15, marginLeft: 30 }}>
           <TrendingFlatIcon />
         </div>
         <FormItem label={''}>
-          <Controller name="shopCode2" as={InputSelectShop} control={control} />
+          <Controller
+            name="shopCode2"
+            as={<InputSelectShop shopOptions={shopOptions} />}
+            control={control}
+          />
         </FormItem>
         <FormItem margin={120} label={''}>
           <InputHours name="estimatedTravelTime" refInput={register({ required: 'Required' })} />

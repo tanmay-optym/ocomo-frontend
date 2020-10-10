@@ -17,6 +17,16 @@ export type ITravelTimeLookup = {
   estimatedTravelTime: number;
 };
 
+const shopOptions = {
+  SYM: { value: 'SYM', label: 'SYM', color: '#FF8B00' }, // y
+  BTR: { value: 'BTR', label: 'BTR', color: '#36B37E' }, // n: MAC => BTR
+  FDL: { value: 'FDL', label: 'FDL', color: '#253858' }, // n TAS => FDL
+  KIR: { value: 'KIR', label: 'KIR', color: '#0052CC' }, // y
+  STP: { value: 'STP', label: 'STP', color: '#FFC400' } // n PRG => STP
+  // THO: { value: 'THO', label: 'THO', color: '#FA8F8F' }, // n
+  // MEM: { value: 'MEM', label: 'MEM', color: '#ED5CB3' } // n
+};
+
 export default function FormTravelTimeLookup(): JSX.Element {
   const [dataSource, setDataSource] = useState<ITravelTimeLookup[]>([]);
   const headersCSV = [
@@ -29,18 +39,24 @@ export default function FormTravelTimeLookup(): JSX.Element {
     loading: false,
     data: []
   });
-  const [shopsState, dispatchShopRequest] = useThunkReducer(reducer, {
+  const [shopData, dispatchShopRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: []
   });
 
   useEffect(() => {
-    dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_TTL', ''));
     dispatchShopRequest((e) =>
       fetchData(e, 'ShopsGrid', 'startDate=2020-01-01&endDate=2020-10-10')
     );
   }, []);
+
+  useEffect(() => {
+    if (shopData.data && shopData.data.length > 0) {
+      dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_TTL', ''));
+    }
+  }, [shopData.data]);
+
   useEffect(() => {
     setDataSource(
       (data.data || []).map((item) => ({ ...item, id: `${item.shopCode1}-${item.shopCode2}` }))
@@ -57,6 +73,12 @@ export default function FormTravelTimeLookup(): JSX.Element {
     };
     setDataSource(newDataSource);
   };
+  const shopOptions = (shopData.data || [])
+    .filter((item) => item.shopCode !== 'Unassigned')
+    .reduce((obj, item) => {
+      obj[item.shopCode] = { value: item.shopCode, label: item.shopCode, color: item.shopColor };
+      return obj;
+    }, {});
 
   return (
     <Card>
@@ -71,10 +93,17 @@ export default function FormTravelTimeLookup(): JSX.Element {
         }
       />
       <PageBody>
-        <Spin spinning={data.loading}>
+        <Spin spinning={data.loading || shopData.loading}>
           <div>
             {dataSource.map((data) => {
-              return <FormRowItem key={data.id} initialValues={data} onFinish={handleSaveData} />;
+              return (
+                <FormRowItem
+                  key={data.id}
+                  shopOptions={shopOptions}
+                  initialValues={data}
+                  onFinish={handleSaveData}
+                />
+              );
             })}
           </div>
         </Spin>

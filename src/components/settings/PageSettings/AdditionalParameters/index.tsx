@@ -52,9 +52,7 @@ const AdditionalParameters = (): JSX.Element => {
   const handleSaveData = (data, index) => {
     // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
-    console.log(data);
     newDataSource[index] = data;
-    console.log(newDataSource);
     setDataSource(newDataSource);
   };
 

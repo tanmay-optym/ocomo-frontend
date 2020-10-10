@@ -41,13 +41,13 @@ export default function TableResourcePlan(): JSX.Element {
     setDataSource(data.data || []);
   }, [data]);
 
-  const handleRowclick = (rowData) => {
+  const handleRowClick = (rowData) => {
     const hasRowError = Object.values(dataErrors).some((hasError) => hasError);
     if (hasRowError) {
       return;
     }
-    const hasEditting = Object.values(dataSource).some((data) => data.editable);
-    if (hasEditting) {
+    const hasEditing = Object.values(dataSource).some((data) => data.editable);
+    if (hasEditing) {
       return;
     }
     const rowIndex = dataSource.findIndex((data) => data.shopCode === rowData.shopCode);
@@ -112,7 +112,6 @@ export default function TableResourcePlan(): JSX.Element {
   ];
 
   const handleSaveData = (data, index) => {
-    // const rowDataIndex = dataSource.findIndex((item) => item.shopCode === data.shopCode);
     const newDataSource = [...dataSource];
     newDataSource[index] = { ...data, editable: false };
     setDataSource(newDataSource);
@@ -132,7 +131,7 @@ export default function TableResourcePlan(): JSX.Element {
       <PageBody>
         <Spin spinning={data.loading}>
           <TableData
-            onRowClick={handleRowclick}
+            onRowClick={handleRowClick}
             dataSource={dataSource}
             columns={columns}
             onFinish={handleSaveData}
