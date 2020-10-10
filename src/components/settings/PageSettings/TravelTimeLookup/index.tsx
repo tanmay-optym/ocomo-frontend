@@ -9,6 +9,7 @@ import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReduc
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
+import { IShop } from '../../InputSelectShop';
 
 export type ITravelTimeLookup = {
   id: number | string;
@@ -29,18 +30,24 @@ export default function FormTravelTimeLookup(): JSX.Element {
     loading: false,
     data: []
   });
-  const [shopsState, dispatchShopRequest] = useThunkReducer(reducer, {
+  const [shopData, dispatchShopRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: []
   });
 
   useEffect(() => {
-    dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_TTL', ''));
     dispatchShopRequest((e) =>
       fetchData(e, 'ShopsGrid', 'startDate=2020-01-01&endDate=2020-10-10')
     );
   }, []);
+
+  useEffect(() => {
+    if (shopData.data && shopData.data.length > 0) {
+      dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_TTL', ''));
+    }
+  }, [shopData.data]);
+
   useEffect(() => {
     setDataSource(
       (data.data || []).map((item) => ({ ...item, id: `${item.shopCode1}-${item.shopCode2}` }))
@@ -57,6 +64,12 @@ export default function FormTravelTimeLookup(): JSX.Element {
     };
     setDataSource(newDataSource);
   };
+  const shopOptions: IShop[] = (shopData.data || [])
+    .filter((item) => item.shopCode !== 'Unassigned')
+    .map((item) => {
+      const shop: IShop = { value: item.shopCode, label: item.shopCode, color: item.shopColor };
+      return shop;
+    });
 
   return (
     <Card>
@@ -71,10 +84,17 @@ export default function FormTravelTimeLookup(): JSX.Element {
         }
       />
       <PageBody>
-        <Spin spinning={data.loading}>
+        <Spin spinning={data.loading || shopData.loading}>
           <div>
             {dataSource.map((data) => {
-              return <FormRowItem key={data.id} initialValues={data} onFinish={handleSaveData} />;
+              return (
+                <FormRowItem
+                  key={data.id}
+                  shopOptions={shopOptions}
+                  initialValues={data}
+                  onFinish={handleSaveData}
+                />
+              );
             })}
           </div>
         </Spin>

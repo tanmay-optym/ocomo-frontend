@@ -34,43 +34,6 @@ export default function FormFilterConfiguration(): JSX.Element {
     { label: 'Value', key: 'value' }
   ];
   useEffect(() => {
-    // const fakeData: IFilterConfiguration[] = [
-    //   {
-    //     id: 1,
-    //     name: 'Loco Type',
-    //     value: true
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'Maintenance',
-    //     value: true
-    //   },
-    //   {
-    //     id: 3,
-    //     name: 'Due Date',
-    //     value: false
-    //   },
-    //   {
-    //     id: 4,
-    //     name: 'Maint Type',
-    //     value: true
-    //   },
-    //   {
-    //     id: 5,
-    //     name: 'Shop',
-    //     value: false
-    //   },
-    //   {
-    //     id: 6,
-    //     name: 'Priority',
-    //     value: false
-    //   },
-    //   {
-    //     id: 7,
-    //     name: 'Loco Status',
-    //     value: true
-    //   }
-    // ];
     setDataSource(data.data || []);
   }, [data]);
 
