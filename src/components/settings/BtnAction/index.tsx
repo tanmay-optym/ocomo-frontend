@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './BtnAction.module.scss';
 import Spin from '../Spin/Circular';
 
@@ -32,7 +32,7 @@ export default function BtnAction({
       onClick={handleClick}
       style={style}
       className={styles['comp-btn-action']}>
-      <Spin spinning={loading} style={{ width: '26px', height: '26px' }}>
+      <Spin spinning={loading} style={{ width: 14, height: 14 }}>
         {children}
       </Spin>
     </button>

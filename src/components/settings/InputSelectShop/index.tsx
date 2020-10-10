@@ -12,6 +12,12 @@ import Select from 'react-select';
 //   // MEM: { value: 'MEM', label: 'MEM', color: '#ED5CB3' } // n
 // };
 
+export type IShop = {
+  value: string;
+  label: string;
+  color: string;
+};
+
 const dot = (color = '#ccc') => ({
   alignItems: 'center',
   display: 'flex',
@@ -79,6 +85,7 @@ const colourStyles = {
 
 type SelectShopProps = {
   initialValue?: string;
+  shopOptions: IShop[];
 };
 
 export default function SelectShop({
@@ -89,7 +96,7 @@ export default function SelectShop({
   return (
     <Select
       defaultValue={initialValue ? shopOptions[initialValue] : undefined}
-      options={Object.values(shopOptions)}
+      options={shopOptions}
       styles={colourStyles}
       {...props}
     />

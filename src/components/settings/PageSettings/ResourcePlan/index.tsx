@@ -23,6 +23,57 @@ export type IResourcePlan = {
   editable?: boolean;
 };
 
+const columns = [
+  { title: 'Shop', dataIndex: 'shopCode' },
+  { title: 'Region', dataIndex: 'region', editable: false },
+  {
+    title: 'Desired Unplanned',
+    dataIndex: 'desiredUnplanned',
+    editable: true
+  },
+  {
+    title: 'Special Capability',
+    dataIndex: 'specialCapability',
+    editable: true,
+    require: false
+  },
+  {
+    title: 'Prohibited Maint. Type',
+    dataIndex: 'prohibitedMaintType',
+    editable: true,
+    require: false
+  },
+  {
+    title: 'M-F Work Hours',
+    dataIndex: 'weekDaysWorkHrs',
+    editable: true
+  },
+  {
+    title: 'Sat Work Hours',
+    dataIndex: 'satWorkHrs',
+    editable: true
+  },
+  {
+    title: 'Sun Work Hours',
+    dataIndex: 'sunWorkHrs',
+    editable: true
+  }
+];
+
+const headersCSV = [
+  {
+    key: 'shopCode',
+    label: 'Shop'
+  },
+  { key: 'region', label: 'Region' },
+  { key: 'desiredUnplanned', label: 'Desired Unplanned' },
+  { key: 'specialCapability', label: 'Special Capability' },
+  { key: 'prohibitedMaintType', label: 'Prohibited Maint. Type' },
+  { key: 'weekDaysWorkHrs', label: 'M-F Work Hours' },
+  { key: 'satWorkHrs', label: 'Sat Work Hours' },
+  { key: 'sunWorkHrs', label: 'Sun Work Hours' }
+];
+
 export default function TableResourcePlan(): JSX.Element {
   const [dataSource, setDataSource] = useState<IResourcePlan[]>([]);
   const [data, dispatchRequest] = useThunkReducer(reducer, {
@@ -61,59 +112,9 @@ export default function TableResourcePlan(): JSX.Element {
     setDataErrors({ ...dataErrors, [id]: hasError });
   };
 
-  const headersCSV = [
-    {
-      key: 'shopCode',
-      label: 'Shop'
-    },
-    { key: 'region', label: 'Region' },
-    { key: 'desiredUnplanned', label: 'Desired Unplanned' },
-    { key: 'specialCapability', label: 'Special Capability' },
-    { key: 'prohibitedMaintType', label: 'Prohibited Maint. Type' },
-    { key: 'weekDaysWorkHrs', label: 'M-F Work Hours' },
-    { key: 'satWorkHrs', label: 'Sat Work Hours' },
-    { key: 'sunWorkHrs', label: 'Sun Work Hours' }
-  ];
-  const columns = [
-    { title: 'Shop', dataIndex: 'shopCode' },
-    { title: 'Region', dataIndex: 'region', editable: true },
-    {
-      title: 'Desired Unplanned',
-      dataIndex: 'desiredUnplanned',
-      editable: true
-    },
-    {
-      title: 'Special Capability',
-      dataIndex: 'specialCapability',
-      editable: true,
-      require: false
-    },
-    {
-      title: 'Prohibited Maint. Type',
-      dataIndex: 'prohibitedMaintType',
-      editable: true,
-      require: false
-    },
-    {
-      title: 'M-F Work Hours',
-      dataIndex: 'weekDaysWorkHrs',
-      editable: true
-    },
-    {
-      title: 'Sat Work Hours',
-      dataIndex: 'satWorkHrs',
-      editable: true
-    },
-    {
-      title: 'Sun Work Hours',
-      dataIndex: 'sunWorkHrs',
-      editable: true
-    }
-  ];
-
   const handleSaveData = (data, index) => {
     const newDataSource = [...dataSource];
-    newDataSource[index] = { ...data, editable: false };
+    newDataSource[index] = { ...newDataSource[index], ...data, editable: false };
     setDataSource(newDataSource);
   };
   return (
