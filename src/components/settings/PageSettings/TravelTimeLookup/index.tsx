@@ -71,8 +71,6 @@ export default function FormTravelTimeLookup(): JSX.Element {
       return shop;
     });
 
-  console.log(shopOptions);
-
   return (
     <Card>
       <CardHeader
