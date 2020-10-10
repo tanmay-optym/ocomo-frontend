@@ -39,7 +39,7 @@ export default function FormFilterConfiguration(): JSX.Element {
 
   const handleAddNewRow = () => {
     const newData: IFilterConfiguration = {
-      code: new Date().getTime().toString(),
+      code: Math.round(new Date().getTime() / 1000).toString(),
       description: '',
       value: false,
       isNew: true
@@ -84,9 +84,9 @@ export default function FormFilterConfiguration(): JSX.Element {
                 <FormRowItem
                   onFinish={handleSaveData}
                   initialValues={data}
-                  key={data.code}
-                  index={index}
+                  key={index.toString()}
                   onRemove={handleRemoveData}
+                  index={index}
                 />
               );
             })}

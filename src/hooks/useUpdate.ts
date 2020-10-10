@@ -8,21 +8,13 @@ const useUpdate = (
   initialValues?: object,
   queryString?: string,
   key?: string,
-  index?: number,
-  setValue?: (name: string, index: any) => void
+  index?: number
 ): [ApiState, (values: Object) => void] => {
   const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: null
   });
-
-  useEffect(() => {
-    if (setValue && initialValues)
-      Object.keys(initialValues).map((item) => {
-        setValue(item, initialValues[item]);
-      });
-  }, [initialValues]);
 
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {

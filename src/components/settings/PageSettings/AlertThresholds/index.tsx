@@ -41,7 +41,7 @@ export default function FormAlertThresholds(): JSX.Element {
 
   const handleAddNewRow = () => {
     const newData: IAlertThresholds = {
-      code: new Date().getTime().toString(),
+      code: Math.round(new Date().getTime() / 1000).toString(),
       description: '',
       orangeAlert: '',
       redAlert: '',

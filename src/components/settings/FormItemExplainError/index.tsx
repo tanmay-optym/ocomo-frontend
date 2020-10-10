@@ -12,6 +12,7 @@ export default function FormItemExplainError({
   errors,
   fieldName
 }: FormItemExplainErrorProps): JSX.Element {
+  console.log(errors[fieldName] && errors[fieldName].message);
   return (
     <Fragment>
       {errors[fieldName] && (
