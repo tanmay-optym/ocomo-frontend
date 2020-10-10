@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
 import FormRowContainer from '../../FormRowContainer';
 import FormItem from '../../FormItem';
 import InputSetting from '../../InputSetting';
@@ -15,14 +14,19 @@ import { IKPIColorThreshold } from './index';
 
 type FormRowItemProps = {
   initialValues: IKPIColorThreshold;
-  onFinish: (values: object) => void;
+  onFinish: (values: object, index: number) => void;
+  index: number;
 };
 
-export default function FormRowItem({ initialValues, onFinish }: FormRowItemProps): JSX.Element {
+export default function FormRowItem({
+  initialValues,
+  onFinish,
+  index
+}: FormRowItemProps): JSX.Element {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: { ...initialValues }
   });
-  const [data, onSubmit] = useUpdate(onFinish, initialValues, 'UI_SETTINGS_KPI', 'code');
+  const [data, onSubmit] = useUpdate(onFinish, initialValues, 'UI_SETTINGS_KPI', 'code', index);
 
   return (
     <form key={initialValues.code} onSubmit={handleSubmit(onSubmit)}>

@@ -11,6 +11,7 @@ type InputSettingProps = {
   type?: string;
   name: string;
   style?: React.CSSProperties;
+  placeholder?: string;
 };
 
 export default function InputSetting({

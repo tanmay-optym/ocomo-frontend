@@ -1,19 +1,28 @@
 import { useEffect } from 'react';
 import { useSnackbar, VariantType } from 'notistack';
-import { updateData } from '../../pages/api/apiConstants';
+import { updateData, postData } from '../../pages/api/apiConstants';
 import { reducer, useThunkReducer, ApiState } from '../../pages/api/useThunkReducer';
 
 const useUpdate = (
-  onFinish?: (values: object) => void,
+  onFinish?: (values: object, index: number) => void,
   initialValues?: object,
   queryString?: string,
-  key?: string
-): [ApiState, (values: Object) => void | undefined] => {
+  key?: string,
+  index?: number,
+  setValue?: (name: string, index: any) => void
+): [ApiState, (values: Object) => void] => {
   const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
     data: null
   });
+
+  useEffect(() => {
+    if (setValue && initialValues)
+      Object.keys(initialValues).map((item) => {
+        setValue(item, initialValues[item]);
+      });
+  }, [initialValues]);
 
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
@@ -23,8 +32,8 @@ const useUpdate = (
       if (data.error !== null) {
         message = 'Failed';
         variant = 'error';
-      } else if (onFinish) {
-        onFinish(data.data);
+      } else if (onFinish && index) {
+        onFinish(data.data, index);
       }
       enqueueSnackbar(message, {
         variant
@@ -33,11 +42,11 @@ const useUpdate = (
   }, [data]);
 
   const onSubmit = (values: Object) => {
-    if (onFinish) {
+    if (onFinish && queryString && initialValues && key) {
       const dataUpdate = { ...initialValues, ...values };
-      if (queryString && initialValues && key) {
-        dispatchRequest((e) => updateData(e, queryString, dataUpdate, `/${initialValues[key]}`));
-      }
+      delete dataUpdate['isNew'];
+      if (initialValues['isNew']) dispatchRequest((e) => postData(e, queryString, dataUpdate));
+      else dispatchRequest((e) => updateData(e, queryString, dataUpdate, `/${initialValues[key]}`));
     }
   };
 

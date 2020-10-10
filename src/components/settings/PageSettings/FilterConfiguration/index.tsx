@@ -16,6 +16,7 @@ export type IFilterConfiguration = {
   code: string;
   description: string;
   value: boolean;
+  isNew?: boolean;
 };
 
 export default function FormFilterConfiguration(): JSX.Element {
@@ -33,43 +34,6 @@ export default function FormFilterConfiguration(): JSX.Element {
     { label: 'Value', key: 'value' }
   ];
   useEffect(() => {
-    // const fakeData: IFilterConfiguration[] = [
-    //   {
-    //     id: 1,
-    //     name: 'Loco Type',
-    //     value: true
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'Maintenance',
-    //     value: true
-    //   },
-    //   {
-    //     id: 3,
-    //     name: 'Due Date',
-    //     value: false
-    //   },
-    //   {
-    //     id: 4,
-    //     name: 'Maint Type',
-    //     value: true
-    //   },
-    //   {
-    //     id: 5,
-    //     name: 'Shop',
-    //     value: false
-    //   },
-    //   {
-    //     id: 6,
-    //     name: 'Priority',
-    //     value: false
-    //   },
-    //   {
-    //     id: 7,
-    //     name: 'Loco Status',
-    //     value: true
-    //   }
-    // ];
     setDataSource(data.data || []);
   }, [data]);
 
@@ -77,7 +41,8 @@ export default function FormFilterConfiguration(): JSX.Element {
     const newData: IFilterConfiguration = {
       code: new Date().getTime().toString(),
       description: '',
-      value: false
+      value: false,
+      isNew: true
     };
     setDataSource([...dataSource, newData]);
   };
@@ -114,12 +79,13 @@ export default function FormFilterConfiguration(): JSX.Element {
       <PageBody>
         <Spin spinning={data.loading}>
           <div>
-            {dataSource.map((data) => {
+            {dataSource.map((data, index) => {
               return (
                 <FormRowItem
                   onFinish={handleSaveData}
                   initialValues={data}
                   key={data.code}
+                  index={index}
                   onRemove={handleRemoveData}
                 />
               );

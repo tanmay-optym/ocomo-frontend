@@ -11,10 +11,11 @@ import useUpdate from '../../../../../hooks/useUpdate';
 
 type FormRowItemProps = {
   initialValues: IResourcePlan;
-  onFinish: (values: object) => void;
+  onFinish: (values: object, index: number) => void;
   onHasErrors: (id: number, hasError: boolean) => void;
   columns: ColumnsType[];
   onRowClick?: (rowData: IResourcePlan) => void;
+  index: number;
 };
 
 const StyledTableRow = withStyles((theme: Theme) =>
@@ -51,7 +52,8 @@ export default function FormRowItem({
   onFinish,
   onHasErrors,
   columns,
-  onRowClick
+  onRowClick,
+  index
 }: FormRowItemProps): JSX.Element {
   const { register, handleSubmit, errors } = useForm({
     mode: 'all',
@@ -70,7 +72,8 @@ export default function FormRowItem({
     onFinish,
     initialValues,
     'CONSTRAINTS_RESOURCE_PLAN',
-    'shopCode'
+    'shopCode',
+    index
   );
 
   useEffect(() => {

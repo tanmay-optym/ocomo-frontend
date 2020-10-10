@@ -84,9 +84,14 @@ export const postData = (
   requestBody: any
 ) => {
   dispatch({ type: 'LOADING', payload: {} });
-
+  const API_HOST =
+    process.env &&
+    process.env.NEXT_PUBLIC_APP_URL &&
+    !process.env.NEXT_PUBLIC_APP_URL.includes('localhost')
+      ? process.env.NEXT_PUBLIC_APP_URL
+      : API_URL;
   axios
-    .put(`${process.env.NEXT_PUBLIC_APP_URL}${getAPIPath(endpoint)}`, requestBody, axiosConfig)
+    .post(`${API_HOST}${getAPIPath(endpoint)}`, requestBody, axiosConfig)
     .then((response) => response)
     .then((response) =>
       dispatch({
@@ -102,7 +107,7 @@ export const updateData = (
   dispatch: Dispatch<SetPayloadActionType>,
   endpoint: string,
   requestBody: any,
-  queryString: string
+  detail: string
 ) => {
   dispatch({ type: 'LOADING', payload: {} });
   const API_HOST =
@@ -112,7 +117,7 @@ export const updateData = (
       ? process.env.NEXT_PUBLIC_APP_URL
       : API_URL;
   axios
-    .put(`${API_HOST}${getAPIPath(endpoint)}${queryString}`, requestBody, axiosConfig)
+    .put(`${API_HOST}${getAPIPath(endpoint)}${detail}`, requestBody, axiosConfig)
     .then((response) => response)
     .then((response) =>
       dispatch({

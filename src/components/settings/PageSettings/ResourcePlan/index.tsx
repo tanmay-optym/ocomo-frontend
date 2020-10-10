@@ -111,10 +111,10 @@ export default function TableResourcePlan(): JSX.Element {
     }
   ];
 
-  const handleSaveData = (data) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.shopCode === data.shopCode);
+  const handleSaveData = (data, index) => {
+    // const rowDataIndex = dataSource.findIndex((item) => item.shopCode === data.shopCode);
     const newDataSource = [...dataSource];
-    newDataSource[rowDataIndex] = { ...data, editable: false };
+    newDataSource[index] = { ...data, editable: false };
     setDataSource(newDataSource);
   };
   return (

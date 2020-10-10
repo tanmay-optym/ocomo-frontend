@@ -22,7 +22,7 @@ type TableDataProps = {
   dataSource: IResourcePlan[];
   columns: ColumnsType[];
   onRowClick?: (rowData: object) => void;
-  onFinish: (values: object) => void;
+  onFinish: (values: object, index: number) => void;
   onHasErrors: (id: number, hasError: boolean) => void;
 };
 
@@ -58,14 +58,15 @@ export default function TableData({
           </TableRow>
         </TableHead>
         <TableBody>
-          {dataSource.map((data: IResourcePlan) => (
+          {dataSource.map((data: IResourcePlan, index) => (
             <FormRowItem
               columns={columns}
               onRowClick={onRowClick}
               onFinish={onFinish}
               onHasErrors={onHasErrors}
               initialValues={data}
-              key={data.id}></FormRowItem>
+              key={data.id}
+              index={index}></FormRowItem>
           ))}
         </TableBody>
       </Table>
