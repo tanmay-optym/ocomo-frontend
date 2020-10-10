@@ -127,3 +127,28 @@ export const updateData = (
     )
     .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));
 };
+
+// Delete data axios
+export const deleteData = (
+  dispatch: Dispatch<SetPayloadActionType>,
+  endpoint: string,
+  detail: string
+) => {
+  dispatch({ type: 'LOADING', payload: {} });
+  const API_HOST =
+    process.env &&
+    process.env.NEXT_PUBLIC_APP_URL &&
+    !process.env.NEXT_PUBLIC_APP_URL.includes('localhost')
+      ? process.env.NEXT_PUBLIC_APP_URL
+      : API_URL;
+  axios
+    .delete(`${API_HOST}${getAPIPath(endpoint)}${detail}`, axiosConfig)
+    .then((response) => response)
+    .then(() =>
+      dispatch({
+        type: 'RESPONSE_COMPLETE',
+        payload: { data: true }
+      })
+    )
+    .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));
+};

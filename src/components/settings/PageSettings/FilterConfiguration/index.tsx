@@ -76,7 +76,7 @@ export default function FormFilterConfiguration(): JSX.Element {
 
   const handleAddNewRow = () => {
     const newData: IFilterConfiguration = {
-      code: new Date().getTime().toString(),
+      code: Math.round(new Date().getTime() / 1000).toString(),
       description: '',
       value: false,
       isNew: true
@@ -116,13 +116,14 @@ export default function FormFilterConfiguration(): JSX.Element {
       <PageBody>
         <Spin spinning={data.loading}>
           <div>
-            {dataSource.map((data) => {
+            {dataSource.map((data, index) => {
               return (
                 <FormRowItem
                   onFinish={handleSaveData}
                   initialValues={data}
-                  key={data.code}
+                  key={index.toString()}
                   onRemove={handleRemoveData}
+                  index={index}
                 />
               );
             })}

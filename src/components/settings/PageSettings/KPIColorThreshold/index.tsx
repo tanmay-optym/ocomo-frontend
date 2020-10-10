@@ -42,7 +42,7 @@ export default function FormKPIColorThreshold(): JSX.Element {
 
   const handleAddNewRow = () => {
     const newData = {
-      code: new Date().getTime().toString(),
+      code: Math.round(new Date().getTime() / 1000).toString(),
       description: '',
       orangeKpi: '',
       redKpi: '',

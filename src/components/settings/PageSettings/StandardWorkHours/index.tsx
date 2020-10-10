@@ -45,7 +45,7 @@ export default function FormStandardWorkHours(): JSX.Element {
 
   const handleAddNewRow = () => {
     const newData: IStandardWorkHours = {
-      code: new Date().getTime() + '',
+      code: Math.round(new Date().getTime() / 1000).toString(),
       description: '',
       severityLevel: '',
       majorStopStdHrs: undefined,

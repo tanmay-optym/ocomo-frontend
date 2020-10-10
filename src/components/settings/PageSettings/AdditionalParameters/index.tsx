@@ -41,7 +41,7 @@ const AdditionalParameters = (): JSX.Element => {
 
   const handleAddNewRow = () => {
     const newData: IAdditionalParameters = {
-      code: '',
+      code: Math.round(new Date().getTime() / 1000).toString(),
       description: '',
       value: '',
       isNew: true

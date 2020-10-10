@@ -8,8 +8,7 @@ const useUpdate = (
   initialValues: object,
   queryString: string,
   key: string,
-  index: number,
-  setValue?: (name: string, index: any) => void
+  index: number
 ): [ApiState, (values: Object) => void] => {
   const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
@@ -17,17 +16,10 @@ const useUpdate = (
     data: null
   });
 
-  useEffect(() => {
-    if (setValue)
-      Object.keys(initialValues).map((item) => {
-        setValue(item, initialValues[item]);
-      });
-  }, [initialValues]);
-
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
     if (data.data || data.error) {
-      window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+      // window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
       let message = 'Saved';
       let variant = 'success';
       if (data.error !== null) {
@@ -45,7 +37,6 @@ const useUpdate = (
   const onSubmit = (values: Object) => {
     if (onFinish) {
       const dataUpdate = { ...initialValues, ...values };
-      console.log(dataUpdate);
       delete dataUpdate['isNew'];
       if (initialValues['isNew']) dispatchRequest((e) => postData(e, queryString, dataUpdate));
       else dispatchRequest((e) => updateData(e, queryString, dataUpdate, `/${initialValues[key]}`));

@@ -7,9 +7,12 @@ import FormLabel from '../../FormLabel';
 import FormItemExplainError from '../../FormItemExplainError';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
-import BtnAction from '../../BtnAction';
+import { useSnackbar } from 'notistack';
+import { deleteData } from '../../../../../pages/api/apiConstants';
+import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
 import { IFilterConfiguration } from './index';
 import useUpdate from '../../../../hooks/useUpdate';
+import BtnAction from '../../BtnAction';
 
 const switch_height = 20;
 const switch_width = 40;
@@ -52,7 +55,7 @@ const AntSwitch = withStyles((theme: Theme) =>
 type FormRowItemProps = {
   initialValues: IFilterConfiguration;
   onFinish: (values: object) => void;
-  onRemove: (id: string) => void;
+  onRemove?: (id: string) => void;
   index: number;
 };
 
@@ -62,29 +65,53 @@ export default function FormRowItem({
   onRemove,
   index
 }: FormRowItemProps): JSX.Element {
-  const { register, handleSubmit, errors, setValue } = useForm({
+  const { register, watch, errors, trigger } = useForm({
     defaultValues: { ...initialValues }
   });
   const [checked, setChecked] = useState(false);
+  const description = watch('description');
   useEffect(() => {
     setChecked(initialValues.value);
   }, [initialValues]);
   // const values = watch();
-  const [data, onSubmit] = useUpdate(
-    onFinish,
-    initialValues,
-    'UI_SETTINGS_FILTER',
-    'code',
-    index,
-    setValue
-  );
+  const [data, onSubmit] = useUpdate(onFinish, initialValues, 'UI_SETTINGS_FILTER', 'code', index);
 
-  const handleRemove = () => {
+  const [dataDelete, dispatchRequest] = useThunkReducer(reducer, {
+    error: null,
+    loading: false,
+    data: null
+  });
+
+  useEffect(() => {
+    if (dataDelete.data || dataDelete.error) {
+      // window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+      let message = 'Saved';
+      let variant = 'success';
+      if (data.error !== null) {
+        message = 'Failed';
+        variant = 'error';
+      } else if (onRemove) {
+        onRemove(initialValues.code);
+      }
+      enqueueSnackbar(message, {
+        variant
+      });
+    }
+  }, [dataDelete]);
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleRemove = (e) => {
+    e.preventDefault();
     if (onRemove) {
-      onRemove(initialValues.code);
+      dispatchRequest((e) => deleteData(e, 'UI_SETTINGS_FILTER', `/${initialValues.code}`));
     }
   };
 
+  const onChange = (values) => {
+    if (!description) trigger('description');
+    else onSubmit(values);
+  };
   return (
     <form style={{ display: 'flex' }} key={initialValues.code}>
       <FormRowContainer>
@@ -97,7 +124,7 @@ export default function FormRowItem({
             <InputSetting
               style={{ width: 150, marginRight: 10 }}
               name="description"
-              refInput={register({ required: true })}
+              refInput={register({ required: 'Reguire' })}
             />
             <FormItemExplainError errors={errors} fieldName={'description'} />
           </FormItem>
@@ -106,12 +133,14 @@ export default function FormRowItem({
           <AntSwitch
             value="value"
             onChange={(e) => {
-              onSubmit({
+              onChange({
                 ...initialValues,
+                description,
                 value: e.target.checked
               });
             }}
             checked={checked}
+            disabled={data.loading}
           />
         </FormItem>
       </FormRowContainer>
@@ -124,15 +153,24 @@ export default function FormRowItem({
           padding: '20px',
           display: 'flex'
         }}>
-        {initialValues.isNew ? (
-          <BtnAction
-            onClick={handleSubmit(onSubmit)}
-            loading={data.loading}
-            style={{ height: '34px', marginTop: -10, marginRight: '10px' }}>
-            Save
-          </BtnAction>
-        ) : null}
-        <button
+        <BtnAction
+          loading={dataDelete.loading}
+          onClick={(e) => handleRemove(e)}
+          style={{
+            background: '#EEEEEE',
+            borderRadius: '4px',
+            border: 'none',
+            height: '36px',
+            width: '90px',
+            color: '#5D6E7F',
+            fontWeight: 500,
+            top: 0,
+            marginTop: -10,
+            cursor: 'pointer'
+          }}>
+          Remove
+        </BtnAction>
+        {/* <button
           type="button"
           onClick={handleRemove}
           style={{
@@ -148,7 +186,7 @@ export default function FormRowItem({
             cursor: 'pointer'
           }}>
           Remove
-        </button>
+        </button> */}
       </div>
     </form>
   );
