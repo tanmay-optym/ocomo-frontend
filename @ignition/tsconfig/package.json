@@ -1,0 +1,58 @@
+{
+  "_args": [
+    [
+      "@ignition/tsconfig@1.0.0",
+      "/Users/tanmaysharma/dev/optym/CNPlanning/Frontend"
+    ]
+  ],
+  "_development": true,
+  "_from": "@ignition/tsconfig@1.0.0",
+  "_id": "@ignition/tsconfig@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha1-JMLLks0qP6jDOCqoZtbgWsK8GVU=",
+  "_location": "/@ignition/tsconfig",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@ignition/tsconfig@1.0.0",
+    "name": "@ignition/tsconfig",
+    "escapedName": "@ignition%2ftsconfig",
+    "scope": "@ignition",
+    "rawSpec": "1.0.0",
+    "saveSpec": null,
+    "fetchSpec": "1.0.0"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://pkgs.dev.azure.com/optym/_packaging/optym-feed/npm/registry/@ignition/tsconfig/-/tsconfig-1.0.0.tgz",
+  "_spec": "1.0.0",
+  "_where": "/Users/tanmaysharma/dev/optym/CNPlanning/Frontend",
+  "author": {
+    "name": "Aleksi Asikainen",
+    "email": "aleksi.asikainen@optym.com"
+  },
+  "dependencies": {},
+  "description": "Ignition TypeScript configuration",
+  "devDependencies": {},
+  "engines": {
+    "node": ">=12.13.1",
+    "npm": "You must use `rush` instead of `npm`",
+    "yarn": "You must use `rush` instead of `yarn`"
+  },
+  "files": [
+    "tsconfig.base.json",
+    "tsconfig.next.json",
+    "tsconfig.react.json"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "main": "tsconfig.base.json",
+  "name": "@ignition/tsconfig",
+  "peerDependencies": {},
+  "scripts": {
+    "build": "exit 0",
+    "test": "exit 0"
+  },
+  "version": "1.0.0"
+}

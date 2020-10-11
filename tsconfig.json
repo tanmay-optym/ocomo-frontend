@@ -1,25 +1,18 @@
 {
+  "extends": "./ignition/tsconfig/tsconfig.next.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noImplicitAny": false,
     "noEmit": true,
     "baseUrl": "./",
     "paths": {
-      "~/": ["src/"]
+      "~/*": ["src/*"]
     },
     "outDir": "./dist",
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "noImplicitAny": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "typeRoots": ["./src/@types", "index.d.ts"],
+  "strict": true,
+  "exclude": ["node_modules", "showHideColumn.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
 }
+
