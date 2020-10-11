@@ -4,8 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import MenuGroupTitle from './MenuGroupTitle';
 import styles from './PlanMenus.module.scss';
-
-type IMenuItem = { title: string; url?: string; children?: IMenuItem[] };
+import { IMenuItem } from './index';
 
 type PlanMenusProps = {
   menus: IMenuItem[];

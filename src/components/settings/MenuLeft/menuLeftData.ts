@@ -1,5 +1,7 @@
-export default {
-  SHORT_TERM_PLANNING: {
+import { IPlanMenu } from './index';
+
+const menuData: IPlanMenu[] = [
+  {
     title: 'Short Term Planning',
     menus: [
       {
@@ -35,7 +37,7 @@ export default {
       }
     ]
   },
-  LONG_TERM_SETTINGS: {
+  {
     title: 'Long Term settings',
     menus: [
       {
@@ -65,4 +67,6 @@ export default {
       }
     ]
   }
-};
+];
+
+export default menuData;
