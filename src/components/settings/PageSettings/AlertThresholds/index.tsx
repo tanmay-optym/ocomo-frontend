@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch } from 'react';
 import FormRowItem from './FormRowItem';
 import BtnAddNewRow from '../../BtnAddNewRow';
 import FormRowContainer from '../../FormRowContainer';
@@ -7,7 +7,11 @@ import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
-import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import {
+  reducer,
+  SetPayloadActionType,
+  useThunkReducer
+} from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
@@ -27,9 +31,11 @@ export default function FormAlertThresholds(): JSX.Element {
     loading: false,
     data: []
   });
+
   useEffect(() => {
-    dispatchRequest((e) => fetchData(e, 'UI_SETTINGS_ADP', ''));
+    dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'UI_SETTINGS_ADP', ''));
   }, []);
+
   const headersCSV = [
     { label: 'Name', key: 'description' },
     { label: 'Orange Alert', key: 'orangeAlert' },
@@ -50,7 +56,7 @@ export default function FormAlertThresholds(): JSX.Element {
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data, index) => {
+  const handleSaveData = (data: any, index: number) => {
     // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[index] = data;

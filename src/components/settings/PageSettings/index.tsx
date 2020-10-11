@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import MenuLeft from '../MenuLeft';
 import ResourcePlan from './ResourcePlan';
@@ -9,29 +9,33 @@ import AlertThresholds from './AlertThresholds';
 import KPIColorThreshold from './KPIColorThreshold';
 import FilterConfiguration from './FilterConfiguration';
 
-const CONFIG_MENU = {
-  '/resource-plan': <ResourcePlan />,
-  '/standard-work-hours': <StandardWorkHours />,
-  '/travel-time-lookup': <TravelTimeLookup />,
-  '/additional-parameters': <AdditionalParameters />,
-  '/alert-thresholds': <AlertThresholds />,
-  '/filter-configuration': <FilterConfiguration />,
-  '/kpi-color-threshold': <KPIColorThreshold />
+type IConfigMenuItem = {
+  code: string;
+  node: ReactNode;
 };
+const CONFIG_MENU: IConfigMenuItem[] = [
+  { code: '/resource-plan', node: <ResourcePlan /> },
+  { code: '/standard-work-hours', node: <StandardWorkHours /> },
+  { code: '/travel-time-lookup', node: <TravelTimeLookup /> },
+  { code: '/additional-parameters', node: <AdditionalParameters /> },
+  { code: '/alert-thresholds', node: <AlertThresholds /> },
+  { code: '/filter-configuration', node: <FilterConfiguration /> },
+  { code: '/kpi-color-threshold', node: <KPIColorThreshold /> }
+];
 
 const PageSettings = (): JSX.Element => {
   const [activeMenu, setActiveMenu] = useState('/resource-plan');
-  const handleClickMenu = (url) => {
+  const handleClickMenu = (url: string) => {
     setActiveMenu(url);
   };
-
+  const page = CONFIG_MENU.find((item) => item.code === activeMenu);
   return (
     <Grid container spacing={2}>
       <Grid item xs={6} sm={2}>
         <MenuLeft activeMenu={activeMenu} onClickMenu={handleClickMenu} />
       </Grid>
       <Grid item xs={6} sm={10}>
-        {CONFIG_MENU[activeMenu]}
+        {page ? page.node : null}
       </Grid>
     </Grid>
   );

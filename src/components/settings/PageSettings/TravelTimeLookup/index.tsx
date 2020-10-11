@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch } from 'react';
 import FormRowItem from './FormRowItem';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
-import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import {
+  reducer,
+  SetPayloadActionType,
+  useThunkReducer
+} from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
@@ -37,24 +41,27 @@ export default function FormTravelTimeLookup(): JSX.Element {
   });
 
   useEffect(() => {
-    dispatchShopRequest((e) =>
+    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) =>
       fetchData(e, 'ShopsGrid', 'startDate=2020-01-01&endDate=2020-10-10')
     );
   }, []);
 
   useEffect(() => {
     if (shopData.data && shopData.data.length > 0) {
-      dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_TTL', ''));
+      dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_TTL', ''));
     }
   }, [shopData.data]);
 
   useEffect(() => {
     setDataSource(
-      (data.data || []).map((item) => ({ ...item, id: `${item.shopCode1}-${item.shopCode2}` }))
+      (data.data || []).map((item: ITravelTimeLookup) => ({
+        ...item,
+        id: `${item.shopCode1}-${item.shopCode2}`
+      }))
     );
   }, [data]);
 
-  const handleSaveData = (data) => {
+  const handleSaveData = (data: any) => {
     const rowDataIndex = dataSource.findIndex((item) => item.id === data.id);
     const newDataSource = [...dataSource];
     newDataSource[rowDataIndex] = {
@@ -65,8 +72,8 @@ export default function FormTravelTimeLookup(): JSX.Element {
     setDataSource(newDataSource);
   };
   const shopOptions: IShop[] = (shopData.data || [])
-    .filter((item) => item.shopCode !== 'Unassigned')
-    .map((item) => {
+    .filter((item: any) => item.shopCode !== 'Unassigned')
+    .map((item: any) => {
       const shop: IShop = { value: item.shopCode, label: item.shopCode, color: item.shopColor };
       return shop;
     });

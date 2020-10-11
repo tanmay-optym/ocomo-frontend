@@ -21,7 +21,7 @@ export type ColumnsType = {
 type TableDataProps = {
   dataSource: IResourcePlan[];
   columns: ColumnsType[];
-  onRowClick?: (rowData: object) => void;
+  onRowClick?: (rowData: IResourcePlan) => void;
   onFinish: (values: object, index: number) => void;
   onHasErrors: (id: number, hasError: boolean) => void;
 };

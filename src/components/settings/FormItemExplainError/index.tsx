@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
+import { DeepMap, FieldError } from 'react-hook-form';
 import styles from './FormItemExplainError.module.scss';
 
 type ErrorType = { message: string };
 
 type FormItemExplainErrorProps = {
-  errors: { [key: string]: ErrorType };
+  errors: any;
   fieldName: string;
 };
 

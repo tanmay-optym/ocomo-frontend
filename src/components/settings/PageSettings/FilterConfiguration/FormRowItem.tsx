@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Dispatch, Fragment, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FormRowContainer from '../../FormRowContainer';
 import FormItem from '../../FormItem';
@@ -9,7 +9,11 @@ import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import { useSnackbar, VariantType } from 'notistack';
 import { deleteData } from '../../../../../pages/api/apiConstants';
-import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import {
+  reducer,
+  SetPayloadActionType,
+  useThunkReducer
+} from '../../../../../pages/api/useThunkReducer';
 import { IFilterConfiguration } from './index';
 import useUpdate from '../../../../hooks/useUpdate';
 import BtnAction from '../../BtnAction';
@@ -101,14 +105,16 @@ export default function FormRowItem({
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleRemove = (e) => {
-    e.preventDefault();
+  const handleRemove = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     if (onRemove) {
-      dispatchRequest((e) => deleteData(e, 'UI_SETTINGS_FILTER', `/${initialValues.code}`));
+      dispatchRequest((e: Dispatch<SetPayloadActionType>) =>
+        deleteData(e, 'UI_SETTINGS_FILTER', `/${initialValues.code}`)
+      );
     }
   };
 
-  const onChange = (values) => {
+  const onChange = (values: any) => {
     if (!description) trigger('description');
     else onSubmit(values);
   };

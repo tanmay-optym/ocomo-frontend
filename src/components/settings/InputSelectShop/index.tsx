@@ -1,16 +1,6 @@
 import React from 'react';
 import chroma from 'chroma-js';
-import Select from 'react-select';
-
-// export const shopOptions = {
-//   SYM: { value: 'SYM', label: 'SYM', color: '#FF8B00' }, // y
-//   BTR: { value: 'BTR', label: 'BTR', color: '#36B37E' }, // n: MAC => BTR
-//   FDL: { value: 'FDL', label: 'FDL', color: '#253858' }, // n TAS => FDL
-//   KIR: { value: 'KIR', label: 'KIR', color: '#0052CC' }, // y
-//   STP: { value: 'STP', label: 'STP', color: '#FFC400' } // n PRG => STP
-//   // THO: { value: 'THO', label: 'THO', color: '#FA8F8F' }, // n
-//   // MEM: { value: 'MEM', label: 'MEM', color: '#ED5CB3' } // n
-// };
+import Select, { StylesConfig } from 'react-select';
 
 export type IShop = {
   value: string;
@@ -33,8 +23,8 @@ const dot = (color = '#ccc') => ({
   }
 });
 
-const colourStyles = {
-  control: (styles) => ({
+const colourStyles: StylesConfig = {
+  control: (styles: React.CSSProperties) => ({
     ...styles,
     backgroundColor: 'white',
     height: 40,
@@ -45,7 +35,7 @@ const colourStyles = {
     boxShadow: 'none',
     paddingLeft: 10
   }),
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+  option: (styles: React.CSSProperties, { data, isDisabled, isFocused, isSelected }: any) => {
     const color = chroma(data.color);
     return {
       ...styles,
@@ -66,7 +56,7 @@ const colourStyles = {
       cursor: isDisabled ? 'not-allowed' : 'default',
 
       ':active': {
-        ...styles[':active'],
+        ...(styles as any)[':active'],
         backgroundColor: !isDisabled && (isSelected ? data.color : color.alpha(0.3).css())
       }
     };
@@ -84,21 +74,9 @@ const colourStyles = {
 };
 
 type SelectShopProps = {
-  initialValue?: string;
   shopOptions: IShop[];
 };
 
-export default function SelectShop({
-  initialValue,
-  shopOptions,
-  ...props
-}: SelectShopProps): JSX.Element {
-  return (
-    <Select
-      defaultValue={initialValue ? shopOptions[initialValue] : undefined}
-      options={shopOptions}
-      styles={colourStyles}
-      {...props}
-    />
-  );
+export default function SelectShop({ shopOptions, ...props }: SelectShopProps): JSX.Element {
+  return <Select options={shopOptions} styles={colourStyles} {...props} />;
 }

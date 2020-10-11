@@ -6,7 +6,7 @@ import Collapse from '../Collapse';
 import { Divider } from '@material-ui/core';
 
 type MenuLeftProps = {
-  onClickMenu: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickMenu: (url: string) => void;
   activeMenu: string;
 };
 

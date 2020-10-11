@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch } from 'react';
 import BtnAddNewRow from '../../BtnAddNewRow';
 import FormRowItem from './FormRowItem';
 import FormRowContainer from '../../FormRowContainer';
@@ -8,7 +8,11 @@ import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
 import { fetchData } from '../../../../../pages/api/apiConstants';
-import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import {
+  reducer,
+  SetPayloadActionType,
+  useThunkReducer
+} from '../../../../../pages/api/useThunkReducer';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
 
@@ -27,7 +31,7 @@ export default function FormFilterConfiguration(): JSX.Element {
     data: []
   });
   useEffect(() => {
-    dispatchRequest((e) => fetchData(e, 'UI_SETTINGS_FILTER', ''));
+    dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'UI_SETTINGS_FILTER', ''));
   }, []);
   const headersCSV = [
     { label: 'Name', key: 'description' },
@@ -47,7 +51,7 @@ export default function FormFilterConfiguration(): JSX.Element {
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data) => {
+  const handleSaveData = (data: any) => {
     const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[rowDataIndex] = data;

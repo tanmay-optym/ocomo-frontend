@@ -90,7 +90,7 @@ export default function FormRowItem({
             <StyledTableCell
               style={initialValues.editable ? styledCellEdit : {}}
               key={colConfig.dataIndex}>
-              {initialValues[colConfig.dataIndex]}
+              {(initialValues as any)[colConfig.dataIndex]}
             </StyledTableCell>
           );
         } else {
@@ -101,7 +101,8 @@ export default function FormRowItem({
               key={colConfig.dataIndex}>
               <InputTableEdit name={colConfig.dataIndex} refInput={register({ required })} />
               <div style={{ color: '#fa5c64', position: 'absolute', fontSize: '11px' }}>
-                {errors[colConfig.dataIndex] && errors[colConfig.dataIndex].message}
+                {(errors as any)[colConfig.dataIndex] &&
+                  (errors as any)[colConfig.dataIndex].message}
               </div>
             </StyledTableCell>
           );

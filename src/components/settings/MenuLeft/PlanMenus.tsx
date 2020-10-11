@@ -8,19 +8,17 @@ import { IMenuItem } from './index';
 
 type PlanMenusProps = {
   menus: IMenuItem[];
-  onClickMenu: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickMenu: (url: string) => void;
   activeMenu: string;
 };
 
 const PlanMenus = ({ menus, onClickMenu, activeMenu }: PlanMenusProps): JSX.Element => {
   const router = useRouter();
-  const handleClickMenu = (menu) => {
+  const handleClickMenu = (menu: IMenuItem) => {
     if (onClickMenu) {
       if (menu.url) {
         onClickMenu(menu.url);
       }
-    } else {
-      router.push(menu.url);
     }
   };
   return (
