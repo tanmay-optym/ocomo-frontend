@@ -8,7 +8,6 @@
     },
     "outDir": "./dist",
     "jsx": "preserve",
-    "noImplicitAny": false
   },
   "typeRoots": ["./src/@types", "index.d.ts"],
   "strict": true,
