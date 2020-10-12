@@ -107,7 +107,7 @@ export const updateData = (
   dispatch: Dispatch<SetPayloadActionType>,
   endpoint: string,
   requestBody: any,
-  detail: string
+  pathVariable: string
 ) => {
   dispatch({ type: 'LOADING', payload: {} });
   const API_HOST =
@@ -117,7 +117,7 @@ export const updateData = (
       ? process.env.NEXT_PUBLIC_APP_URL
       : API_URL;
   axios
-    .put(`${API_HOST}${getAPIPath(endpoint)}${detail}`, requestBody, axiosConfig)
+    .put(`${API_HOST}${getAPIPath(endpoint)}${pathVariable}`, requestBody, axiosConfig)
     .then((response) => response)
     .then((response) =>
       dispatch({
