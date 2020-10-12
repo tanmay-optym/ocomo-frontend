@@ -1,7 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, Dispatch } from 'react';
 import { useSnackbar, VariantType } from 'notistack';
 import { updateData, postData } from '../../pages/api/apiConstants';
-import { reducer, useThunkReducer, ApiState } from '../../pages/api/useThunkReducer';
+import {
+  reducer,
+  useThunkReducer,
+  ApiState,
+  SetPayloadActionType
+} from '../../pages/api/useThunkReducer';
 
 const useUpdate = (
   onFinish?: (values: object, index: number) => void,
@@ -19,7 +24,7 @@ const useUpdate = (
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
     if (data.data || data.error) {
-      let message = 'Saved';
+      let message = 'Success';
       let variant: VariantType = 'success';
       if (data.error !== null) {
         message = 'Failed';
@@ -35,10 +40,16 @@ const useUpdate = (
 
   const onSubmit = (values: Object) => {
     if (onFinish && queryString && initialValues && key) {
-      const dataUpdate = { ...initialValues, ...values };
+      const dataUpdate: any = { ...initialValues, ...values };
       delete dataUpdate['isNew'];
-      if (initialValues['isNew']) dispatchRequest((e) => postData(e, queryString, dataUpdate));
-      else dispatchRequest((e) => updateData(e, queryString, dataUpdate, `/${initialValues[key]}`));
+      if ((initialValues as any)['isNew'])
+        dispatchRequest((e: Dispatch<SetPayloadActionType>) =>
+          postData(e, queryString, dataUpdate)
+        );
+      else
+        dispatchRequest((e: Dispatch<SetPayloadActionType>) =>
+          updateData(e, queryString, dataUpdate, `/${(initialValues as any)[key]}`)
+        );
     }
   };
 

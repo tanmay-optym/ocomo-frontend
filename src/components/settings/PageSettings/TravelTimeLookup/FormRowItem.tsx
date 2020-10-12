@@ -27,7 +27,7 @@ export default function FormRowItem({
       shopCode2: shopOptions.find((item) => item.value === initialValues.shopCode2)
     }
   });
-  const onSubmit = (values) => {
+  const onSubmit = (values: any) => {
     if (onFinish) {
       onFinish({ ...initialValues, ...values });
     }

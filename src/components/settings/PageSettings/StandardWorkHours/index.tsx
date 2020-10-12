@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch } from 'react';
 import FormRowContainer from '../../FormRowContainer';
 import BtnAddNewRow from '../../BtnAddNewRow';
 import FormRowItem from './FormRowItem';
@@ -7,7 +7,11 @@ import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
-import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import {
+  reducer,
+  SetPayloadActionType,
+  useThunkReducer
+} from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
@@ -36,7 +40,7 @@ export default function FormStandardWorkHours(): JSX.Element {
   });
 
   useEffect(() => {
-    dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_SWH', ''));
+    dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_SWH', ''));
   }, []);
 
   useEffect(() => {
@@ -55,7 +59,7 @@ export default function FormStandardWorkHours(): JSX.Element {
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data, index) => {
+  const handleSaveData = (data: any, index: number) => {
     // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[index] = data;

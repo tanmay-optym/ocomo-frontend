@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch } from 'react';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
@@ -7,7 +7,11 @@ import BtnAddNewRow from '../../BtnAddNewRow';
 import FormRowItem from './FormRowItem';
 import FormRowContainer from '../../FormRowContainer';
 import { CSVLink } from 'react-csv';
-import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import {
+  reducer,
+  SetPayloadActionType,
+  useThunkReducer
+} from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
@@ -27,7 +31,7 @@ const AdditionalParameters = (): JSX.Element => {
     data: []
   });
   useEffect(() => {
-    dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_ADP', ''));
+    dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_ADP', ''));
   }, []);
 
   const headersCSV = [
@@ -49,8 +53,7 @@ const AdditionalParameters = (): JSX.Element => {
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data, index) => {
-    // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
+  const handleSaveData = (data: any, index: number) => {
     const newDataSource = [...dataSource];
     newDataSource[index] = data;
     setDataSource(newDataSource);

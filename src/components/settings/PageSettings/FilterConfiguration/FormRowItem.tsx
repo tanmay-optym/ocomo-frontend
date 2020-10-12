@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Dispatch, Fragment, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FormRowContainer from '../../FormRowContainer';
 import FormItem from '../../FormItem';
@@ -7,9 +7,13 @@ import FormLabel from '../../FormLabel';
 import FormItemExplainError from '../../FormItemExplainError';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
-import { useSnackbar } from 'notistack';
+import { useSnackbar, VariantType } from 'notistack';
 import { deleteData } from '../../../../../pages/api/apiConstants';
-import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import {
+  reducer,
+  SetPayloadActionType,
+  useThunkReducer
+} from '../../../../../pages/api/useThunkReducer';
 import { IFilterConfiguration } from './index';
 import useUpdate from '../../../../hooks/useUpdate';
 import BtnAction from '../../BtnAction';
@@ -86,7 +90,7 @@ export default function FormRowItem({
     if (dataDelete.data || dataDelete.error) {
       // window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
       let message = 'Saved';
-      let variant = 'success';
+      let variant: VariantType = 'success';
       if (data.error !== null) {
         message = 'Failed';
         variant = 'error';
@@ -101,14 +105,16 @@ export default function FormRowItem({
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleRemove = (e) => {
-    e.preventDefault();
+  const handleRemove = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     if (onRemove) {
-      dispatchRequest((e) => deleteData(e, 'UI_SETTINGS_FILTER', `/${initialValues.code}`));
+      dispatchRequest((e: Dispatch<SetPayloadActionType>) =>
+        deleteData(e, 'UI_SETTINGS_FILTER', `/${initialValues.code}`)
+      );
     }
   };
 
-  const onChange = (values) => {
+  const onChange = (values: any) => {
     if (!description) trigger('description');
     else onSubmit(values);
   };
@@ -122,7 +128,7 @@ export default function FormRowItem({
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
-              style={{ width: 150, marginRight: 10 }}
+              style={{ width: 150, marginRight: 0 }}
               name="description"
               refInput={register({ required: 'Reguire' })}
             />
@@ -170,23 +176,6 @@ export default function FormRowItem({
           }}>
           Remove
         </BtnAction>
-        {/* <button
-          type="button"
-          onClick={handleRemove}
-          style={{
-            background: '#EEEEEE',
-            borderRadius: '4px',
-            border: 'none',
-            height: '36px',
-            width: '90px',
-            color: '#5D6E7F',
-            fontWeight: 500,
-            top: 0,
-            marginTop: -10,
-            cursor: 'pointer'
-          }}>
-          Remove
-        </button> */}
       </div>
     </form>
   );

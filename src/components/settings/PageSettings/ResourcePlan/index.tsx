@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch } from 'react';
 import TableData from './TableData';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import { CSVLink } from 'react-csv';
-import { reducer, useThunkReducer } from '../../../../../pages/api/useThunkReducer';
+import {
+  reducer,
+  SetPayloadActionType,
+  useThunkReducer
+} from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
@@ -83,7 +87,9 @@ export default function TableResourcePlan(): JSX.Element {
   });
 
   useEffect(() => {
-    dispatchRequest((e) => fetchData(e, 'CONSTRAINTS_RESOURCE_PLAN', ''));
+    dispatchRequest((e: Dispatch<SetPayloadActionType>) =>
+      fetchData(e, 'CONSTRAINTS_RESOURCE_PLAN', '')
+    );
   }, []);
 
   const [dataErrors, setDataErrors] = useState({});
@@ -92,7 +98,7 @@ export default function TableResourcePlan(): JSX.Element {
     setDataSource(data.data || []);
   }, [data]);
 
-  const handleRowClick = (rowData) => {
+  const handleRowClick = (rowData: IResourcePlan) => {
     const hasRowError = Object.values(dataErrors).some((hasError) => hasError);
     if (hasRowError) {
       return;
@@ -108,11 +114,11 @@ export default function TableResourcePlan(): JSX.Element {
     setDataSource(newDataSource);
   };
 
-  const handleHasErrors = (id, hasError) => {
+  const handleHasErrors = (id: number, hasError: boolean) => {
     setDataErrors({ ...dataErrors, [id]: hasError });
   };
 
-  const handleSaveData = (data, index) => {
+  const handleSaveData = (data: any, index: number) => {
     const newDataSource = [...dataSource];
     newDataSource[index] = { ...newDataSource[index], ...data, editable: false };
     setDataSource(newDataSource);
