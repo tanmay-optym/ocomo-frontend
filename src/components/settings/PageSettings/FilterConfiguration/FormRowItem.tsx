@@ -116,7 +116,7 @@ export default function FormRowItem({
   };
 
   const onSwitchChange = (valueChecked: boolean) => {
-    const values = { value: valueChecked };
+    const values = { value: valueChecked, description: '' };
     if (description) {
       values.description = description;
     } else if (initialValues.description !== '') {
