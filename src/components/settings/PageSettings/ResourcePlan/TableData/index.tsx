@@ -22,13 +22,13 @@ type TableDataProps = {
   dataSource: IResourcePlan[];
   columns: ColumnsType[];
   onRowClick?: (rowData: IResourcePlan) => void;
-  onFinish: (values: object, index: number) => void;
+  onFinish: (values: any, index: number) => void;
   onHasErrors: (id: number, hasError: boolean) => void;
 };
 
 const StyledTableHeaderCell = withStyles(() =>
   createStyles({
-    root: {}
+    root: {},
   })
 )(TableCell);
 
@@ -37,7 +37,7 @@ export default function TableData({
   columns = [],
   onRowClick,
   onFinish,
-  onHasErrors
+  onHasErrors,
 }: TableDataProps): JSX.Element {
   return (
     <TableContainer>
@@ -46,7 +46,7 @@ export default function TableData({
           <TableRow>
             {columns.map((colConfig, index) => {
               return (
-                <StyledTableHeaderCell className={styles['header-cell']} key={index}>
+                <StyledTableHeaderCell className={styles['header-cell']} key={index.toString()}>
                   {colConfig.title}
                 </StyledTableHeaderCell>
               );
@@ -54,7 +54,8 @@ export default function TableData({
             <StyledTableHeaderCell
               className={styles['header-cell']}
               style={{ width: 80 }}
-              key={'header-cell-action'}></StyledTableHeaderCell>
+              key={'header-cell-action'}
+            />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -65,8 +66,9 @@ export default function TableData({
               onFinish={onFinish}
               onHasErrors={onHasErrors}
               initialValues={data}
-              key={data.id}
-              index={index}></FormRowItem>
+              key={data.shopCode}
+              index={index}
+            />
           ))}
         </TableBody>
       </Table>

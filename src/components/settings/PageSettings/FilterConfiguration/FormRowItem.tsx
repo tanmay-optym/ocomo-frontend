@@ -1,32 +1,33 @@
-import React, { Dispatch, Fragment, useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Switch from '@material-ui/core/Switch';
+import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { useSnackbar, VariantType } from 'notistack';
 import FormRowContainer from '../../FormRowContainer';
 import FormItem from '../../FormItem';
 import InputSetting from '../../InputSetting';
 import FormLabel from '../../FormLabel';
 import FormItemExplainError from '../../FormItemExplainError';
-import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
-import { useSnackbar, VariantType } from 'notistack';
 import { deleteData } from '../../../../../pages/api/apiConstants';
 import {
   reducer,
   SetPayloadActionType,
-  useThunkReducer
+  useThunkReducer,
 } from '../../../../../pages/api/useThunkReducer';
 import { IFilterConfiguration } from './index';
 import useUpdate from '../../../../hooks/useUpdate';
 import BtnAction from '../../BtnAction';
 
-const switch_height = 20;
-const switch_width = 40;
-const AntSwitch = withStyles((theme: Theme) =>
-  createStyles({
+const switchHeight = 20;
+const switchWidth = 40;
+
+const AntSwitch = withStyles((theme: Theme) => {
+  return createStyles({
     root: {
-      width: switch_width,
-      height: switch_height,
+      width: switchWidth,
+      height: switchHeight,
       padding: 0,
-      display: 'flex'
+      display: 'flex',
     },
     switchBase: {
       padding: 4,
@@ -37,28 +38,28 @@ const AntSwitch = withStyles((theme: Theme) =>
         '& + $track': {
           opacity: 1,
           backgroundColor: '#fff',
-          borderColor: theme.palette.primary.main
-        }
-      }
+          borderColor: theme.palette.primary.main,
+        },
+      },
     },
     thumb: {
       width: 12,
       height: 12,
-      boxShadow: 'none'
+      boxShadow: 'none',
     },
     track: {
-      border: `3px solid #778899`,
-      borderRadius: switch_height / 2,
+      border: '3px solid #778899',
+      borderRadius: switchHeight / 2,
       opacity: 1,
-      backgroundColor: theme.palette.common.white
+      backgroundColor: theme.palette.common.white,
     },
-    checked: {}
-  })
-)(Switch);
+    checked: {},
+  });
+})(Switch);
 
 type FormRowItemProps = {
   initialValues: IFilterConfiguration;
-  onFinish: (values: object) => void;
+  onFinish: (values: any) => void;
   onRemove?: (id: string) => void;
   index: number;
 };
@@ -67,23 +68,25 @@ export default function FormRowItem({
   initialValues,
   onFinish,
   onRemove,
-  index
+  index,
 }: FormRowItemProps): JSX.Element {
   const { register, watch, errors, trigger } = useForm({
-    defaultValues: { ...initialValues }
+    defaultValues: { ...initialValues },
   });
+  const { enqueueSnackbar } = useSnackbar();
   const [checked, setChecked] = useState(false);
   const description = watch('description');
+
   useEffect(() => {
     setChecked(initialValues.value);
   }, [initialValues]);
-  // const values = watch();
+
   const [data, onSubmit] = useUpdate(onFinish, initialValues, 'UI_SETTINGS_FILTER', 'code', index);
 
   const [dataDelete, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
-    data: null
+    data: null,
   });
 
   useEffect(() => {
@@ -98,39 +101,42 @@ export default function FormRowItem({
         onRemove(initialValues.code);
       }
       enqueueSnackbar(message, {
-        variant
+        variant,
       });
     }
   }, [dataDelete]);
 
-  const { enqueueSnackbar } = useSnackbar();
-
   const handleRemove = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (onRemove) {
-      dispatchRequest((e: Dispatch<SetPayloadActionType>) =>
-        deleteData(e, 'UI_SETTINGS_FILTER', `/${initialValues.code}`)
-      );
+      dispatchRequest((e: Dispatch<SetPayloadActionType>) => {
+        deleteData(e, 'UI_SETTINGS_FILTER', `/${initialValues.code}`);
+      });
     }
   };
 
-  const onChange = (values: any) => {
-    if (!description) trigger('description');
-    else onSubmit(values);
+  const onSwitchChange = (valueChecked: boolean) => {
+    const values = { value: valueChecked };
+    if (description) {
+      values.description = description;
+    } else if (initialValues.description !== '') {
+      values.description = initialValues.description;
+    } else {
+      trigger('description');
+    }
+    onSubmit(values);
   };
   return (
     <form style={{ display: 'flex' }} key={initialValues.code}>
       <FormRowContainer>
         {initialValues.description !== '' ? (
-          <Fragment>
-            <FormLabel style={{ width: 150 }}>{initialValues.description}</FormLabel>
-          </Fragment>
+          <FormLabel style={{ width: 150 }}>{initialValues.description}</FormLabel>
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
               style={{ width: 150, marginRight: 0 }}
               name="description"
-              refInput={register({ required: 'Reguire' })}
+              refinput={register({ required: 'Reguire' })}
             />
             <FormItemExplainError errors={errors} fieldName={'description'} />
           </FormItem>
@@ -138,12 +144,8 @@ export default function FormRowItem({
         <FormItem margin={120} label={''}>
           <AntSwitch
             value="value"
-            onChange={(e) => {
-              onChange({
-                ...initialValues,
-                description,
-                value: e.target.checked
-              });
+            onChange={() => {
+              onSwitchChange(!checked);
             }}
             checked={checked}
             disabled={data.loading}
@@ -157,7 +159,7 @@ export default function FormRowItem({
           alignSelf: 'center',
           marginBottom: '20px',
           padding: '20px',
-          display: 'flex'
+          display: 'flex',
         }}>
         <BtnAction
           loading={dataDelete.loading}
@@ -172,7 +174,7 @@ export default function FormRowItem({
             fontWeight: 500,
             top: 0,
             marginTop: -10,
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}>
           Remove
         </BtnAction>

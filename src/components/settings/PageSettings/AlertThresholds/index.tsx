@@ -1,16 +1,16 @@
 import React, { useState, useEffect, Dispatch } from 'react';
+import { Button } from '@material-ui/core';
+import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
+import { CSVLink } from 'react-csv';
 import FormRowItem from './FormRowItem';
 import BtnAddNewRow from '../../BtnAddNewRow';
 import FormRowContainer from '../../FormRowContainer';
-import { Button } from '@material-ui/core';
-import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
-import { CSVLink } from 'react-csv';
 import {
   reducer,
   SetPayloadActionType,
-  useThunkReducer
+  useThunkReducer,
 } from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
@@ -29,7 +29,7 @@ export default function FormAlertThresholds(): JSX.Element {
   const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
-    data: []
+    data: [],
   });
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function FormAlertThresholds(): JSX.Element {
   const headersCSV = [
     { label: 'Name', key: 'description' },
     { label: 'Orange Alert', key: 'orangeAlert' },
-    { label: 'Red Alert', key: 'redAlert' }
+    { label: 'Red Alert', key: 'redAlert' },
   ];
   useEffect(() => {
     setDataSource(data.data || []);
@@ -51,15 +51,14 @@ export default function FormAlertThresholds(): JSX.Element {
       description: '',
       orangeAlert: '',
       redAlert: '',
-      isNew: true
+      isNew: true,
     };
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data: any, index: number) => {
-    // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
+  const handleSaveData = (resData: any, index: number) => {
     const newDataSource = [...dataSource];
-    newDataSource[index] = data;
+    newDataSource[index] = resData;
     setDataSource(newDataSource);
   };
 
@@ -78,11 +77,11 @@ export default function FormAlertThresholds(): JSX.Element {
       <PageBody>
         <Spin spinning={data.loading}>
           <div>
-            {dataSource.map((data, index) => {
+            {dataSource.map((dataItem, index) => {
               return (
                 <FormRowItem
                   onFinish={handleSaveData}
-                  initialValues={data}
+                  initialValues={dataItem}
                   key={index.toString()}
                   index={index}
                 />

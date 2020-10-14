@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './InputSetting.module.scss';
 
 type InputSettingProps = {
-  refInput:
+  refinput:
     | string
     | ((instance: HTMLInputElement | null) => void)
     | React.RefObject<HTMLInputElement>
@@ -17,7 +17,7 @@ type InputSettingProps = {
 export default function InputSetting({
   name,
   type,
-  refInput,
+  refinput,
   style,
   ...props
 }: InputSettingProps): JSX.Element {
@@ -25,7 +25,7 @@ export default function InputSetting({
     <input
       className={styles['comp-input-setting']}
       type={type}
-      ref={refInput}
+      ref={refinput}
       name={name}
       style={style}
       {...props}></input>

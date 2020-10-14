@@ -1,16 +1,17 @@
 import React, { useState, useEffect, Dispatch } from 'react';
+import { Button } from '@material-ui/core';
+import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
+import { CSVLink } from 'react-csv';
 import FormRowContainer from '../../FormRowContainer';
 import BtnAddNewRow from '../../BtnAddNewRow';
 import FormRowItem from './FormRowItem';
-import { Button } from '@material-ui/core';
-import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
-import { CSVLink } from 'react-csv';
+
 import {
   reducer,
   SetPayloadActionType,
-  useThunkReducer
+  useThunkReducer,
 } from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
@@ -31,12 +32,12 @@ export default function FormStandardWorkHours(): JSX.Element {
     { label: 'Name', key: 'description' },
     { label: 'Severity Level', key: 'severityLevel' },
     { label: 'Max Hour', key: 'majorStopStdHrs' },
-    { label: 'Min Hour', key: 'minorStopStdHrs' }
+    { label: 'Min Hour', key: 'minorStopStdHrs' },
   ];
   const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
-    data: []
+    data: [],
   });
 
   useEffect(() => {
@@ -54,15 +55,15 @@ export default function FormStandardWorkHours(): JSX.Element {
       severityLevel: '',
       majorStopStdHrs: undefined,
       minorStopStdHrs: undefined,
-      isNew: true
+      isNew: true,
     };
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data: any, index: number) => {
+  const handleSaveData = (resData: any, index: number) => {
     // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
-    newDataSource[index] = data;
+    newDataSource[index] = resData;
     setDataSource(newDataSource);
   };
   return (
@@ -80,11 +81,11 @@ export default function FormStandardWorkHours(): JSX.Element {
       <PageBody>
         <Spin spinning={data.loading}>
           <div>
-            {dataSource.map((data, index) => {
+            {dataSource.map((dataItem, index) => {
               return (
                 <FormRowItem
                   onFinish={handleSaveData}
-                  initialValues={{ ...data }}
+                  initialValues={{ ...dataItem }}
                   key={index.toString()}
                   index={index}
                 />

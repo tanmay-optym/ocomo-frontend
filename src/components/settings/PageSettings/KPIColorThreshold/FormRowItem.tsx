@@ -1,30 +1,30 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import FormRowContainer from '../../FormRowContainer';
 import FormItem from '../../FormItem';
 import InputSetting from '../../InputSetting';
 import FormLabel from '../../FormLabel';
-import BtnAction from '../../BtnAction';
 import FormItemExplainError from '../../FormItemExplainError';
 import AlertWarningIcon from '../../SvgIcon/AlertWarningIcon';
 import AlertErrorIcon from '../../SvgIcon/AlertErrorIcon';
 import useUpdate from '../../../../hooks/useUpdate';
 
 import { IKPIColorThreshold } from './index';
+import FormItemActionSave from '../../FormItemActionSave';
 
 type FormRowItemProps = {
   initialValues: IKPIColorThreshold;
-  onFinish: (values: object, index: number) => void;
+  onFinish: (values: any, index: number) => void;
   index: number;
 };
 
 export default function FormRowItem({
   initialValues,
   onFinish,
-  index
+  index,
 }: FormRowItemProps): JSX.Element {
-  const { register, handleSubmit, errors } = useForm({
-    defaultValues: { ...initialValues }
+  const { register, handleSubmit, errors, watch, formState } = useForm({
+    defaultValues: { ...initialValues },
   });
   const [data, onSubmit] = useUpdate(onFinish, initialValues, 'UI_SETTINGS_KPI', 'code', index);
 
@@ -32,32 +32,31 @@ export default function FormRowItem({
     <form key={initialValues.code} onSubmit={handleSubmit(onSubmit)}>
       <FormRowContainer>
         {initialValues.description !== '' ? (
-          <Fragment>
-            <FormLabel style={{ width: 300 }}>{initialValues.description}</FormLabel>
-          </Fragment>
+          <FormLabel style={{ width: 300 }}>{initialValues.description}</FormLabel>
         ) : (
           <FormItem margin={0} label={''}>
             <InputSetting
-              style={{ width: 300, marginRight: 10 }}
+              style={{ width: 300, marginRight: 0 }}
               name="description"
-              refInput={register({ required: 'Required' })}
+              refinput={register({ required: 'Required' })}
             />
             <FormItemExplainError errors={errors} fieldName={'description'} />
           </FormItem>
         )}
         <FormItem margin={60} label={<AlertWarningIcon style={{ marginTop: 8 }} />}>
-          <InputSetting name="orangeKpi" refInput={register({ required: 'Required' })} />
+          <InputSetting name="orangeKpi" refinput={register({ required: 'Required' })} />
           <FormItemExplainError errors={errors} fieldName={'orangeKpi'} />
         </FormItem>
         <FormItem margin={60} label={<AlertErrorIcon style={{ marginTop: 8 }} />}>
-          <InputSetting name="redKpi" refInput={register({ required: 'Required' })} />
+          <InputSetting name="redKpi" refinput={register({ required: 'Required' })} />
           <FormItemExplainError errors={errors} fieldName={'redKpi'} />
         </FormItem>
-        <FormItem>
-          <BtnAction type="submit" loading={data.loading}>
-            Save
-          </BtnAction>
-        </FormItem>
+        <FormItemActionSave
+          initialValues={initialValues}
+          values={watch()}
+          isDirty={formState.isDirty}
+          loading={data.loading}
+        />
       </FormRowContainer>
     </form>
   );

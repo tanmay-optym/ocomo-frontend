@@ -5,12 +5,18 @@ import styles from './FormItem.module.scss';
 type FormItemProps = {
   label?: string | React.ReactNode;
   margin?: number;
+  style?: React.CSSProperties;
   children: React.ReactNode;
 };
 
-export default function FormItem({ label, margin = 10, ...props }: FormItemProps): JSX.Element {
+export default function FormItem({
+  label,
+  margin = 10,
+  style,
+  ...props
+}: FormItemProps): JSX.Element {
   return (
-    <div style={{ marginLeft: margin }} className={styles['comp-form-item']}>
+    <div style={{ ...style, marginLeft: margin }} className={styles['comp-form-item']}>
       {label && (
         <div className={styles['comp-form-item-label']}>
           <FormLabel>{label}</FormLabel>

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './InputTableEdit.module.scss';
 
 type InputTableEditProps = {
-  refInput:
+  refinput:
     | string
     | ((instance: HTMLInputElement | null) => void)
     | React.RefObject<HTMLInputElement>
@@ -16,7 +16,7 @@ type InputTableEditProps = {
 export default function InputTableEdit({
   name,
   type,
-  refInput,
+  refinput,
   style,
   ...props
 }: InputTableEditProps): JSX.Element {
@@ -24,9 +24,10 @@ export default function InputTableEdit({
     <input
       className={styles['comp-input-table-edit']}
       type={type}
-      ref={refInput}
+      ref={refinput}
       name={name}
       style={style}
-      {...props}></input>
+      {...props}
+    />
   );
 }

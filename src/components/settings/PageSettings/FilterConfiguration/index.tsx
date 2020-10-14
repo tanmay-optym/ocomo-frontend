@@ -1,17 +1,18 @@
 import React, { useState, useEffect, Dispatch } from 'react';
+import { Button } from '@material-ui/core';
+import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
+import { CSVLink } from 'react-csv';
 import BtnAddNewRow from '../../BtnAddNewRow';
 import FormRowItem from './FormRowItem';
 import FormRowContainer from '../../FormRowContainer';
-import { Button } from '@material-ui/core';
-import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
-import { CSVLink } from 'react-csv';
+
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import {
   reducer,
   SetPayloadActionType,
-  useThunkReducer
+  useThunkReducer,
 } from '../../../../../pages/api/useThunkReducer';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
@@ -28,14 +29,14 @@ export default function FormFilterConfiguration(): JSX.Element {
   const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
-    data: []
+    data: [],
   });
   useEffect(() => {
     dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'UI_SETTINGS_FILTER', ''));
   }, []);
   const headersCSV = [
     { label: 'Name', key: 'description' },
-    { label: 'Value', key: 'value' }
+    { label: 'Value', key: 'value' },
   ];
   useEffect(() => {
     setDataSource(data.data || []);
@@ -46,20 +47,20 @@ export default function FormFilterConfiguration(): JSX.Element {
       code: Math.round(new Date().getTime() / 1000).toString(),
       description: '',
       value: false,
-      isNew: true
+      isNew: true,
     };
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data: any) => {
-    const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
+  const handleSaveData = (resData: any) => {
+    const rowDataIndex = dataSource.findIndex((item) => item.code === resData.code);
     const newDataSource = [...dataSource];
-    newDataSource[rowDataIndex] = data;
+    newDataSource[rowDataIndex] = resData;
     setDataSource(newDataSource);
   };
 
   const handleRemoveData = (code: string): void => {
-    const newDataSource = dataSource.filter((data) => data.code !== code);
+    const newDataSource = dataSource.filter((dataItem) => dataItem.code !== code);
     setDataSource(newDataSource);
   };
   return (
@@ -69,9 +70,9 @@ export default function FormFilterConfiguration(): JSX.Element {
         rightAction={
           <CSVLink
             filename={'filter-configuration.csv'}
-            data={dataSource?.map((data) => ({
-              ...data,
-              value: data.value ? 'Enabled' : 'Disable'
+            data={dataSource?.map((dataItem) => ({
+              ...dataItem,
+              value: dataItem.value ? 'Enabled' : 'Disable',
             }))}
             headers={headersCSV}>
             <Button>
@@ -83,11 +84,11 @@ export default function FormFilterConfiguration(): JSX.Element {
       <PageBody>
         <Spin spinning={data.loading}>
           <div>
-            {dataSource.map((data, index) => {
+            {dataSource.map((dataItem, index) => {
               return (
                 <FormRowItem
                   onFinish={handleSaveData}
-                  initialValues={data}
+                  initialValues={dataItem}
                   key={index.toString()}
                   onRemove={handleRemoveData}
                   index={index}

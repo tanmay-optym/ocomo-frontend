@@ -1,14 +1,14 @@
 import React, { useState, useEffect, Dispatch } from 'react';
-import TableData from './TableData';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
+import { CSVLink } from 'react-csv';
+import TableData from './TableData';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
-import { CSVLink } from 'react-csv';
 import {
   reducer,
   SetPayloadActionType,
-  useThunkReducer
+  useThunkReducer,
 } from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
@@ -33,41 +33,41 @@ const columns = [
   {
     title: 'Desired Unplanned',
     dataIndex: 'desiredUnplanned',
-    editable: true
+    editable: true,
   },
   {
     title: 'Special Capability',
     dataIndex: 'specialCapability',
     editable: true,
-    require: false
+    require: false,
   },
   {
     title: 'Prohibited Maint. Type',
     dataIndex: 'prohibitedMaintType',
     editable: true,
-    require: false
+    require: false,
   },
   {
     title: 'M-F Work Hours',
     dataIndex: 'weekDaysWorkHrs',
-    editable: true
+    editable: true,
   },
   {
     title: 'Sat Work Hours',
     dataIndex: 'satWorkHrs',
-    editable: true
+    editable: true,
   },
   {
     title: 'Sun Work Hours',
     dataIndex: 'sunWorkHrs',
-    editable: true
-  }
+    editable: true,
+  },
 ];
 
 const headersCSV = [
   {
     key: 'shopCode',
-    label: 'Shop'
+    label: 'Shop',
   },
   { key: 'region', label: 'Region' },
   { key: 'desiredUnplanned', label: 'Desired Unplanned' },
@@ -75,7 +75,7 @@ const headersCSV = [
   { key: 'prohibitedMaintType', label: 'Prohibited Maint. Type' },
   { key: 'weekDaysWorkHrs', label: 'M-F Work Hours' },
   { key: 'satWorkHrs', label: 'Sat Work Hours' },
-  { key: 'sunWorkHrs', label: 'Sun Work Hours' }
+  { key: 'sunWorkHrs', label: 'Sun Work Hours' },
 ];
 
 export default function TableResourcePlan(): JSX.Element {
@@ -83,7 +83,7 @@ export default function TableResourcePlan(): JSX.Element {
   const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
-    data: []
+    data: [],
   });
 
   useEffect(() => {
@@ -103,14 +103,14 @@ export default function TableResourcePlan(): JSX.Element {
     if (hasRowError) {
       return;
     }
-    const hasEditing = Object.values(dataSource).some((data) => data.editable);
+    const hasEditing = Object.values(dataSource).some((dataItem) => dataItem.editable);
     if (hasEditing) {
       return;
     }
-    const rowIndex = dataSource.findIndex((data) => data.shopCode === rowData.shopCode);
-    const data = dataSource[rowIndex];
+    const rowIndex = dataSource.findIndex((dataItem) => dataItem.shopCode === rowData.shopCode);
+    const dataItem = dataSource[rowIndex];
     const newDataSource = [...dataSource];
-    newDataSource[rowIndex] = { ...data, editable: true };
+    newDataSource[rowIndex] = { ...dataItem, editable: true };
     setDataSource(newDataSource);
   };
 
@@ -118,9 +118,9 @@ export default function TableResourcePlan(): JSX.Element {
     setDataErrors({ ...dataErrors, [id]: hasError });
   };
 
-  const handleSaveData = (data: any, index: number) => {
+  const handleSaveData = (resData: any, index: number) => {
     const newDataSource = [...dataSource];
-    newDataSource[index] = { ...newDataSource[index], ...data, editable: false };
+    newDataSource[index] = { ...newDataSource[index], ...resData, editable: false };
     setDataSource(newDataSource);
   };
   return (

@@ -1,16 +1,17 @@
 import React, { useState, useEffect, Dispatch } from 'react';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
+import { CSVLink } from 'react-csv';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import BtnAddNewRow from '../../BtnAddNewRow';
 import FormRowItem from './FormRowItem';
 import FormRowContainer from '../../FormRowContainer';
-import { CSVLink } from 'react-csv';
+
 import {
   reducer,
   SetPayloadActionType,
-  useThunkReducer
+  useThunkReducer,
 } from '../../../../../pages/api/useThunkReducer';
 import { fetchData } from '../../../../../pages/api/apiConstants';
 import Spin from '../../Spin';
@@ -28,7 +29,7 @@ const AdditionalParameters = (): JSX.Element => {
   const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
-    data: []
+    data: [],
   });
   useEffect(() => {
     dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_ADP', ''));
@@ -36,7 +37,7 @@ const AdditionalParameters = (): JSX.Element => {
 
   const headersCSV = [
     { label: 'Name', key: 'description' },
-    { label: 'Value', key: 'value' }
+    { label: 'Value', key: 'value' },
   ];
 
   useEffect(() => {
@@ -48,23 +49,23 @@ const AdditionalParameters = (): JSX.Element => {
       code: Math.round(new Date().getTime() / 1000).toString(),
       description: '',
       value: '',
-      isNew: true
+      isNew: true,
     };
     setDataSource([...dataSource, newData]);
   };
 
-  const handleSaveData = (data: any, index: number) => {
+  const handleSaveData = (resData: any, index: number) => {
     const newDataSource = [...dataSource];
-    newDataSource[index] = data;
+    newDataSource[index] = resData;
     setDataSource(newDataSource);
   };
 
   return (
     <Card>
       <CardHeader
-        title={'Additional Parameters'}
+        title="Additional Parameters"
         rightAction={
-          <CSVLink filename={'additional-parameters.csv'} data={dataSource} headers={headersCSV}>
+          <CSVLink filename="additional-parameters.csv" data={dataSource} headers={headersCSV}>
             <Button>
               <GetAppOutlinedIcon />
             </Button>
@@ -74,11 +75,11 @@ const AdditionalParameters = (): JSX.Element => {
       <PageBody>
         <Spin spinning={data.loading}>
           <div>
-            {dataSource.map((data, index) => {
+            {dataSource.map((dataItem, index) => {
               return (
                 <FormRowItem
                   onFinish={handleSaveData}
-                  initialValues={{ ...data }}
+                  initialValues={{ ...dataItem }}
                   key={index.toString()}
                   index={index}
                 />
