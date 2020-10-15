@@ -25,20 +25,21 @@ const CONFIG_MENU: IConfigMenuItem[] = [
 
 const PageSettings = (): JSX.Element => {
   const [activeMenu, setActiveMenu] = useState('/resource-plan');
+  const theme = useTheme();
   const handleClickMenu = (url: string) => {
     setActiveMenu(url);
   };
   const page = CONFIG_MENU.find((item) => item.code === activeMenu);
   return (
-    <Grid container style={{margin: 0, padding: 8}}  spacing={2}>
+    <Grid container style={{backgroundColor: "#EDEDED",
+      padding: theme.spacing(1)
+}} >
       <Grid item xs={6} sm={2}>
         <MenuLeft activeMenu={activeMenu} onClickMenu={handleClickMenu} />
       </Grid>
-      <Grid item xs={6} sm={10}>
+      <Grid item xs={6} sm={10} style={{paddingLeft: theme.spacing(1)}}>
         {page ? page.node : null}
       </Grid>
     </Grid>
   );
 };
-
-export default PageSettings;
