@@ -1,12 +1,12 @@
 import { useEffect, Dispatch } from 'react';
 import { useSnackbar, VariantType } from 'notistack';
-import { updateSetData, postData } from '../api/apiConstants';
+import { updateSetData, postData } from './apiConstants';
 import {
   reducer,
   useThunkReducer,
   ApiState,
   SetPayloadActionType
-} from '../api/useThunkReducer';
+} from './useThunkReducer';
 
 const useUpdate = (
   onFinish?: (values: object, index: number) => void,

@@ -30,7 +30,7 @@ const PageSettings = (): JSX.Element => {
   };
   const page = CONFIG_MENU.find((item) => item.code === activeMenu);
   return (
-    <Grid container spacing={2}>
+    <Grid container style={{margin: 0, padding: 8}}  spacing={2}>
       <Grid item xs={6} sm={2}>
         <MenuLeft activeMenu={activeMenu} onClickMenu={handleClickMenu} />
       </Grid>
