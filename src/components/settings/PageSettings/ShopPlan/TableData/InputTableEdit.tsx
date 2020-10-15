@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './InputSetting.module.scss';
+import styles from './InputTableEdit.module.scss';
 
-type InputSettingProps = {
+type InputTableEditProps = {
   refinput:
     | string
     | ((instance: HTMLInputElement | null) => void)
@@ -11,23 +11,23 @@ type InputSettingProps = {
   type?: string;
   name: string;
   style?: React.CSSProperties;
-  placeholder?: string;
 };
 
-export default function InputSetting({
+export default function InputTableEdit({
   name,
   type,
   refinput,
   style,
   ...props
-}: InputSettingProps): JSX.Element {
+}: InputTableEditProps): JSX.Element {
   return (
     <input
-      className={styles['comp-input-setting']}
+      className={styles['comp-input-table-edit']}
       type={type}
       ref={refinput}
       name={name}
       style={style}
-      {...props} />
+      {...props}
+    />
   );
 }

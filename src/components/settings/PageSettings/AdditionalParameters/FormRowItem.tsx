@@ -5,7 +5,7 @@ import FormItem from '../../FormItem';
 import InputSetting from '../../InputSetting';
 import FormLabel from '../../FormLabel';
 import FormItemExplainError from '../../FormItemExplainError';
-import useUpdate from '../../../../hooks/useUpdate';
+import useUpdate from '../../../../api/useUpdate';
 
 import { IAdditionalParameters } from './index';
 import FormItemActionSave from '../../FormItemActionSave';

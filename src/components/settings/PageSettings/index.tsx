@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
+import { useTheme } from '@material-ui/core/styles';
 import MenuLeft from '../MenuLeft';
 import ResourcePlan from './ResourcePlan';
 import StandardWorkHours from './StandardWorkHours';
@@ -8,6 +9,8 @@ import AdditionalParameters from './AdditionalParameters';
 import AlertThresholds from './AlertThresholds';
 import KPIColorThreshold from './KPIColorThreshold';
 import FilterConfiguration from './FilterConfiguration';
+import ShopPlan from './ShopPlan';
+import WorkType from './WorkType';
 
 type IConfigMenuItem = {
   code: string;
@@ -20,7 +23,9 @@ const CONFIG_MENU: IConfigMenuItem[] = [
   { code: '/additional-parameters', node: <AdditionalParameters /> },
   { code: '/alert-thresholds', node: <AlertThresholds /> },
   { code: '/filter-configuration', node: <FilterConfiguration /> },
-  { code: '/kpi-color-threshold', node: <KPIColorThreshold /> }
+  { code: '/kpi-color-threshold', node: <KPIColorThreshold /> },
+  { code: '/shop-plan', node: <ShopPlan /> },
+  { code: '/work-type', node: <WorkType /> }
 ];
 
 const PageSettings = (): JSX.Element => {
@@ -43,3 +48,5 @@ const PageSettings = (): JSX.Element => {
     </Grid>
   );
 };
+
+export default PageSettings;

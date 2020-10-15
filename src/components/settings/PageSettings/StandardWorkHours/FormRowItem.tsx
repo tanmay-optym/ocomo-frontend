@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import BtnAction from '../../BtnAction';
 import FormItemExplainError from '../../FormItemExplainError';
 import { IStandardWorkHours } from './index';
-import useUpdate from '../../../../hooks/useUpdate';
+import useUpdate from '../../../../api/useUpdate';
 
 type FormRowItemProps = {
   initialValues: IStandardWorkHours;
@@ -38,21 +38,21 @@ export default function FormRowItem({
             <InputSetting
               style={{ width: 194, marginRight: 0 }}
               name="description"
-              refInput={register({ required: 'Required' })}
+              refinput={register({ required: 'Required' })}
             />
             <FormItemExplainError errors={errors} fieldName={'description'} />
           </FormItem>
         )}
         <FormItem label={'Severity'}>
-          <InputSetting name="severityLevel" refInput={register({ required: 'Required' })} />
+          <InputSetting name="severityLevel" refinput={register({ required: 'Required' })} />
           <FormItemExplainError errors={errors} fieldName={'severityLevel'} />
         </FormItem>
         <FormItem label={'Major'}>
-          <InputHours name="majorStopStdHrs" refInput={register({ required: 'Required' })} />
+          <InputHours name="majorStopStdHrs" refinput={register({ required: 'Required' })} />
           <FormItemExplainError errors={errors} fieldName={'majorStopStdHrs'} />
         </FormItem>
         <FormItem label={'Min'}>
-          <InputHours name="minorStopStdHrs" refInput={register({ required: 'Required' })} />
+          <InputHours name="minorStopStdHrs" refinput={register({ required: 'Required' })} />
           <FormItemExplainError errors={errors} fieldName={'minorStopStdHrs'} />
         </FormItem>
         <FormItem>

@@ -4,17 +4,16 @@ import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import BtnAction from '../../../BtnAction';
-import { IResourcePlan } from '../index';
+import { IShopPlan } from '../index';
 import InputTableEdit from './InputTableEdit';
 import { ColumnsType } from './index';
-import useUpdate from '../../../../../api/useUpdate';
 
 type FormRowItemProps = {
-  initialValues: IResourcePlan;
+  initialValues: IShopPlan;
   onFinish: (values: any, index: number) => void;
-  onHasErrors: (id: number, hasError: boolean) => void;
+  onHasErrors: (shopCode: string, hasError: boolean) => void;
   columns: ColumnsType[];
-  onRowClick?: (rowData: IResourcePlan) => void;
+  onRowClick?: (rowData: IShopPlan) => void;
   index: number;
 };
 
@@ -68,27 +67,33 @@ export default function FormRowItem({
 
   const hasError: boolean = Object.values(errors).length > 0;
 
-  const [data, onSubmit] = useUpdate(
-    onFinish,
-    initialValues,
-    'CONSTRAINTS_RESOURCE_PLAN',
-    'shopCode',
-    index
-  );
+  // const [data, onSubmit] = useUpdate(
+  //   onFinish,
+  //   initialValues,
+  //   'CONSTRAINTS_RESOURCE_PLAN',
+  //   'shopCode',
+  //   index
+  // );
+
+  const onSubmit = (values: IShopPlan) => {
+    if (onFinish) {
+      onFinish({ ...initialValues, ...values, editable: false }, index);
+    }
+  };
 
   useEffect(() => {
     if (onHasErrors) {
-      onHasErrors(initialValues.id, hasError);
+      onHasErrors(initialValues.shopCode, hasError);
     }
   }, [hasError]);
 
   return (
-    <StyledTableRow key={initialValues.id} onClick={handleOnRowClick}>
+    <StyledTableRow key={initialValues.shopCode} onClick={handleOnRowClick}>
       {columns.map((colConfig: ColumnsType) => {
         if (!initialValues.editable || !colConfig.editable) {
           return (
             <StyledTableCell
-              style={initialValues.editable ? styledCellEdit : {}}
+              style={initialValues.editable ? styledCellEdit : { paddingLeft: '16px' }}
               key={colConfig.dataIndex}>
               {(initialValues as any)[colConfig.dataIndex]}
             </StyledTableCell>
@@ -97,7 +102,7 @@ export default function FormRowItem({
         const required = colConfig.require === false ? false : 'Required';
         return (
           <StyledTableCell
-            style={initialValues.editable ? styledCellEdit : {}}
+            style={initialValues.editable ? styledCellEdit : { paddingLeft: '16px' }}
             key={colConfig.dataIndex}>
             <InputTableEdit name={colConfig.dataIndex} refinput={register({ required })} />
             <div style={{ color: '#fa5c64', position: 'absolute', fontSize: '11px' }}>
@@ -106,9 +111,9 @@ export default function FormRowItem({
           </StyledTableCell>
         );
       })}
-      <StyledTableCell style={initialValues.editable ? styledCellEdit : {}} key="actionSave">
+      <StyledTableCell style={initialValues.editable ? styledCellEdit : { paddingLeft: '16px' }} key="actionSave">
         {initialValues.editable && (
-          <BtnAction onClick={handleSubmit(onSubmit)} style={{ height: 32 }} loading={data.loading}>
+          <BtnAction onClick={handleSubmit(onSubmit)} style={{ height: 32 }} loading={false}>
             Save
           </BtnAction>
         )}

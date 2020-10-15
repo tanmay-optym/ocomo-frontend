@@ -45,11 +45,11 @@ const menuData: IPlanMenu[] = [
         children: [
           {
             title: 'Shop Plan',
-            url: ''
+            url: '/shop-plan'
           },
           {
             title: 'Work Type',
-            url: ''
+            url: '/work-type'
           },
           {
             title: 'Additional Parameters',

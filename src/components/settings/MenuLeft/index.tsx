@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import Card from '@material-ui/core/Card';
+import { Divider } from '@material-ui/core';
 import PlanMenus from './PlanMenus';
 import menuLeftData from './menuLeftData';
 import Collapse from '../Collapse';
-import { Divider } from '@material-ui/core';
 
 type MenuLeftProps = {
   onClickMenu: (url: string) => void;
@@ -28,7 +28,7 @@ const MenuLeft = ({ onClickMenu, activeMenu }: MenuLeftProps): JSX.Element => {
               title={plan.title}
               content={
                 <PlanMenus activeMenu={activeMenu} menus={plan.menus} onClickMenu={onClickMenu} />
-              }></Collapse>
+              } />
           </Fragment>
         );
       })}

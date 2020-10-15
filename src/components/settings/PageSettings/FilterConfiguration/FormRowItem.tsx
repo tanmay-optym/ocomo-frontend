@@ -15,7 +15,7 @@ import {
   useThunkReducer,
 } from '../../../../api/useThunkReducer';
 import { IFilterConfiguration } from './index';
-import useUpdate from '../../../../hooks/useUpdate';
+import useUpdate from '../../../../api/useUpdate';
 import BtnAction from '../../BtnAction';
 
 const switchHeight = 20;

@@ -11,5 +11,5 @@ export default ({ spinning, children, style }: SpinProps): JSX.Element => {
   if (spinning) {
     return <CircularProgress style={style} />;
   }
-  return <Fragment>{children}</Fragment>;
+  return <>{children}</>;
 };

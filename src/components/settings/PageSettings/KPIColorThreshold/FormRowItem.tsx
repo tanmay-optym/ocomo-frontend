@@ -7,7 +7,7 @@ import FormLabel from '../../FormLabel';
 import FormItemExplainError from '../../FormItemExplainError';
 import AlertWarningIcon from '../../SvgIcon/AlertWarningIcon';
 import AlertErrorIcon from '../../SvgIcon/AlertErrorIcon';
-import useUpdate from '../../../../hooks/useUpdate';
+import useUpdate from '../../../../api/useUpdate';
 
 import { IKPIColorThreshold } from './index';
 import FormItemActionSave from '../../FormItemActionSave';
