@@ -1,12 +1,12 @@
 import { useEffect, Dispatch } from 'react';
 import { useSnackbar, VariantType } from 'notistack';
-import { updateData, postData } from '../../pages/api/apiConstants';
+import { updateSetData, postData } from '../api/apiConstants';
 import {
   reducer,
   useThunkReducer,
   ApiState,
   SetPayloadActionType
-} from '../../pages/api/useThunkReducer';
+} from '../api/useThunkReducer';
 
 const useUpdate = (
   onFinish?: (values: object, index: number) => void,
@@ -48,7 +48,7 @@ const useUpdate = (
         );
       else
         dispatchRequest((e: Dispatch<SetPayloadActionType>) =>
-          updateData(e, queryString, dataUpdate, `/${(initialValues as any)[key]}`)
+          updateSetData(e, queryString, dataUpdate, `/${(initialValues as any)[key]}`)
         );
     }
   };

@@ -152,3 +152,29 @@ export const deleteData = (
     )
     .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));
 };
+
+
+export const updateSetData = (
+  dispatch: Dispatch<SetPayloadActionType>,
+  endpoint: string,
+  requestBody: any,
+  pathVariable: string
+) => {
+  dispatch({ type: 'LOADING', payload: {} });
+  const API_HOST =
+    process.env &&
+    process.env.NEXT_PUBLIC_APP_URL &&
+    !process.env.NEXT_PUBLIC_APP_URL.includes('localhost')
+      ? process.env.NEXT_PUBLIC_APP_URL
+      : API_URL;
+  axios
+    .put(`${API_HOST}${getAPIPath(endpoint)}${pathVariable}`, requestBody, axiosConfig)
+    .then((response) => response)
+    .then((response) =>
+      dispatch({
+        type: 'RESPONSE_COMPLETE',
+        payload: { data: response.data }
+      })
+    )
+    .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));
+};

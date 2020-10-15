@@ -11,8 +11,8 @@ import {
   reducer,
   SetPayloadActionType,
   useThunkReducer,
-} from '../../../../../pages/api/useThunkReducer';
-import { fetchData } from '../../../../../pages/api/apiConstants';
+} from '../../../../api/useThunkReducer';
+import { fetchData } from '../../../../api/apiConstants';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
 import { IShop } from '../../InputSelectShop';

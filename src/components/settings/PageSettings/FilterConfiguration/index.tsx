@@ -8,12 +8,12 @@ import FormRowContainer from '../../FormRowContainer';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 
-import { fetchData } from '../../../../../pages/api/apiConstants';
+import { fetchData } from '../../../../api/apiConstants';
 import {
   reducer,
   SetPayloadActionType,
   useThunkReducer,
-} from '../../../../../pages/api/useThunkReducer';
+} from '../../../../api/useThunkReducer';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
 

@@ -8,12 +8,12 @@ import FormItem from '../../FormItem';
 import InputSetting from '../../InputSetting';
 import FormLabel from '../../FormLabel';
 import FormItemExplainError from '../../FormItemExplainError';
-import { deleteData } from '../../../../../pages/api/apiConstants';
+import { deleteData } from '../../../../api/apiConstants';
 import {
   reducer,
   SetPayloadActionType,
   useThunkReducer,
-} from '../../../../../pages/api/useThunkReducer';
+} from '../../../../api/useThunkReducer';
 import { IFilterConfiguration } from './index';
 import useUpdate from '../../../../hooks/useUpdate';
 import BtnAction from '../../BtnAction';
