@@ -41,5 +41,6 @@ module.exports = {
     'comma-dangle': 'off',
     'function-paren-newline': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'operator-linebreak': 'off',
   },
 };

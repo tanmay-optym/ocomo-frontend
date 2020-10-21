@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { Dispatch } from 'react';
-import { SetPayloadActionType, DispatchPayloadType } from './useThunkReducer';
+import { SetPayloadActionType } from './useThunkReducer';
 
 const API_URL = 'https://dev.ocomo.io';
 const axiosConfig = {
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 };
 
 const getAPIPath = (endpoint: string) => {
@@ -69,7 +69,7 @@ export const fetchData = (
     .then((response) =>
       dispatch({
         type: 'RESPONSE_COMPLETE',
-        payload: { data: response.data }
+        payload: { data: response.data },
       })
     )
     .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));
@@ -96,7 +96,7 @@ export const postData = (
     .then((response) =>
       dispatch({
         type: 'RESPONSE_COMPLETE',
-        payload: { data: response.data }
+        payload: { data: response.data },
       })
     )
     .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));
@@ -122,7 +122,7 @@ export const updateData = (
     .then((response) =>
       dispatch({
         type: 'RESPONSE_COMPLETE',
-        payload: { data: response.data }
+        payload: { data: response.data },
       })
     )
     .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));
@@ -147,12 +147,11 @@ export const deleteData = (
     .then(() =>
       dispatch({
         type: 'RESPONSE_COMPLETE',
-        payload: { data: true }
+        payload: { data: true },
       })
     )
     .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));
 };
-
 
 export const updateSetData = (
   dispatch: Dispatch<SetPayloadActionType>,
@@ -173,7 +172,7 @@ export const updateSetData = (
     .then((response) =>
       dispatch({
         type: 'RESPONSE_COMPLETE',
-        payload: { data: response.data }
+        payload: { data: response.data },
       })
     )
     .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));

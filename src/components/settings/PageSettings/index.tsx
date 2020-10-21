@@ -25,7 +25,7 @@ const CONFIG_MENU: IConfigMenuItem[] = [
   { code: '/filter-configuration', node: <FilterConfiguration /> },
   { code: '/kpi-color-threshold', node: <KPIColorThreshold /> },
   { code: '/shop-plan', node: <ShopPlan /> },
-  { code: '/work-type', node: <WorkType /> }
+  { code: '/work-type', node: <WorkType /> },
 ];
 
 const PageSettings = (): JSX.Element => {
@@ -36,13 +36,11 @@ const PageSettings = (): JSX.Element => {
   };
   const page = CONFIG_MENU.find((item) => item.code === activeMenu);
   return (
-    <Grid container style={{backgroundColor: "#EDEDED",
-      padding: theme.spacing(1)
-}} >
+    <Grid container style={{ backgroundColor: '#EDEDED', padding: theme.spacing(1) }}>
       <Grid item xs={6} sm={2}>
         <MenuLeft activeMenu={activeMenu} onClickMenu={handleClickMenu} />
       </Grid>
-      <Grid item xs={6} sm={10} style={{paddingLeft: theme.spacing(1)}}>
+      <Grid item xs={6} sm={10} style={{ paddingLeft: theme.spacing(1) }}>
         {page ? page.node : null}
       </Grid>
     </Grid>

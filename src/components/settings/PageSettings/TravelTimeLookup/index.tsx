@@ -2,20 +2,13 @@ import React, { useState, useEffect, Dispatch } from 'react';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import { CSVLink } from 'react-csv';
-import FormRowItem from './FormRowItem';
-
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
-
-import {
-  reducer,
-  SetPayloadActionType,
-  useThunkReducer,
-} from '../../../../api/useThunkReducer';
+import { reducer, SetPayloadActionType, useThunkReducer } from '../../../../api/useThunkReducer';
 import { fetchData } from '../../../../api/apiConstants';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
-import { IShop } from '../../InputSelectShop';
+import TableData from '../TableData';
 
 export type ITravelTimeLookup = {
   id: number | string;
@@ -23,6 +16,21 @@ export type ITravelTimeLookup = {
   shopCode2: string;
   estimatedTravelTime: number;
 };
+
+const columns = [
+  { title: 'Shop 1', dataIndex: 'shopCode1', editable: true, require: true, width: 146 },
+  { title: 'Shop 2', dataIndex: 'shopCode2', editable: true, require: true, width: 146 },
+  {
+    title: 'Estimated Travel Time (hrs)',
+    dataIndex: 'estimatedTravelTime',
+    editable: true,
+    require: true,
+    width: 200,
+    inputStyle: {
+      width: 146,
+    },
+  },
+];
 
 export default function FormTravelTimeLookup(): JSX.Element {
   const [dataSource, setDataSource] = useState<ITravelTimeLookup[]>([]);
@@ -36,23 +44,22 @@ export default function FormTravelTimeLookup(): JSX.Element {
     loading: false,
     data: [],
   });
-  const [shopData, dispatchShopRequest] = useThunkReducer(reducer, {
-    error: null,
-    loading: false,
-    data: [],
-  });
+
+  // const [shopData, dispatchShopRequest] = useThunkReducer(reducer, {
+  //   error: null,
+  //   loading: false,
+  //   data: [],
+  // });
+
+  // useEffect(() => {
+  //   dispatchShopRequest((e: Dispatch<SetPayloadActionType>) =>
+  //     fetchData(e, 'ShopsGrid', 'startDate=2020-01-01&endDate=2020-10-10')
+  //   );
+  // }, []);
 
   useEffect(() => {
-    dispatchShopRequest((e: Dispatch<SetPayloadActionType>) =>
-      fetchData(e, 'ShopsGrid', 'startDate=2020-01-01&endDate=2020-10-10')
-    );
+    dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_TTL', ''));
   }, []);
-
-  useEffect(() => {
-    if (shopData.data && shopData.data.length > 0) {
-      dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_TTL', ''));
-    }
-  }, [shopData.data]);
 
   useEffect(() => {
     setDataSource(
@@ -73,12 +80,12 @@ export default function FormTravelTimeLookup(): JSX.Element {
     };
     setDataSource(newDataSource);
   };
-  const shopOptions: IShop[] = (shopData.data || [])
-    .filter((item: any) => item.shopCode !== 'Unassigned')
-    .map((item: any) => {
-      const shop: IShop = { value: item.shopCode, label: item.shopCode, color: item.shopColor };
-      return shop;
-    });
+  // const shopOptions: IShop[] = (shopData.data || [])
+  //   .filter((item: any) => item.shopCode !== 'Unassigned')
+  //   .map((item: any) => {
+  //     const shop: IShop = { value: item.shopCode, label: item.shopCode, color: item.shopColor };
+  //     return shop;
+  //   });
 
   return (
     <Card>
@@ -93,19 +100,15 @@ export default function FormTravelTimeLookup(): JSX.Element {
         }
       />
       <PageBody>
-        <Spin spinning={data.loading || shopData.loading}>
-          <div>
-            {dataSource.map((dataItem) => {
-              return (
-                <FormRowItem
-                  key={dataItem.id}
-                  shopOptions={shopOptions}
-                  initialValues={dataItem}
-                  onFinish={handleSaveData}
-                />
-              );
-            })}
-          </div>
+        <Spin spinning={data.loading}>
+          <TableData
+            initialData={dataSource}
+            columns={columns}
+            onFinish={handleSaveData}
+            queryString={'CONSTRAINTS_TTL'}
+            pathVariableKey={'code'}
+            colActionStyle={{ width: 'auto' }}
+          />
         </Spin>
       </PageBody>
     </Card>

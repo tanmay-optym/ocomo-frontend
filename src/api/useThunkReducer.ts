@@ -1,6 +1,5 @@
 import React, { useReducer, Reducer } from 'react';
 import isFunction from 'lodash/isFunction';
-import { Recoverable } from 'repl';
 
 export type Action = {
   type: 'LOADING' | 'RESPONSE_COMPLETE' | 'ERROR';
@@ -24,7 +23,7 @@ export const reducer = (state: ApiState, action: SetPayloadActionType): ApiState
     return {
       data: null,
       loading: true,
-      error: null
+      error: null,
     };
   }
 
@@ -32,7 +31,7 @@ export const reducer = (state: ApiState, action: SetPayloadActionType): ApiState
     return {
       data: action.payload.data,
       loading: false,
-      error: null
+      error: null,
     };
   }
 
@@ -40,7 +39,7 @@ export const reducer = (state: ApiState, action: SetPayloadActionType): ApiState
     return {
       data: null,
       loading: false,
-      error: action.payload.error
+      error: action.payload.error,
     };
   }
 
@@ -50,7 +49,7 @@ export const reducer = (state: ApiState, action: SetPayloadActionType): ApiState
 export const initialState = {
   error: null,
   loading: false,
-  data: []
+  data: [],
 };
 
 export const useThunkReducer = (reducer: Reducer<any, any>, initialState: ApiState) => {

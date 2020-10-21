@@ -1,8 +1,5 @@
-import React, { Fragment } from 'react';
-import { DeepMap, FieldError } from 'react-hook-form';
+import React from 'react';
 import styles from './FormItemExplainError.module.scss';
-
-type ErrorType = { message: string };
 
 type FormItemExplainErrorProps = {
   errors: any;
@@ -11,13 +8,13 @@ type FormItemExplainErrorProps = {
 
 export default function FormItemExplainError({
   errors,
-  fieldName
+  fieldName,
 }: FormItemExplainErrorProps): JSX.Element {
   return (
-    <Fragment>
+    <>
       {errors[fieldName] && (
         <div className={styles['form-item-explain-error']}>{errors[fieldName].message}</div>
       )}
-    </Fragment>
+    </>
   );
 }

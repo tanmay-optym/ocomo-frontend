@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { useRouter } from 'next/router';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import MenuGroupTitle from './MenuGroupTitle';
@@ -13,7 +12,6 @@ type PlanMenusProps = {
 };
 
 const PlanMenus = ({ menus, onClickMenu, activeMenu }: PlanMenusProps): JSX.Element => {
-  const router = useRouter();
   const handleClickMenu = (menu: IMenuItem) => {
     if (onClickMenu) {
       if (menu.url) {
@@ -22,7 +20,7 @@ const PlanMenus = ({ menus, onClickMenu, activeMenu }: PlanMenusProps): JSX.Elem
     }
   };
   return (
-    <Fragment>
+    <>
       {menus.map((menuGroup) => {
         return (
           <Fragment key={menuGroup.title}>
@@ -46,7 +44,7 @@ const PlanMenus = ({ menus, onClickMenu, activeMenu }: PlanMenusProps): JSX.Elem
           </Fragment>
         );
       })}
-    </Fragment>
+    </>
   );
 };
 

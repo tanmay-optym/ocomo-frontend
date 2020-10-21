@@ -2,20 +2,17 @@ import React, { useState, useEffect, Dispatch } from 'react';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import { CSVLink } from 'react-csv';
-import FormRowContainer from '../../FormRowContainer';
-import BtnAddNewRow from '../../BtnAddNewRow';
-import FormRowItem from './FormRowItem';
+// import FormRowContainer from '../../FormRowContainer';
+// import BtnAddNewRow from '../../BtnAddNewRow';
+// import FormRowItem from './FormRowItem';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 
-import {
-  reducer,
-  SetPayloadActionType,
-  useThunkReducer,
-} from '../../../../api/useThunkReducer';
+import { reducer, SetPayloadActionType, useThunkReducer } from '../../../../api/useThunkReducer';
 import { fetchData } from '../../../../api/apiConstants';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
+import TableData from '../TableData';
 
 export type IStandardWorkHours = {
   code: string;
@@ -25,6 +22,23 @@ export type IStandardWorkHours = {
   minorStopStdHrs: number | undefined;
   isNew?: boolean;
 };
+
+const columns = [
+  { title: 'Inspection / Defect Type', dataIndex: 'description', editable: true, require: true },
+  { title: 'Severity Level', dataIndex: 'severityLevel', editable: true, require: true },
+  {
+    title: 'Major Shop Std. Hours',
+    dataIndex: 'majorStopStdHrs',
+    editable: true,
+    require: true,
+  },
+  {
+    title: 'Minor Shop Std. Hours',
+    dataIndex: 'minorStopStdHrs',
+    editable: true,
+    require: true,
+  },
+];
 
 export default function FormStandardWorkHours(): JSX.Element {
   const [dataSource, setDataSource] = useState<IStandardWorkHours[]>([]);
@@ -48,24 +62,12 @@ export default function FormStandardWorkHours(): JSX.Element {
     setDataSource(data.data || []);
   }, [data]);
 
-  const handleAddNewRow = () => {
-    const newData: IStandardWorkHours = {
-      code: Math.round(new Date().getTime() / 1000).toString(),
-      description: '',
-      severityLevel: '',
-      majorStopStdHrs: undefined,
-      minorStopStdHrs: undefined,
-      isNew: true,
-    };
-    setDataSource([...dataSource, newData]);
-  };
-
   const handleSaveData = (resData: any, index: number) => {
-    // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[index] = resData;
     setDataSource(newDataSource);
   };
+
   return (
     <Card>
       <CardHeader
@@ -80,21 +82,13 @@ export default function FormStandardWorkHours(): JSX.Element {
       />
       <PageBody>
         <Spin spinning={data.loading}>
-          <div>
-            {dataSource.map((dataItem, index) => {
-              return (
-                <FormRowItem
-                  onFinish={handleSaveData}
-                  initialValues={{ ...dataItem }}
-                  key={index.toString()}
-                  index={index}
-                />
-              );
-            })}
-            <FormRowContainer>
-              <BtnAddNewRow onClick={handleAddNewRow} />
-            </FormRowContainer>
-          </div>
+          <TableData
+            initialData={dataSource}
+            columns={columns}
+            onFinish={handleSaveData}
+            queryString={'CONSTRAINTS_SWH'}
+            pathVariableKey={'code'}
+          />
         </Spin>
       </PageBody>
     </Card>
