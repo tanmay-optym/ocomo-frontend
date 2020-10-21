@@ -26,6 +26,7 @@ type TableDataProps = {
   pathVariableKey: string;
   onFinish: (values: any, index: number) => void;
   colActionStyle?: React.CSSProperties;
+  hiddenNewRow?: boolean;
 };
 
 const StyledTableHeaderCell = withStyles(() =>
@@ -41,12 +42,16 @@ export default function TableData({
   pathVariableKey,
   colActionStyle,
   onFinish,
+  hiddenNewRow,
 }: TableDataProps): JSX.Element {
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [dataErrors, setDataErrors] = useState<any>({});
   const [dataChanges, setDataChanges] = useState<any>({});
 
   const getDataAddNewRow = (data: any) => {
+    if (hiddenNewRow) {
+      return data;
+    }
     const hasNewItem = data.length > 0 && data[data.length - 1].isNew === true;
     if (hasNewItem) {
       return data;
