@@ -1,0 +1,17 @@
+{
+  "extends": "./@ignition/tsconfig/tsconfig.next.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["src/*"]
+    },
+    "outDir": "./dist",
+    "jsx": "preserve",
+    "noImplicitAny": false
+  },
+  "typeRoots": ["./src/@types", "index.d.ts"],
+  "strict": true,
+  "exclude": ["node_modules", "showHideColumn.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+}

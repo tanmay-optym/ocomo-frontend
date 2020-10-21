@@ -1,0 +1,45 @@
+.comp-input-hours {
+  height: 40px;
+  width: 150px;
+  border-radius: 2px;
+  border: 1px solid #d8d8d8;
+  font-size: 14px;
+  background: #fff;
+  display: flex;
+  color: #5d6e7f;
+  input {
+    height: 38px;
+    border: none;
+    width: 65px;
+    padding: 0px 10px;
+    text-align: right;
+    color: #5d6e7f;
+    font-weight: 500;
+    &:focus {
+      outline: none;
+      border-color: #3495da;
+    }
+  }
+  .input-suffix {
+    display: flex;
+    align-items: center;
+    &-text {
+      font-weight: 400;
+    }
+    &-icon {
+      margin-left: 30px;
+      margin-top: 12px;
+    }
+  }
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}

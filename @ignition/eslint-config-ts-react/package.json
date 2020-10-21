@@ -1,0 +1,89 @@
+{
+  "_args": [
+    [
+      "@ignition/eslint-config-ts-react@1.0.0",
+      "/Users/tanmaysharma/dev/optym/CNPlanning/Frontend"
+    ]
+  ],
+  "_development": true,
+  "_from": "@ignition/eslint-config-ts-react@1.0.0",
+  "_id": "@ignition/eslint-config-ts-react@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha1-ze9KOJygekLntViamAI9FBKB7iU=",
+  "_location": "/@ignition/eslint-config-ts-react",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@ignition/eslint-config-ts-react@1.0.0",
+    "name": "@ignition/eslint-config-ts-react",
+    "escapedName": "@ignition%2feslint-config-ts-react",
+    "scope": "@ignition",
+    "rawSpec": "1.0.0",
+    "saveSpec": null,
+    "fetchSpec": "1.0.0"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://pkgs.dev.azure.com/optym/_packaging/optym-feed/npm/registry/@ignition/eslint-config-ts-react/-/eslint-config-ts-react-1.0.0.tgz",
+  "_spec": "1.0.0",
+  "_where": "/Users/tanmaysharma/dev/optym/CNPlanning/Frontend",
+  "author": {
+    "name": "Aleksi Asikainen",
+    "email": "aleksi.asikainen@optym.com"
+  },
+  "description": "Ignition ESLint TypeScript React Configuration",
+  "devDependencies": {
+    "@ignition/eslint-config-ts": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^7.0.0",
+    "eslint-import-resolver-custom-alias": "^1.2.0",
+    "eslint-import-resolver-node": "^0.3.3",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.8.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-unicorn": "^16.1.1"
+  },
+  "engines": {
+    "node": ">=12.13.1",
+    "npm": "You must use `rush` instead of `npm`",
+    "yarn": "You must use `rush` instead of `yarn`"
+  },
+  "files": [
+    "eslint-config.js"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "main": "eslint-config.js",
+  "name": "@ignition/eslint-config-ts-react",
+  "peerDependencies": {
+    "@ignition/eslint-config-ts": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^7.0.0",
+    "eslint-import-resolver-custom-alias": "^1.2.0",
+    "eslint-import-resolver-node": "^0.3.3",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.8.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-unicorn": "^16.1.1"
+  },
+  "scripts": {
+    "build": "exit 0",
+    "test": "exit 0"
+  },
+  "version": "1.0.0"
+}

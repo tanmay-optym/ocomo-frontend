@@ -1,0 +1,17 @@
+.comp-plan-menu {
+  &-list {
+    margin-left: -18px !important;
+    margin-right: -18px !important;
+  }
+  &-item {
+    padding-left: 50px !important;
+    padding-right: 50px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #5d6e7f !important;
+    height: 40px !important;
+    &-active {
+      background: #eaf1ff !important;
+    }
+  }
+}
