@@ -7,6 +7,8 @@ const axiosConfig = {
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/json',
+    Authorization:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGFubWF5IiwiaWF0IjoxNjAzMzY2NTcyLCJleHAiOjE2MDQyMzA1NzIsImlzcyI6Ik9DT01PLUFVVEgtQVBJIiwianRpIjoiVEVTVCJ9.IMeD2SxywigCF3XOBF6iKQHYVVXz9d62QZeDgSVI340',
   },
 };
 

@@ -31,12 +31,24 @@ const columns = [
     dataIndex: 'majorStopStdHrs',
     editable: true,
     require: true,
+    registerOption: {
+      pattern: {
+        value: /^[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
   {
     title: 'Minor Shop Std. Hours',
     dataIndex: 'minorStopStdHrs',
     editable: true,
     require: true,
+    registerOption: {
+      pattern: {
+        value: /^[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
 ];
 

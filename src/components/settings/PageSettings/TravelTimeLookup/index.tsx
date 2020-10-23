@@ -29,6 +29,12 @@ const columns = [
     inputStyle: {
       width: 146,
     },
+    registerOption: {
+      pattern: {
+        value: /^[0-9]+.[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
 ];
 

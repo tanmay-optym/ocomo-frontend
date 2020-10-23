@@ -1,12 +1,7 @@
 import { useEffect, Dispatch } from 'react';
 import { useSnackbar, VariantType } from 'notistack';
 import { updateSetData, postData } from './apiConstants';
-import {
-  reducer,
-  useThunkReducer,
-  ApiState,
-  SetPayloadActionType
-} from './useThunkReducer';
+import { reducer, useThunkReducer, ApiState, SetPayloadActionType } from './useThunkReducer';
 
 const useUpdate = (
   onFinish?: (values: object, index: number) => void,
@@ -18,7 +13,7 @@ const useUpdate = (
   const [data, dispatchRequest] = useThunkReducer(reducer, {
     error: null,
     loading: false,
-    data: null
+    data: null,
   });
 
   const { enqueueSnackbar } = useSnackbar();
@@ -33,7 +28,7 @@ const useUpdate = (
         onFinish(data.data, index);
       }
       enqueueSnackbar(message, {
-        variant
+        variant,
       });
     }
   }, [data]);

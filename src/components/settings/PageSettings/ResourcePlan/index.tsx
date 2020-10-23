@@ -30,6 +30,12 @@ const columns = [
     title: 'Desired Unplanned',
     dataIndex: 'desiredUnplanned',
     editable: true,
+    registerOption: {
+      pattern: {
+        value: /^[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
   {
     title: 'Special Capability',
@@ -47,16 +53,34 @@ const columns = [
     title: 'M-F Work Hours',
     dataIndex: 'weekDaysWorkHrs',
     editable: true,
+    registerOption: {
+      pattern: {
+        value: /^[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
   {
     title: 'Sat Work Hours',
     dataIndex: 'satWorkHrs',
     editable: true,
+    registerOption: {
+      pattern: {
+        value: /^[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
   {
     title: 'Sun Work Hours',
     dataIndex: 'sunWorkHrs',
     editable: true,
+    registerOption: {
+      pattern: {
+        value: /^[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
 ];
 

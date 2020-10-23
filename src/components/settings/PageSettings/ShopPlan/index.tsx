@@ -87,8 +87,8 @@ export default function ShopPlan(): JSX.Element {
         prohibitedWorkType: 'PTC',
         shopDesirability: '',
         costPerLoco: '$4,649',
-        costPerSlot: '$34,882'
-      }
+        costPerSlot: '$34,882',
+      },
     ];
     setDataSource(fakeData);
   }, []);
@@ -114,10 +114,8 @@ export default function ShopPlan(): JSX.Element {
   };
 
   const handleSaveData = (resData: any, index: number) => {
-    // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[index] = resData;
-    console.log(newDataSource, index)
     setDataSource(newDataSource);
   };
 

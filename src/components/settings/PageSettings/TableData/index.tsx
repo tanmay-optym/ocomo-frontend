@@ -17,6 +17,7 @@ export type ColumnsType = {
   require?: boolean;
   width?: number;
   inputStyle?: React.CSSProperties;
+  registerOption?: any;
 };
 
 type TableDataProps = {
@@ -31,7 +32,9 @@ type TableDataProps = {
 
 const StyledTableHeaderCell = withStyles(() =>
   createStyles({
-    root: {},
+    root: {
+      padding: '14px 8px',
+    },
   })
 )(TableCell);
 
