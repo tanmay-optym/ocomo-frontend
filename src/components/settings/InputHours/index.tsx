@@ -15,9 +15,10 @@ type InputHoursProps = {
 };
 
 export default function InputHours(props: InputHoursProps): JSX.Element {
+  const { refinput } = props;
   return (
     <div className={styles['comp-input-hours']}>
-      <input type="number" {...props} ref={props.refinput} />
+      <input type="number" {...props} ref={refinput} />
       <span className={styles['input-suffix']}>
         <span className={styles['input-suffix-text']}>hrs</span>
         <span className={styles['input-suffix-icon']}>

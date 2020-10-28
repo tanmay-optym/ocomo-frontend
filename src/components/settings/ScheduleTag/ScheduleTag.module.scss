@@ -1,0 +1,31 @@
+.card {
+  padding: 10px 14px;
+  height: 60px;
+  border-radius: 10px;
+  border-left: 6px solid;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    color: #5d6e7f;
+  }
+
+  .subTitle {
+    font-weight: normal;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #5d6e7f;
+    line-height: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
