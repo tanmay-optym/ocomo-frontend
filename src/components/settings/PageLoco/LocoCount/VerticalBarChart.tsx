@@ -29,7 +29,7 @@ const VerticalBarChart = ({ data }: VerticalBarChartProps) : JSX.Element => {
           tickLine={false}
           axisLine={false}
           tickMargin={15} />
-        <Bar dataKey="value" barSize={10} fill="#413ea0"><LabelList dataKey="value" position="right" /></Bar>
+        <Bar dataKey="value" barSize={10} fill="#8FB2F4"><LabelList dataKey="value" position="right" /></Bar>
       </BarChart>
     </ResponsiveContainer>
   );

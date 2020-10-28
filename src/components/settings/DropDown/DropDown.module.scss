@@ -1,0 +1,26 @@
+.dropdownMenu {
+  padding: 6px 20px !important;
+  color: #5d6e7f !important;
+
+  &:hover {
+    background-color: #eaf1ff !important;
+    span {
+      color: #5d6e7f !important;
+    }
+  }
+
+  &:focus {
+    background-color: #eaf1ff !important;
+
+    span {
+      color: #5d6e7f !important;
+    }
+  }
+
+  .dropdownItem {
+    span {
+      font-size: 12px !important;
+      line-height: 16px !important;
+    }
+  }
+}

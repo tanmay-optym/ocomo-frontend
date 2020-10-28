@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '@material-ui/core/Card';
 import LockOutlined from '@material-ui/icons/LockOutlined';
 import styles from './ScheduleTag.module.scss';
+import Dropdown from '../DropDown';
+import HoverItem from './HoverItem';
 
 type ScheduleTagProps = {
   title: string,
@@ -10,6 +12,8 @@ type ScheduleTagProps = {
   style?: React.CSSProperties,
   progress?: number | string
 }
+
+type AnchorElType = Element | null;
 
 const ScheduleTag = ({ title, isLock, width, style, progress }: ScheduleTagProps): JSX.Element => {
   const colors = {
@@ -20,13 +24,50 @@ const ScheduleTag = ({ title, isLock, width, style, progress }: ScheduleTagProps
     secondary: '#C7C3C3'
   };
 
+  const [anchorEl, setAnchorEl] = useState<AnchorElType>(null);
+  const [anchorHover, setAnchorHover] = useState<AnchorElType>(null);
+
+  const handleClick = (e: {
+    currentTarget: React.SetStateAction<AnchorElType>;
+    preventDefault: () => void;
+    stopPropagation: () => void; }) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (anchorEl) {
+      setAnchorEl(null);
+    } else { setAnchorEl(e.currentTarget); }
+  };
+
+  const onHover = (e: {
+    currentTarget: React.SetStateAction<AnchorElType>;
+    preventDefault: () => void;
+  }) => {
+    e.preventDefault();
+    setAnchorHover(e.currentTarget);
+  };
+
+  const onHoverClose = () => {
+    setAnchorHover(null);
+  };
+
+  const handleClose = (e : {preventDefault: () => void}) => {
+    e.preventDefault();
+    setAnchorEl(null);
+  };
+
   const getStyles = () => {
-    let colStyle = { width, borderColor: colors.danger };
+    let colStyle = { width, borderColor: colors.danger, zIndex: 99999 };
     if (style) {
       colStyle = { ...colStyle, ...styles };
     }
     return colStyle;
   };
+
+  const listDropDown = [
+    { name: 'Unlock' },
+    { name: 'Add Loco' },
+    { name: 'Delete' }
+  ];
 
   const displayProgress = () => {
     if (!progress) return null;
@@ -48,7 +89,7 @@ const ScheduleTag = ({ title, isLock, width, style, progress }: ScheduleTagProps
         </div>
       );
     }
-    console.log(123);
+
     return (
       <div style={{ fontSize: '12px' }}>
         {progress}
@@ -58,20 +99,40 @@ const ScheduleTag = ({ title, isLock, width, style, progress }: ScheduleTagProps
   };
 
   return (
-    <Card style={getStyles()} className={styles.card}>
-      <div className={styles.header}>
+    <>
+      <Card
+        style={getStyles()}
+        className={styles.card}
+        onContextMenu={handleClick}
+        onMouseEnter={onHover}
+        // onMouseLeave={onHoverClose}
+        >
+        <div className={styles.header}>
 
-        <div className={styles.title}>
-          <span>{title}</span>
-          {isLock ? <LockOutlined style={{ height: '14px' }} /> : null}
+          <div className={styles.title}>
+            <span>{title}</span>
+            {isLock ? <LockOutlined style={{ height: '14px' }} /> : null}
+          </div>
+          {displayProgress()}
         </div>
-        {displayProgress()}
-      </div>
-      <div className={styles.subTitle}>
-        <span>aa</span>
-        <span style={{ textAlign: 'right' }}>aa</span>
-      </div>
-    </Card>
+        <div className={styles.subTitle}>
+          <span>aa</span>
+          <span style={{ textAlign: 'right' }}>aa</span>
+        </div>
+      </Card>
+      <Dropdown
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        styles={{ marginTop: 5 }}
+        width="158px"
+        listItems={listDropDown}
+        />
+      <HoverItem
+        anchorEl={anchorHover}
+        styles={{ marginTop: 10 }}
+
+       />
+    </>
   );
 };
 
