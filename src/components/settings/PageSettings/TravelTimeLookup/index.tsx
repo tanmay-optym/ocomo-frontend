@@ -28,7 +28,7 @@ const columns = [
     width: 200,
     inputStyle: {
       width: 146,
-      textAlign: 'right'
+      textAlign: 'right' as const
     },
     registerOption: {
       pattern: {
@@ -37,7 +37,7 @@ const columns = [
       },
     },
     styles: {
-      textAlign: 'right'
+      textAlign: 'right' as const
     }
   },
 ];
