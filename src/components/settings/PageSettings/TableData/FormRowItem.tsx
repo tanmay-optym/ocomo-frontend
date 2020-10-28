@@ -63,11 +63,11 @@ export default React.memo(
     queryString,
     pathVariableKey,
   }: FormRowItemProps) => {
-    const { register, handleSubmit, errors, formState, setValue, watch } = useForm({
+    const { register, handleSubmit, errors, formState, watch, reset } = useForm({
       // mode: 'all',
       defaultValues: { ...initialValues },
     });
-    const [hiddenBtnSave, setHiddenBtnSave] = useState(false);
+    const [hiddenBtnSave, setHiddenBtnSave] = useState(true);
 
     const values = watch();
 
@@ -80,13 +80,12 @@ export default React.memo(
 
     const handleSaveSuccess = (resData: any) => {
       onFinish(resData, index);
+      reset();
     };
 
     useEffect(() => {
       if (initialValues.editable) {
-        Object.entries(initialValues).forEach(([key, value]) => {
-          setValue(key, value, { shouldDirty: false });
-        });
+        reset(initialValues);
       }
     }, [initialValues.editable]);
 
@@ -110,10 +109,11 @@ export default React.memo(
       if (!initialValues.editable || !formState.isDirty) {
         return;
       }
-      const wasChange = Object.entries(values).some(
-        ([key, v]) => (initialValues[key] || '').toString() !== v
-      );
-      setHiddenBtnSave(wasChange);
+      const wasChange = Object.entries(values).some(([key, v]) => {
+        const result = (initialValues[key] || '').toString() !== `${v}`;
+        return result;
+      });
+      setHiddenBtnSave(!wasChange);
       if (onHasChanges) {
         onHasChanges(index, wasChange);
       }
@@ -126,6 +126,9 @@ export default React.memo(
       }
       if (colConfig.width) {
         colStyle = { ...colStyle, width: colConfig.width };
+      }
+      if (colConfig.styles) {
+        colStyle = { ...colStyle, ...colConfig.styles };
       }
       return colStyle;
     };
@@ -146,8 +149,9 @@ export default React.memo(
               <InputTableEdit
                 style={{ width: '100%', ...(colConfig.inputStyle || {}) }}
                 name={colConfig.dataIndex}
-                refinput={register({ required })}
+                refinput={register({ required, ...(colConfig.registerOption || {}) })}
               />
+
               {(errors as any)[colConfig.dataIndex] && (
                 <div
                   style={{
@@ -163,7 +167,7 @@ export default React.memo(
           );
         })}
         <StyledTableCell style={initialValues.editable ? styledCellEdit : {}} key="actionSave">
-          {initialValues.editable && (hiddenBtnSave || initialValues.isNew) && (
+          {initialValues.editable && !hiddenBtnSave && (
             <BtnAction
               onClick={handleSubmit(onSubmit)}
               style={{ height: 32 }}

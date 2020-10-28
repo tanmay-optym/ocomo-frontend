@@ -2,12 +2,7 @@ import React from 'react';
 import styles from './InputTableEdit.module.scss';
 
 type InputTableEditProps = {
-  refinput:
-    | string
-    | ((instance: HTMLInputElement | null) => void)
-    | React.RefObject<HTMLInputElement>
-    | null
-    | undefined;
+  refinput: any;
   type?: string;
   name: string;
   style?: React.CSSProperties;

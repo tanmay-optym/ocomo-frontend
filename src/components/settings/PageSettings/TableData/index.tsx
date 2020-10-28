@@ -17,6 +17,8 @@ export type ColumnsType = {
   require?: boolean;
   width?: number;
   inputStyle?: React.CSSProperties;
+  registerOption?: any;
+  styles?: React.CSSProperties;
 };
 
 type TableDataProps = {
@@ -26,11 +28,14 @@ type TableDataProps = {
   pathVariableKey: string;
   onFinish: (values: any, index: number) => void;
   colActionStyle?: React.CSSProperties;
+  hiddenNewRow?: boolean;
 };
 
 const StyledTableHeaderCell = withStyles(() =>
   createStyles({
-    root: {},
+    root: {
+      padding: '14px 8px',
+    },
   })
 )(TableCell);
 
@@ -41,12 +46,16 @@ export default function TableData({
   pathVariableKey,
   colActionStyle,
   onFinish,
+  hiddenNewRow,
 }: TableDataProps): JSX.Element {
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [dataErrors, setDataErrors] = useState<any>({});
   const [dataChanges, setDataChanges] = useState<any>({});
 
   const getDataAddNewRow = (data: any) => {
+    if (hiddenNewRow) {
+      return data;
+    }
     const hasNewItem = data.length > 0 && data[data.length - 1].isNew === true;
     if (hasNewItem) {
       return data;
@@ -111,6 +120,9 @@ export default function TableData({
     let colStyle = {};
     if (colConfig.width) {
       colStyle = { ...colStyle, width: colConfig.width };
+    }
+    if (colConfig.styles) {
+      colStyle = { ...colStyle, ...colConfig.styles };
     }
     return colStyle;
   };

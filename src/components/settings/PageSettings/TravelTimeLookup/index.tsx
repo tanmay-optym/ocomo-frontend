@@ -28,7 +28,17 @@ const columns = [
     width: 200,
     inputStyle: {
       width: 146,
+      textAlign: 'right'
     },
+    registerOption: {
+      pattern: {
+        value: /^[0-9]+$/,
+        message: 'Invalid',
+      },
+    },
+    styles: {
+      textAlign: 'right'
+    }
   },
 ];
 
@@ -66,6 +76,7 @@ export default function FormTravelTimeLookup(): JSX.Element {
       (data.data || []).map((item: ITravelTimeLookup) => ({
         ...item,
         id: `${item.shopCode1}-${item.shopCode2}`,
+        estimatedTravelTime: Math.floor(item.estimatedTravelTime)
       }))
     );
   }, [data]);

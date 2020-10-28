@@ -12,9 +12,9 @@ import PageBody from '../../PageBody';
 export type IWorkType = {
   code: string;
   workType: string;
-  workDuration: number,
+  workDuration: number;
   cost: string;
-  editable?: boolean
+  editable?: boolean;
 };
 
 const columns = [
@@ -45,7 +45,7 @@ export default function WorkType(): JSX.Element {
         workType: 'Test',
         workDuration: 6,
         cost: '$123,456',
-      }
+      },
     ];
     setDataSource(fakeData);
   }, []);
@@ -71,10 +71,8 @@ export default function WorkType(): JSX.Element {
   };
 
   const handleSaveData = (resData: any, index: number) => {
-    // const rowDataIndex = dataSource.findIndex((item) => item.code === data.code);
     const newDataSource = [...dataSource];
     newDataSource[index] = resData;
-    console.log(newDataSource, index);
     setDataSource(newDataSource);
   };
 

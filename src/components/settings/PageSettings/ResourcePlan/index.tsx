@@ -2,14 +2,10 @@ import React, { useState, useEffect, Dispatch } from 'react';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import { CSVLink } from 'react-csv';
-import TableData from './TableData';
+import TableData from '../TableData';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
-import {
-  reducer,
-  SetPayloadActionType,
-  useThunkReducer,
-} from '../../../../api/useThunkReducer';
+import { reducer, SetPayloadActionType, useThunkReducer } from '../../../../api/useThunkReducer';
 import { fetchData } from '../../../../api/apiConstants';
 import Spin from '../../Spin';
 import PageBody from '../../PageBody';
@@ -34,6 +30,12 @@ const columns = [
     title: 'Desired Unplanned',
     dataIndex: 'desiredUnplanned',
     editable: true,
+    registerOption: {
+      pattern: {
+        value: /^[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
   {
     title: 'Special Capability',
@@ -51,16 +53,34 @@ const columns = [
     title: 'M-F Work Hours',
     dataIndex: 'weekDaysWorkHrs',
     editable: true,
+    registerOption: {
+      pattern: {
+        value: /^[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
   {
     title: 'Sat Work Hours',
     dataIndex: 'satWorkHrs',
     editable: true,
+    registerOption: {
+      pattern: {
+        value: /^[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
   {
     title: 'Sun Work Hours',
     dataIndex: 'sunWorkHrs',
     editable: true,
+    registerOption: {
+      pattern: {
+        value: /^[0-9]*[0-9]$/,
+        message: 'Invalid',
+      },
+    },
   },
 ];
 
@@ -92,31 +112,31 @@ export default function TableResourcePlan(): JSX.Element {
     );
   }, []);
 
-  const [dataErrors, setDataErrors] = useState({});
+  // const [dataErrors, setDataErrors] = useState({});
 
   useEffect(() => {
     setDataSource(data.data || []);
   }, [data]);
 
-  const handleRowClick = (rowData: IResourcePlan) => {
-    const hasRowError = Object.values(dataErrors).some((hasError) => hasError);
-    if (hasRowError) {
-      return;
-    }
-    const hasEditing = Object.values(dataSource).some((dataItem) => dataItem.editable);
-    if (hasEditing) {
-      return;
-    }
-    const rowIndex = dataSource.findIndex((dataItem) => dataItem.shopCode === rowData.shopCode);
-    const dataItem = dataSource[rowIndex];
-    const newDataSource = [...dataSource];
-    newDataSource[rowIndex] = { ...dataItem, editable: true };
-    setDataSource(newDataSource);
-  };
+  // const handleRowClick = (rowData: IResourcePlan) => {
+  //   const hasRowError = Object.values(dataErrors).some((hasError) => hasError);
+  //   if (hasRowError) {
+  //     return;
+  //   }
+  //   const hasEditing = Object.values(dataSource).some((dataItem) => dataItem.editable);
+  //   if (hasEditing) {
+  //     return;
+  //   }
+  //   const rowIndex = dataSource.findIndex((dataItem) => dataItem.shopCode === rowData.shopCode);
+  //   const dataItem = dataSource[rowIndex];
+  //   const newDataSource = [...dataSource];
+  //   newDataSource[rowIndex] = { ...dataItem, editable: true };
+  //   setDataSource(newDataSource);
+  // };
 
-  const handleHasErrors = (id: number, hasError: boolean) => {
-    setDataErrors({ ...dataErrors, [id]: hasError });
-  };
+  // const handleHasErrors = (id: number, hasError: boolean) => {
+  //   setDataErrors({ ...dataErrors, [id]: hasError });
+  // };
 
   const handleSaveData = (resData: any, index: number) => {
     const newDataSource = [...dataSource];
@@ -138,12 +158,20 @@ export default function TableResourcePlan(): JSX.Element {
       <PageBody>
         <Spin spinning={data.loading}>
           <TableData
+            initialData={dataSource}
+            columns={columns}
+            onFinish={handleSaveData}
+            queryString={'CONSTRAINTS_RESOURCE_PLAN'}
+            pathVariableKey={'shopCode'}
+            hiddenNewRow
+          />
+          {/* <TableData
             onRowClick={handleRowClick}
             dataSource={dataSource}
             columns={columns}
             onFinish={handleSaveData}
             onHasErrors={handleHasErrors}
-          />
+          /> */}
         </Spin>
       </PageBody>
     </Card>
