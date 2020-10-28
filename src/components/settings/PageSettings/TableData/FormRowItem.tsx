@@ -127,6 +127,9 @@ export default React.memo(
       if (colConfig.width) {
         colStyle = { ...colStyle, width: colConfig.width };
       }
+      if (colConfig.styles) {
+        colStyle = { ...colStyle, ...colConfig.styles };
+      }
       return colStyle;
     };
 

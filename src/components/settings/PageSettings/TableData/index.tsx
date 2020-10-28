@@ -18,6 +18,7 @@ export type ColumnsType = {
   width?: number;
   inputStyle?: React.CSSProperties;
   registerOption?: any;
+  styles?: React.CSSProperties;
 };
 
 type TableDataProps = {
@@ -119,6 +120,9 @@ export default function TableData({
     let colStyle = {};
     if (colConfig.width) {
       colStyle = { ...colStyle, width: colConfig.width };
+    }
+    if (colConfig.styles) {
+      colStyle = { ...colStyle, ...colConfig.styles };
     }
     return colStyle;
   };
