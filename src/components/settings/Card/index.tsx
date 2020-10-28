@@ -8,7 +8,7 @@ export default function Card({ children, borderRadius = '4px' }: CardProps): JSX
       style={{
         background: '#FFFFFF',
         boxShadow: '0px 0px 8px rgba(0,0,0,0.15)',
-        borderRadius: borderRadius
+        borderRadius
       }}>
       {children}
     </div>

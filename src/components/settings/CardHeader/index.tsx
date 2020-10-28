@@ -16,7 +16,7 @@ export default function CardHeader({
   return (
     <div className={styles['comp-card-header']}>
       {leftAction}
-      <CardTitle title={title}></CardTitle>
+      <CardTitle title={title} />
       <div className={styles['action-right']}>{rightAction}</div>
     </div>
   );
