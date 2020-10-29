@@ -37,7 +37,7 @@ const getAPIPath = (endpoint: string) => {
     case 'CONSTRAINTS_SWH':
       return '/stp/constraints/swh';
     case 'CONSTRAINTS_TTL':
-      return '/stp/constraints/ttl/list';
+      return '/stp/constraints/ttl';
     case 'CONSTRAINTS_ADP':
       return '/stp/constraints/adp';
     case 'UI_SETTINGS_ADP':
@@ -77,7 +77,7 @@ export const fetchData = (
     .catch((error) => dispatch({ type: 'ERROR', payload: { error } }));
 };
 
-//TODO: write post data function below
+// TODO: write post data function below
 
 // fetch API axios
 export const postData = (
@@ -159,7 +159,7 @@ export const updateSetData = (
   dispatch: Dispatch<SetPayloadActionType>,
   endpoint: string,
   requestBody: any,
-  pathVariable: string
+  pathVariable?: string
 ) => {
   dispatch({ type: 'LOADING', payload: {} });
   const API_HOST =

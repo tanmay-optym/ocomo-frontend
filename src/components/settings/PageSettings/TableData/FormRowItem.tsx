@@ -17,7 +17,8 @@ type FormRowItemProps = {
   onRowClick?: (rowData: any, index: number) => void;
   index: number;
   queryString: string;
-  pathVariableKey: string;
+  pathVariableKey?: string;
+  onFormatReqBody?: (item: any) => void
 };
 
 const StyledTableRow = withStyles((theme: Theme) =>
@@ -62,6 +63,7 @@ export default React.memo(
     index,
     queryString,
     pathVariableKey,
+    onFormatReqBody
   }: FormRowItemProps) => {
     const { register, handleSubmit, errors, formState, watch, reset } = useForm({
       // mode: 'all',
@@ -96,7 +98,8 @@ export default React.memo(
       initialValues,
       queryString,
       pathVariableKey,
-      index
+      index,
+      onFormatReqBody
     );
 
     useEffect(() => {

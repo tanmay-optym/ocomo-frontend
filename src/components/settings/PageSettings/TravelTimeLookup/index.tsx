@@ -68,7 +68,7 @@ export default function FormTravelTimeLookup(): JSX.Element {
   // }, []);
 
   useEffect(() => {
-    dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_TTL', ''));
+    dispatchRequest((e: Dispatch<SetPayloadActionType>) => fetchData(e, 'CONSTRAINTS_TTL', '/list'));
   }, []);
 
   useEffect(() => {
@@ -84,10 +84,12 @@ export default function FormTravelTimeLookup(): JSX.Element {
   const handleSaveData = (resData: any) => {
     const rowDataIndex = dataSource.findIndex((item) => item.id === resData.id);
     const newDataSource = [...dataSource];
+
     newDataSource[rowDataIndex] = {
       ...resData,
-      shopCode1: resData.shopCode1.value,
-      shopCode2: resData.shopCode2.value,
+      editable: false,
+      shopCode1: resData.shopCode1,
+      shopCode2: resData.shopCode2,
     };
     setDataSource(newDataSource);
   };
@@ -97,6 +99,20 @@ export default function FormTravelTimeLookup(): JSX.Element {
   //     const shop: IShop = { value: item.shopCode, label: item.shopCode, color: item.shopColor };
   //     return shop;
   //   });
+
+  const onFormatReqBody = (item: {
+    estimatedTravelTime: number,
+    shopCode1: string,
+    shopCode2: string
+  }) => {
+    const dataFormated = {
+      estimatedTravelTime: +item.estimatedTravelTime,
+      shopCode1: item.shopCode1,
+      shopCode2: item.shopCode2
+
+    };
+    return dataFormated;
+  };
 
   return (
     <Card>
@@ -117,8 +133,9 @@ export default function FormTravelTimeLookup(): JSX.Element {
             columns={columns}
             onFinish={handleSaveData}
             queryString={'CONSTRAINTS_TTL'}
-            pathVariableKey={'code'}
+            // pathVariableKey={'code'}
             colActionStyle={{ width: 'auto' }}
+            onFormatReqBody={onFormatReqBody}
           />
         </Spin>
       </PageBody>

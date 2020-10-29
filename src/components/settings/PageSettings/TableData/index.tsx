@@ -25,10 +25,11 @@ type TableDataProps = {
   initialData: any[];
   columns: ColumnsType[];
   queryString: string;
-  pathVariableKey: string;
+  pathVariableKey?: string;
   onFinish: (values: any, index: number) => void;
   colActionStyle?: React.CSSProperties;
   hiddenNewRow?: boolean;
+  onFormatReqBody?: (item: any) => void
 };
 
 const StyledTableHeaderCell = withStyles(() =>
@@ -47,6 +48,7 @@ export default function TableData({
   colActionStyle,
   onFinish,
   hiddenNewRow,
+  onFormatReqBody
 }: TableDataProps): JSX.Element {
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [dataErrors, setDataErrors] = useState<any>({});
@@ -60,13 +62,20 @@ export default function TableData({
     if (hasNewItem) {
       return data;
     }
-    return [
-      ...data,
-      {
+    let dataTemp = {
+      isNew: true,
+      editable: true,
+    };
+    if (pathVariableKey) {
+      dataTemp = {
         [pathVariableKey]: Math.round(new Date().getTime() / 1000).toString(),
         isNew: true,
         editable: true,
-      },
+      };
+    }
+    return [
+      ...data,
+      dataTemp,
     ];
   };
 
@@ -162,6 +171,7 @@ export default function TableData({
               index={index}
               queryString={queryString}
               pathVariableKey={pathVariableKey}
+              onFormatReqBody={onFormatReqBody}
             />
           ))}
         </TableBody>
