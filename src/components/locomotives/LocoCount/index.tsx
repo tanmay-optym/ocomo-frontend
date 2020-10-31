@@ -1,33 +1,38 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
-
 import { CSVLink } from 'react-csv';
-import Card from '../../Card';
-import CardHeader from '../../CardHeader';
 import VerticalBarChart from './VerticalBarChart';
-import Spin from '../../Spin';
-import PageBody from '../../PageBody';
+import Card from '../../settings/Card';
+import CardHeader from '../../settings/CardHeader';
+import Spin from '../../settings/Spin';
+import PageBody from '../../settings/PageBody';
 
 export type ILocoCount = {
-  name: string,
-  value: number
-}
-
-type LocoCountProps = {
-  dataSource: ILocoCount[];
-  headersCSV: any;
-  styles?: React.CSSProperties
+  name: string;
+  value: number;
 };
 
-const LocoCount = ({ dataSource = [], headersCSV, styles }: LocoCountProps): JSX.Element => {
+type LocoCountProps = {
+  title: string;
+  dataSource: ILocoCount[];
+  headersCSV: any;
+  styles?: React.CSSProperties;
+};
+
+const LocoCount = ({
+  title = '',
+  dataSource = [],
+  headersCSV,
+  styles,
+}: LocoCountProps): JSX.Element => {
   return (
     <div style={styles}>
       <Card>
         <CardHeader
-          title="Loco count by model"
+          title={title}
           rightAction={
-            <CSVLink filename="additional-parameters.csv" data={dataSource} headers={headersCSV}>
+            <CSVLink filename={`${title}.csv`} data={dataSource} headers={headersCSV}>
               <Button>
                 <GetAppOutlinedIcon />
               </Button>

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import LocoCount, { ILocoCount } from '../LocoCount';
 
 type LocoCountModelPRops = {
-  styles?: React.CSSProperties
-}
+  styles?: React.CSSProperties;
+};
 
 const LocoCountModel = ({ styles }: LocoCountModelPRops): JSX.Element => {
   const [dataSource, setDataSource] = useState<ILocoCount[]>([]);
@@ -37,7 +37,12 @@ const LocoCountModel = ({ styles }: LocoCountModelPRops): JSX.Element => {
   }, []);
 
   return (
-    <LocoCount dataSource={dataSource} headersCSV={headersCSV} styles={styles} />
+    <LocoCount
+      title="Loco count by model"
+      dataSource={dataSource}
+      headersCSV={headersCSV}
+      styles={styles}
+    />
   );
 };
 

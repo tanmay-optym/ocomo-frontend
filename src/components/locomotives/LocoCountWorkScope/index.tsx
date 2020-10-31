@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import LocoCount, { ILocoCount } from '../LocoCount';
 
 type LocoCountWorkScopeProps = {
-    styles?: React.CSSProperties,
-}
+  styles?: React.CSSProperties;
+};
 
-const LocoCountWorkScope = ({ styles } : LocoCountWorkScopeProps): JSX.Element => {
+const LocoCountWorkScope = ({ styles }: LocoCountWorkScopeProps): JSX.Element => {
   const [dataSource, setDataSource] = useState<ILocoCount[]>([]);
   const headersCSV = [
     { label: 'Name', key: 'name' },
@@ -29,12 +29,17 @@ const LocoCountWorkScope = ({ styles } : LocoCountWorkScopeProps): JSX.Element =
       { name: 'CNI 2021', value: 4 },
       { name: 'Wreck/PTC', value: 4 },
       { name: 'Wreck', value: 3 },
-      { name: 'GE T4T Program', value: 3 }
+      { name: 'GE T4T Program', value: 3 },
     ]);
   }, []);
 
   return (
-    <LocoCount dataSource={dataSource} headersCSV={headersCSV} styles={styles} />
+    <LocoCount
+      title="Loco count by work scope"
+      dataSource={dataSource}
+      headersCSV={headersCSV}
+      styles={styles}
+    />
   );
 };
 
