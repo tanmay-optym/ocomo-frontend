@@ -33,9 +33,8 @@ const ScheduleTag = ({ title, isLock, width, style, progress }: ScheduleTagProps
     stopPropagation: () => void; }) => {
     e.preventDefault();
     e.stopPropagation();
-    if (anchorEl) {
-      setAnchorEl(null);
-    } else { setAnchorEl(e.currentTarget); }
+    setAnchorEl(anchorEl ? null : e.currentTarget);
+    setAnchorHover(null);
   };
 
   const onHover = (e: {
@@ -43,7 +42,7 @@ const ScheduleTag = ({ title, isLock, width, style, progress }: ScheduleTagProps
     preventDefault: () => void;
   }) => {
     e.preventDefault();
-    setAnchorHover(e.currentTarget);
+    if (!anchorEl) { setAnchorHover(e.currentTarget); }
   };
 
   const onHoverClose = () => {
@@ -91,7 +90,7 @@ const ScheduleTag = ({ title, isLock, width, style, progress }: ScheduleTagProps
     }
 
     return (
-      <div style={{ fontSize: '12px' }}>
+      <div style={{ fontSize: '10px' }}>
         {progress}
         %
       </div>

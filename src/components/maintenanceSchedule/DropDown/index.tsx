@@ -46,7 +46,7 @@ type IDropdownItem = {
 type DropdownProps = {
   listItems: IDropdownItem[],
   anchorEl: null | Element | ((element: Element) => Element),
-  onClose: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => void,
+  onClose: (event: any) => void,
   styles?: React.CSSProperties,
   width?: string
 }
@@ -64,8 +64,8 @@ export default function Dropdown({
       open={Boolean(anchorEl)}
       onClose={onClose}
       style={{ ...styles, zIndex: -1, height: '100%' }}
-      disableAutoFocusItem
       onContextMenu={onClose}
+      disableAutoFocusItem
       >
       {
           listItems.map((item, index) => {

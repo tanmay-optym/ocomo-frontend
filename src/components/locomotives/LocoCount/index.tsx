@@ -1,12 +1,14 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
+import ZoomOutMap from '@material-ui/icons/ZoomOutMap';
 import { CSVLink } from 'react-csv';
 import VerticalBarChart from './VerticalBarChart';
 import Card from '../../settings/Card';
 import CardHeader from '../../settings/CardHeader';
 import Spin from '../../settings/Spin';
 import PageBody from '../../settings/PageBody';
+import style from './LocoCount.module.scss';
 
 export type ILocoCount = {
   name: string;
@@ -31,15 +33,19 @@ const LocoCount = ({
       <Card>
         <CardHeader
           title={title}
+          className={style.cardHeader}
           rightAction={
             <CSVLink filename={`${title}.csv`} data={dataSource} headers={headersCSV}>
-              <Button>
+              <Button style={{ minWidth: 'auto' }}>
                 <GetAppOutlinedIcon />
+              </Button>
+              <Button style={{ minWidth: 'auto' }}>
+                <ZoomOutMap />
               </Button>
             </CSVLink>
           }
         />
-        <PageBody>
+        <PageBody style={{ overflow: 'auto' }}>
           <Spin spinning={false}>
             <div>
               <VerticalBarChart data={dataSource} />
