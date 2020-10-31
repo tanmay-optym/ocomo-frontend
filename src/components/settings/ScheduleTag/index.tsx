@@ -105,7 +105,7 @@ const ScheduleTag = ({ title, isLock, width, style, progress }: ScheduleTagProps
         className={styles.card}
         onContextMenu={handleClick}
         onMouseEnter={onHover}
-        // onMouseLeave={onHoverClose}
+        onMouseLeave={onHoverClose}
         >
         <div className={styles.header}>
 
